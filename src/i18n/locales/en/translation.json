@@ -2,20 +2,27 @@
   "tabs": {
     "home": "Home",
     "bookings": "Bookings",
-    "help": "Help"
+    "help": "Help",
+    "settings": "Settings"
   },
   "screens": {
     "home": {
       "title": "Home",
-      "subtitle": "Overview and shortcuts for daily use."
+      "subtitle": "Book rituals, live poojas, and pandit visits — tailored to your needs."
     },
     "bookings": {
       "title": "Bookings",
-      "subtitle": "Past and upcoming reservations in one place."
+      "subtitle": "Video poojas, home visits, and scheduled ceremonies in one place."
     },
     "help": {
       "title": "Help",
-      "subtitle": "Support, FAQs, and contact options."
+      "subtitle": "Guidance for bookings, payments, and your spiritual journey with us."
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Account and app preferences.",
+      "sectionGeneral": "General",
+      "placeholderRow": "More options coming soon"
     }
   }
 }

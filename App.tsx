@@ -22,7 +22,7 @@ export default function App() {
   const semantic = semanticColors[paletteKey];
 
   return (
-    <GestureHandlerRootView className="flex-1 bg-white dark:bg-slate-950">
+    <GestureHandlerRootView className="flex-1 bg-canvas dark:bg-canvas-dark">
       <SafeAreaProvider>
         <NavigationContainer>
           <StatusBar barStyle={semantic.statusBarStyle} />

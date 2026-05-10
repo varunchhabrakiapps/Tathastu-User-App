@@ -7,10 +7,14 @@ import { TextMuted } from '@/components/atoms/TextMuted';
 
 type Props = PropsWithChildren<{ title: string; subtitle?: string }>;
 
-/** Centered layout for primary tabs: themed surface + title + muted subtitle slot. */
+/** Centered layout for primary tabs: canvas background + semantic typography. */
 export function TabScreenScaffold({ title, subtitle, children }: Props) {
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-white dark:bg-slate-950">
+    <SafeAreaView
+      edges={['top']}
+      className="flex-1 bg-canvas dark:bg-canvas-dark"
+      accessibilityRole="none"
+    >
       <View className="flex-1 items-center justify-center px-5">
         <TextHeading>{title}</TextHeading>
         {subtitle ? <TextMuted>{subtitle}</TextMuted> : null}

@@ -5,12 +5,13 @@ import { cn } from '@/utils/cn';
 
 type Props = PropsWithChildren<
   Pick<TextProps, 'accessibilityLabel' | 'testID'>
-> & { className?: string };
+> & { className?: string; centered?: boolean };
 
-/** Secondary / supporting copy — muted in both appearances. */
+/** Secondary copy — semantic muted ink; default centered under tab titles. */
 export function TextMuted({
   children,
   className,
+  centered = true,
   accessibilityLabel,
   testID,
 }: Props) {
@@ -20,7 +21,8 @@ export function TextMuted({
       accessibilityLabel={accessibilityLabel}
       testID={testID}
       className={cn(
-        'mt-3 max-w-xs text-center text-base leading-snug text-slate-600 dark:text-slate-400',
+        'text-base leading-snug text-ink-muted dark:text-ink-muted-ondark',
+        centered ? 'mt-3 max-w-sm text-center' : 'mt-1 max-w-none text-left',
         className,
       )}
     >

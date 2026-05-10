@@ -1,21 +1,25 @@
+import { paletteHex } from '@/theme/palette';
+
 /**
- * Semantic colors for places that can't use Tailwind (`className`): native tabs,
- * status bar hints, programmatic styles. Mirrors light/dark from NativeWind.
+ * Native-only: tab bar & StatusBar (no Tailwind `className`).
+ * Hex values come from `palette.ts` so they match the indigo primary + stone canvas theme.
  */
 
 export const semanticColors = {
   light: {
-    surface: '#ffffff',
-    tabBarBg: '#ffffff',
-    tabActive: '#2563eb',
-    tabInactive: '#6b7280',
+    /** Content viewport — same as `bg-canvas` */
+    surface: paletteHex.canvas.light,
+    /** Tab bar — same as `bg-surface` */
+    tabBarBg: paletteHex.surface.light,
+    tabActive: paletteHex.primary.light,
+    tabInactive: paletteHex.inkMuted.light,
     statusBarStyle: 'dark-content' as const,
   },
   dark: {
-    surface: '#020617',
-    tabBarBg: '#020617',
-    tabActive: '#60a5fa',
-    tabInactive: '#94a3b8',
+    surface: paletteHex.canvas.dark,
+    tabBarBg: paletteHex.surface.dark,
+    tabActive: paletteHex.primary.dark,
+    tabInactive: paletteHex.inkMuted.dark,
     statusBarStyle: 'light-content' as const,
   },
 } as const;

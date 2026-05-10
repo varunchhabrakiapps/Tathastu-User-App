@@ -1,3 +1,9 @@
+/**
+ * Tab tint + scene colors: `semanticColors` → `paletteHex` (matches Tailwind primary/canvas/surface).
+ *
+ * iOS tab icons: outline SF Symbols only — selection is shown by tab tint, not fill/circle swaps,
+ * so all tabs behave consistently (Bookings/Help no longer jump to a “circle” glyph).
+ */
 import { createNativeBottomTabNavigator } from '@bottom-tabs/react-navigation';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
@@ -9,6 +15,7 @@ import type { RootTabParamList } from '@/navigation/types';
 import { BookingsScreen } from '@/screens/BookingsScreen';
 import { HelpScreen } from '@/screens/HelpScreen';
 import { HomeScreen } from '@/screens/HomeScreen';
+import { SettingsScreen } from '@/screens/SettingsScreen';
 import { semanticColors } from '@/theme';
 
 const Tab = createNativeBottomTabNavigator<RootTabParamList>();
@@ -59,10 +66,7 @@ export function MainTabNavigator() {
           tabBarLabel: t('tabs.bookings'),
           ...Platform.select({
             ios: {
-              tabBarIcon: ({ focused }: { focused: boolean }): AppleIcon =>
-                ({
-                  sfSymbol: focused ? 'calendar.circle.fill' : 'calendar.circle',
-                }) as AppleIcon,
+              tabBarIcon: (): AppleIcon => ({ sfSymbol: 'calendar' }) as AppleIcon,
             },
             default: {},
           }),
@@ -76,11 +80,24 @@ export function MainTabNavigator() {
           tabBarLabel: t('tabs.help'),
           ...Platform.select({
             ios: {
+              tabBarIcon: (): AppleIcon =>
+                ({ sfSymbol: 'headphones' }) as AppleIcon,
+            },
+            default: {},
+          }),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          title: t('tabs.settings'),
+          tabBarLabel: t('tabs.settings'),
+          ...Platform.select({
+            ios: {
               tabBarIcon: ({ focused }: { focused: boolean }): AppleIcon =>
                 ({
-                  sfSymbol: focused
-                    ? 'questionmark.circle.fill'
-                    : 'questionmark.circle',
+                  sfSymbol: focused ? 'gearshape.fill' : 'gearshape',
                 }) as AppleIcon,
             },
             default: {},
