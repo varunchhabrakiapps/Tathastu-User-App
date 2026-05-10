@@ -1,0 +1,14 @@
+---
+description: UI structure, NativeWind styling, and light/dark theming standards for this app.
+alwaysApply: true
+---
+
+# Tathastu UI conventions
+
+When adding or editing UI:
+
+- **NativeWind (Tailwind)**: Prefer `className` on React Native primitives. Keep `tailwind.config.js` as the palette extension point; reuse semantic Tailwind utilities (`dark:` for dark mode).
+- **Layering**: Build **reusable primitives** (`src/components/atoms`) → composed pieces (`src/components/molecules`) → section-sized UI (`src/components/organisms`) → layouts (`src/components/templates`) → route screens (`src/screens`). Screens stay thin wiring and compose lower layers.
+- **Light/dark**: Every styled surface or text visible in both appearances must specify light *and* `dark:` classes (or use shared atoms/templates that already do). For native-tab / StatusBar APIs that cannot use Tailwind, use `src/theme/semanticColors.ts` keyed by `'light' | 'dark'`, driven by NativeWind `useColorScheme()`.
+- **Copy (i18n)**: All user-visible strings belong in `src/i18n/locales/<lang>/translation.json`; use `useTranslation` / `t('…')` in components—no hard-coded copy in screens.
+- **Quality**: Prefer small, readable, single-purpose modules; memoize navigator options only when derived from hooks; avoid duplicating typography or spacing—extract to atoms or templates instead.

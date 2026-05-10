@@ -1,4 +1,4 @@
-const defaultHeaders: HeadersInit = {
+const defaultHeaders: Record<string, string> = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 };
@@ -42,9 +42,9 @@ export function createApiClient(options: ApiClientOptions) {
     const url = resolveUrl(options.baseUrl, path);
 
     const token = options.getToken ? await options.getToken() : undefined;
-    const headers: HeadersInit = { ...defaultHeaders };
+    const headers: Record<string, string> = { ...defaultHeaders };
     if (token) {
-      (headers as Record<string, string>).Authorization = `Bearer ${token}`;
+      headers.Authorization = `Bearer ${token}`;
     }
 
     const res = await fetchFn(url, {

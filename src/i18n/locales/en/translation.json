@@ -1,0 +1,21 @@
+{
+  "tabs": {
+    "home": "Home",
+    "bookings": "Bookings",
+    "help": "Help"
+  },
+  "screens": {
+    "home": {
+      "title": "Home",
+      "subtitle": "Overview and shortcuts for daily use."
+    },
+    "bookings": {
+      "title": "Bookings",
+      "subtitle": "Past and upcoming reservations in one place."
+    },
+    "help": {
+      "title": "Help",
+      "subtitle": "Support, FAQs, and contact options."
+    }
+  }
+}

@@ -1,13 +1,7 @@
-/** Design tokens — single source for colors, spacing, typography scale. */
-
-export const colors = {
-  background: '#FFFFFF',
-  foreground: '#111827',
-  primary: '#2563EB',
-  muted: '#6B7280',
-  border: '#E5E7EB',
-  error: '#DC2626',
-} as const;
+/**
+ * Numeric design tokens shared with programmatic styles.
+ * Prefer NativeWind + semanticColors for visuals; extend these when bridging to native APIs.
+ */
 
 export const spacing = {
   xs: 4,
@@ -23,23 +17,3 @@ export const radii = {
   lg: 16,
   full: 9999,
 } as const;
-
-export const typography = {
-  fontFamilyRegular: 'System',
-  sizes: {
-    xs: 12,
-    sm: 14,
-    md: 16,
-    lg: 20,
-    xl: 24,
-  },
-} as const;
-
-export const theme = {
-  colors,
-  spacing,
-  radii,
-  typography,
-} as const;
-
-export type Theme = typeof theme;

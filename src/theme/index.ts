@@ -1,8 +1,2 @@
-export {
-  theme,
-  colors,
-  spacing,
-  radii,
-  typography,
-  type Theme,
-} from './tokens';
+export { semanticColors } from './semanticColors';
+export { radii, spacing } from './tokens';
