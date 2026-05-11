@@ -23,30 +23,16 @@ type Props = {
  * Compact legal footer: Terms + Privacy links (opens in browser).
  */
 export const LegalAgreementLinks = memo(function LegalAgreementLinks({
-  variant = 'default',
-  prominence = 'default',
+  variant = 'default',  
   className,
 }: Props) {
   const { t } = useTranslation();
-  const isQuietAuth = prominence === 'quiet' && variant === 'ritual';
 
-  const muted = isQuietAuth
-    ? 'text-ritual-inkMuted/48 dark:text-ritual-inkMuted-dark/44'
-    : variant === 'ritual'
-      ? 'text-ritual-inkMuted/90 dark:text-ritual-inkMuted-dark/90'
-      : 'text-ink-muted dark:text-ink-muted-ondark';
 
-  const linkTone =
-    variant === 'ritual'
-      ? isQuietAuth
-        ? 'text-ritual-primary/56 dark:text-ritual-primary-dark/52'
-        : 'text-ritual-primary/92 dark:text-ritual-primary-dark/90'
-      : 'text-primary dark:text-primary-dark';
-
-  const labelSize = isQuietAuth ? 'text-login-legal' : 'text-xs';
+  const legalBodySize = 'text-xs';
   const linkTypography = cn(
-    labelSize,
-    isQuietAuth ? 'font-normal' : 'font-semibold',
+    'text-login-legal-link font-semibold',
+    'underline decoration-solid underline-offset-[3px]',
   );
 
   const onTerms = useCallback(() => {
@@ -64,17 +50,15 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
       <Text
         className={cn(
           'text-center font-normal',
-          isQuietAuth ? 'leading-[14px]' : 'leading-[16px]',
-          labelSize,
-          muted,
+          'leading-[16px]',
+          legalBodySize,
         )}
       >
         {t('screens.login.legal.prefix')}
       </Text>
       <View
         className={cn(
-          'flex-row flex-wrap items-center justify-center gap-x-1 gap-y-0',
-          isQuietAuth ? 'mt-0.5' : 'mt-2',
+          'flex-row flex-wrap items-center justify-center '
         )}
       >
         <Pressable
@@ -82,21 +66,39 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
           accessibilityRole="link"
           accessibilityLabel={t('screens.login.legal.termsA11y')}
           accessibilityHint={t('screens.login.legal.opensExternal')}
-          hitSlop={8}
+          hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
+          style={({ pressed }) => ({
+            opacity: pressed ? 0.82 : 1,
+          })}
+          className={cn('justify-center px-1')}
         >
-          <Text className={cn(linkTypography, chromeUnderline && 'underline', linkTone)}>
+          <Text
+            className={cn(
+              linkTypography,
+              chromeUnderline && 'underline',
+            )}
+          >
             {t('screens.login.legal.terms')}
           </Text>
         </Pressable>
-        <Text className={cn(labelSize, muted)}>{t('screens.login.legal.middle')}</Text>
+        <Text className={cn(legalBodySize)}>{t('screens.login.legal.middle')}</Text>
         <Pressable
           onPress={onPrivacy}
           accessibilityRole="link"
           accessibilityLabel={t('screens.login.legal.privacyA11y')}
           accessibilityHint={t('screens.login.legal.opensExternal')}
-          hitSlop={8}
+          hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
+          style={({ pressed }) => ({
+            opacity: pressed ? 0.82 : 1,
+          })}
+          className={cn('justify-center px-1')}
         >
-          <Text className={cn(linkTypography, chromeUnderline && 'underline', linkTone)}>
+          <Text
+            className={cn(
+              linkTypography,
+              chromeUnderline && 'underline',
+            )}
+          >
             {t('screens.login.legal.privacy')}
           </Text>
         </Pressable>

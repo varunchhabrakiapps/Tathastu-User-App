@@ -16,16 +16,16 @@ type Props = {
 };
 
 /**
- * Login flow composition: hero → trust / brand → auth slab → legal (keyboard-safe scroll parent).
+ * Login flow composition: hero → trust / brand → self-contained auth slab (keyboard-safe scroll parent).
  */
 export const LoginScrollBody = memo(function LoginScrollBody(props: Props) {
   return (
     <View className="flex-1">
       <LoginHeroSection />
-      <View className="flex-1 px-5">
+      <View className="flex-1 justify-start px-5 pt-1">
         <Animated.View
           entering={FadeInDown.duration(520).delay(80)}
-          className="w-full gap-7 pb-2"
+          className="w-full gap-6 pb-10"
         >
           <LoginTrustBrandSection />
           <LoginFormCard {...props} />

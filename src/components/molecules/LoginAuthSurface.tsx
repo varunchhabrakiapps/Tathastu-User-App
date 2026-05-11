@@ -53,7 +53,7 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
             pointerEvents="none"
             className="absolute inset-0 bg-ritual-surfaceSecondary/[0.035] dark:bg-ritual-surfaceSecondary-dark/[0.042]"
           />
-          <View className="px-0 py-6">{children}</View>
+          <View className="px-0 pt-6 pb-8">{children}</View>
         </View>
       </View>
     </View>

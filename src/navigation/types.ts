@@ -1,6 +1,7 @@
 export type RootStackParamList = {
   Onboarding: undefined;
   Login: undefined;
+  OtpVerification: { mobile: string };
   Main: undefined;
 };
 

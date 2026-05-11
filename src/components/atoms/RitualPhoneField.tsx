@@ -96,7 +96,7 @@ export const RitualPhoneField = memo(function RitualPhoneField({
       : {
           shadowColor: rInk[isDark ? 'dark' : 'light'],
           shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: isDark ? 0.24 : 0.1,
+          shadowOpacity: isDark ? 0.28 : 0.12,
           shadowRadius: 12,
         };
   }, [focused, isDark]);
@@ -116,7 +116,7 @@ export const RitualPhoneField = memo(function RitualPhoneField({
       <View
         className={cn(
           'min-h-[51px] flex-row items-center overflow-hidden',
-          'bg-ritual-canvas dark:bg-ritual-canvas-dark',
+          'bg-ritual-canvas dark:bg-ritual-surfaceSecondary-dark/20',
           focused && 'bg-ritual-surface dark:bg-ritual-surface-dark',
         )}
         style={[styles.row, rowShadow]}

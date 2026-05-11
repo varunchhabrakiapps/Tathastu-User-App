@@ -1,0 +1,117 @@
+import type { ReactNode } from 'react';
+import { Platform, Pressable, StyleSheet, View, type PressableProps } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+import { useColorScheme } from 'nativewind';
+
+import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
+import { paletteHex } from '@/theme/palette';
+import { cn } from '@/utils/cn';
+
+import { AuthGlassMaterial } from '@/components/atoms/auth/AuthGlassMaterial';
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+type Props = Omit<PressableProps, 'children'> & {
+  accessibilityLabel: string;
+  children: ReactNode;
+  disabled?: boolean;
+  className?: string;
+};
+
+/**
+ * Tactile icon target — shares {@link AuthGlassMaterial} chrome preset (liquid / blur / solid).
+ */
+export function AuthIconButton({
+  accessibilityLabel,
+  disabled = false,
+  className,
+  children,
+  onPress,
+  onPressIn,
+  onPressOut,
+  ...rest
+}: Props) {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const scale = useSharedValue(1);
+
+  const animStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const shadowColor = isDark
+    ? paletteHex.ritual.primary.dark
+    : paletteHex.ritual.primary.light;
+
+  const shadowStyle =
+    Platform.OS === 'android'
+      ? styles.shadowAndroid
+      : isDark
+        ? styles.shadowIosDark
+        : styles.shadowIosLight;
+
+  return (
+    <AnimatedPressable
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled: !!disabled }}
+      disabled={disabled}
+      onPress={onPress}
+      onPressIn={(e) => {
+        onPressIn?.(e);
+        scale.value = withSpring(0.96, { damping: 20, stiffness: 420, mass: 0.28 });
+      }}
+      onPressOut={(e) => {
+        onPressOut?.(e);
+        scale.value = withSpring(1, { damping: 16, stiffness: 320, mass: 0.32 });
+      }}
+      style={[
+        animStyle,
+        styles.shadowBase,
+        shadowStyle,
+        {
+          shadowColor,
+        },
+      ]}
+      className={cn(
+        'self-start rounded-[18px] active:opacity-92 dark:shadow-none',
+        disabled && 'opacity-48',
+        className,
+      )}
+      {...rest}
+    >
+      <AuthGlassMaterial
+        preset="chrome"
+        borderRadius={RITUAL_CORNER_RADIUS}
+        className="rounded-[18px]"
+      >
+        <View className="h-11 w-11 items-center justify-center">{children}</View>
+      </AuthGlassMaterial>
+    </AnimatedPressable>
+  );
+}
+
+const styles = StyleSheet.create({
+  shadowBase: {
+    borderRadius: RITUAL_CORNER_RADIUS,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 14,
+  },
+  shadowIosLight: {
+    shadowOpacity: 0.12,
+    elevation: 0,
+  },
+  shadowIosDark: {
+    shadowOpacity: 0.22,
+    elevation: 0,
+  },
+  shadowAndroid: {
+    shadowOpacity: 0,
+    elevation: 3,
+  },
+});

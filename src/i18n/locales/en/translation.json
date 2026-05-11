@@ -81,6 +81,8 @@
       "authTitle": "Welcome to Tathastu",
       "trustTagline": "Trusted rituals, wherever you are.",
       "privacyHint": "We only send updates you request.",
+      "secureOtpHint": "Secure OTP verification",
+      "secureOtpHintA11y": "Secure one-time password verification",
       "mobileLabel": "Mobile number",
       "mobilePrefix": "+91",
       "mobileFieldA11y": "Mobile number, country code India plus nine one",
@@ -97,6 +99,22 @@
         "privacyA11y": "Privacy Policy, opens in browser",
         "opensExternal": "Opens an external page in your browser."
       }
+    },
+    "otp": {
+      "backA11y": "Go back to sign in",
+      "title": "Verify your number",
+      "subtitle": "Enter the 6-digit code we sent. It arrives in a moment — stay on this screen.",
+      "phoneLabel": "Code sent to",
+      "codeLabel": "One-time code",
+      "edit": "Edit",
+      "editA11y": "Edit phone number",
+      "digitsA11y": "6-digit verification code",
+      "resend": "Resend OTP",
+      "resendIn": "Resend in {{time}}",
+      "resendCountdownA11y": "Resend available in {{time}}",
+      "resendLimit": "You’ve reached the resend limit. Please try again later.",
+      "ctaVerify": "Verify & continue",
+      "helpFooter": "Didn’t get the code? You can resend after the timer, or edit your number above."
     }
   }
 }

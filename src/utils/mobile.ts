@@ -43,3 +43,14 @@ export function isValidLoginMobileNumber(digits: string): boolean {
     return false;
   }
 }
+
+/**
+ * Human-readable login phone for auth UI (matches login prefix + national field), e.g. `+91 9876543210`.
+ */
+export function formatLoginMobileForDisplay(nationalDigits: string): string {
+  const d = normalizeMobileDigits(nationalDigits);
+  if (!d) {
+    return '';
+  }
+  return `+91 ${d}`;
+}

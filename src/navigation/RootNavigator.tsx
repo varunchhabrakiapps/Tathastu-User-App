@@ -7,6 +7,7 @@ import { useOnboardingHydration } from '@/hooks/useOnboardingHydration';
 import { paletteHex } from '@/theme/palette';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
+import { OtpVerificationScreen } from '@/screens/OtpVerificationScreen';
 
 import { MainTabNavigator } from './MainTabNavigator';
 import type { RootStackParamList } from './types';
@@ -45,6 +46,10 @@ export function RootNavigator() {
         <>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen
+            name="OtpVerification"
+            component={OtpVerificationScreen}
+          />
         </>
       )}
     </Stack.Navigator>

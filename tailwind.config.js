@@ -91,7 +91,10 @@ module.exports = {
         'login-body': ['15px', { lineHeight: '22px' }],
         'login-metadata': ['10px', { lineHeight: '14px', letterSpacing: '0.12em' }],
         'login-label': ['11px', { lineHeight: '15px', letterSpacing: '0.03em' }],
-        'login-legal': ['10px', { lineHeight: '14px' }],
+        /** Legal / compliance — readable minimum (not fine print). */
+        'login-legal': ['11px', { lineHeight: '17px' }],
+        /** Tappable legal links on login — one step above `login-legal`. */
+        'login-legal-link': ['12px', { lineHeight: '18px' }],
       },
     },
   },

@@ -1,11 +1,15 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
+import { useColorScheme } from 'nativewind';
 
 import { RitualPrimaryButton } from '@/components/atoms/RitualPrimaryButton';
 import { AuthLegalFooter } from '@/components/molecules/AuthLegalFooter';
 import { LoginAuthSurface } from '@/components/molecules/LoginAuthSurface';
 import { PhoneInput } from '@/components/molecules/PhoneInput';
+import { hexToRgba } from '@/theme/colorUtils';
+import { paletteHex } from '@/theme/palette';
 
 type Props = {
   mobile: string;
@@ -17,7 +21,7 @@ type Props = {
 };
 
 /**
- * Auth block + legal block: same horizontal origin as brand (`LoginAuthSurface` is flush; grid is screen `px-5`).
+ * Auth block: input + CTA, then sign-in reassurance (OTP), then legal — inside `LoginAuthSurface`.
  */
 export const LoginFormCard = memo(function LoginFormCard({
   mobile,
@@ -28,11 +32,20 @@ export const LoginFormCard = memo(function LoginFormCard({
   errorText,
 }: Props) {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const paletteKey = isDark ? 'dark' : 'light';
+
+  const trustIconColor = useMemo(
+    () =>
+      hexToRgba(paletteHex.ritual.inkMuted[paletteKey], isDark ? 0.58 : 0.52),
+    [paletteKey, isDark],
+  );
 
   return (
-    <View className="w-full gap-4">
-      <LoginAuthSurface>
-        <View className="gap-4 px-4">
+    <LoginAuthSurface>
+      <View className="px-4">
+        <View className="gap-4">
           <PhoneInput
             label={t('screens.login.mobileLabel')}
             prefix={t('screens.login.mobilePrefix')}
@@ -53,15 +66,32 @@ export const LoginFormCard = memo(function LoginFormCard({
             accessibilityLabel={t('screens.login.ctaContinue')}
           />
         </View>
-      </LoginAuthSurface>
 
-      <View className="gap-1">
-        <Text className="text-login-legal text-center font-normal text-ritual-inkMuted/46 dark:text-ritual-inkMuted-dark/42">
-          {t('screens.login.privacyHint')}
-        </Text>
+        {/* Next-step trust (OTP) — paired with the CTA, not the legal cluster. */}
+        <View
+          accessibilityRole="text"
+          accessibilityLabel={t('screens.login.secureOtpHintA11y')}
+          className="mt-4 flex-row items-center justify-center gap-2"
+        >
+          <FontAwesome
+            name="lock"
+            size={12}
+            color={trustIconColor}
+            importantForAccessibility="no"
+          />
+          <Text
+            importantForAccessibility="no"
+            className="text-[12px] font-medium leading-4 text-ritual-inkMuted/72 dark:text-ritual-inkMuted-dark/68"
+          >
+            {t('screens.login.secureOtpHint')}
+          </Text>
+        </View>
 
-        <AuthLegalFooter />
+        {/* Agreement + policies — separated, slightly larger type via `login-legal*` tokens */}
+        <View className="mt-4 gap-3">
+          <AuthLegalFooter />
+        </View>
       </View>
-    </View>
+    </LoginAuthSurface>
   );
 });
