@@ -1,0 +1,142 @@
+import type { ReactNode } from 'react';
+import {
+  ActivityIndicator,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  type ColorValue,
+} from 'react-native';
+import { BlurView } from '@react-native-community/blur';
+import { LiquidGlassView, isLiquidGlassSupported } from '@callstack/liquid-glass';
+import { useColorScheme } from 'nativewind';
+
+import { paletteHex } from '@/theme/palette';
+import { cn } from '@/utils/cn';
+
+type Props = {
+  label: string;
+  onPress: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+  accessibilityLabel?: string;
+  className?: string;
+};
+
+const BORDER_RADIUS = 16;
+
+function glassTints(mode: 'light' | 'dark') {
+  return mode === 'dark'
+    ? {
+        glassTint: 'rgba(165, 180, 252, 0.38)' as ColorValue,
+        overlayTint: 'rgba(49, 46, 129, 0.52)',
+        blurType: 'dark' as const,
+      }
+    : {
+        glassTint: 'rgba(67, 56, 202, 0.45)' as ColorValue,
+        overlayTint: 'rgba(67, 56, 202, 0.42)',
+        blurType: 'dark' as const,
+      };
+}
+
+/**
+ * Primary CTA with platform materials:
+ * - **Liquid glass** when `isLiquidGlassSupported` (`@callstack/liquid-glass`, native gate — today iOS 26+).
+ * - **BlurView** on remaining iOS + Android (frosted stack + tint overlay).
+ * - **Solid** primary where blur is unavailable.
+ */
+export function PrimaryGlassButton({
+  label,
+  onPress,
+  loading = false,
+  disabled = false,
+  accessibilityLabel,
+  className,
+}: Props) {
+  const { colorScheme } = useColorScheme();
+  const mode = colorScheme === 'dark' ? 'dark' : 'light';
+  const isBusy = loading || disabled;
+  const spinnerColor = mode === 'dark' ? '#fafaf9' : '#ffffff';
+  const { glassTint, overlayTint, blurType } = glassTints(mode);
+
+  const labelContent: ReactNode = loading ? (
+    <ActivityIndicator color={spinnerColor} />
+  ) : (
+    <Text className="text-center text-base font-semibold text-white dark:text-ink-ondark">
+      {label}
+    </Text>
+  );
+
+  let body: ReactNode;
+
+  if (isLiquidGlassSupported) {
+    body = (
+      <View className={cn('overflow-hidden rounded-2xl', className)}>
+        <LiquidGlassView
+          effect="regular"
+          tintColor={glassTint}
+          colorScheme={mode}
+          interactive={false}
+          style={styles.liquid}
+        >
+          <View className="items-center justify-center py-4">{labelContent}</View>
+        </LiquidGlassView>
+      </View>
+    );
+  } else if (Platform.OS === 'ios' || Platform.OS === 'android') {
+    body = (
+      <View className={cn('overflow-hidden rounded-2xl', className)} style={styles.rounded}>
+        <BlurView
+          blurType={blurType}
+          blurAmount={Platform.OS === 'ios' ? 16 : 14}
+          {...(Platform.OS === 'ios'
+            ? { reducedTransparencyFallbackColor: paletteHex.primary.light }
+            : {})}
+          style={StyleSheet.absoluteFill}
+        />
+        <View
+          pointerEvents="none"
+          className="items-center justify-center py-4"
+          style={{ backgroundColor: overlayTint }}
+        >
+          {labelContent}
+        </View>
+      </View>
+    );
+  } else {
+    body = (
+      <View
+        className={cn(
+          'items-center justify-center overflow-hidden rounded-2xl bg-primary py-4 dark:bg-primary-soft-dark',
+          className,
+        )}
+      >
+        {labelContent}
+      </View>
+    );
+  }
+
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={isBusy}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityState={{ disabled: isBusy, busy: loading }}
+      className={cn(isBusy && 'opacity-50', 'active:opacity-90')}
+    >
+      {body}
+    </Pressable>
+  );
+}
+
+const styles = StyleSheet.create({
+  rounded: {
+    borderRadius: BORDER_RADIUS,
+  },
+  liquid: {
+    borderRadius: BORDER_RADIUS,
+    overflow: 'hidden',
+  },
+});

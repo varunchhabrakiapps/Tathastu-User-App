@@ -1,2 +1,3 @@
 export { MainTabNavigator } from './MainTabNavigator';
-export type { RootTabParamList } from './types';
+export { RootNavigator } from './RootNavigator';
+export type { RootStackParamList, RootTabParamList } from './types';

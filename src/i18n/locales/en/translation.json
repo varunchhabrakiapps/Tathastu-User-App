@@ -1,4 +1,28 @@
 {
+  "common": {
+    "cancel": "Cancel"
+  },
+  "product": {
+    "brandName": "Tathastu",
+    "positioning": "Vedic rituals & guidance, wherever you are.",
+    "mission": "Book trusted pandits for nazar-utaro on video, griha pravesh at your doorstep, and sacred poojas that fit your home and your schedule — rooted in tradition, designed for today.",
+    "modalityLiveVideo": "Live video",
+    "modalityHomeVisit": "Home visit",
+    "services": {
+      "nazarUttaro": {
+        "title": "Nazar utaro",
+        "description": "A protective clearing ritual from home — live on a video call with your pandit."
+      },
+      "grahPravesh": {
+        "title": "Griha pravesh",
+        "description": "House blessings and entry ceremonies — book a slot, we’ll come when you’re ready."
+      },
+      "livePooja": {
+        "title": "Online pooja & homam",
+        "description": "Havan and vedic services guided remotely, so you can participate with full devotion."
+      }
+    }
+  },
   "tabs": {
     "home": "Home",
     "bookings": "Bookings",
@@ -22,7 +46,46 @@
       "title": "Settings",
       "subtitle": "Account and app preferences.",
       "sectionGeneral": "General",
+      "sectionAccount": "Account",
+      "signedInAs": "Signed in as {{mobile}}",
+      "signOut": "Sign out",
+      "signOutConfirm": "You will need to sign in again to use your account.",
       "placeholderRow": "More options coming soon"
+    },
+    "onboarding": {
+      "heroBadge": "Welcome",
+      "title": "Tathastu",
+      "subtitle": "Vedic rituals & guidance, wherever you are.",
+      "body": "Book trusted pandits for ceremonies at home or over video — rooted in tradition, designed for today.",
+      "cardTitle": "Get started",
+      "cardSubtitle": "You’ll sign in next with your mobile number to manage bookings and updates.",
+      "ctaContinue": "Continue"
+    },
+    "login": {
+      "heroDiyaA11y": "Decorative illustration of an ornate brass diya with a lit flame",
+      "heroBadge": "Vedic rituals · On demand",
+      "heroSubtitle": "Guidance that meets you wherever you call home.",
+      "heroBody": "Book verified pandits for live video rituals, homams, or sacred visits to your doorstep—clear steps, respectful service, timelines that bend around yours.",
+      "cardEyebrow": "Secure access",
+      "cardTitle": "Sign in",
+      "cardSubtitle": "Enter the mobile number you’ll use for one-time verification and booking alerts.",
+      "trustNote": "We never sell your number—only OTPs you request and reminders you opt into.",
+      "mobileLabel": "Mobile number",
+      "mobilePrefix": "+91",
+      "mobileFieldA11y": "Mobile number, country code India plus nine one",
+      "mobilePlaceholder": "9876543210",
+      "ctaContinue": "Continue",
+      "errorInvalidMobile": "Enter a valid 10-digit Indian mobile number (starting with 6, 7, 8, or 9).",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "legal": {
+        "prefix": "By continuing, you agree to our",
+        "terms": "Terms of Service",
+        "middle": "and",
+        "privacy": "Privacy Policy",
+        "termsA11y": "Terms of Service, opens in browser",
+        "privacyA11y": "Privacy Policy, opens in browser",
+        "opensExternal": "Opens an external page in your browser."
+      }
     }
   }
 }
