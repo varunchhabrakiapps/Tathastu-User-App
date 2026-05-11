@@ -54,12 +54,22 @@
       "placeholderRow": "More options coming soon"
     },
     "onboarding": {
-      "heroBadge": "Welcome",
-      "title": "Tathastu",
-      "subtitle": "Vedic rituals & guidance, wherever you are.",
-      "body": "Book trusted pandits for ceremonies at home or over video — rooted in tradition, designed for today.",
-      "cardTitle": "Get started",
-      "cardSubtitle": "You’ll sign in next with your mobile number to manage bookings and updates.",
+      "eyebrowMarketing": "Vedic rituals · On demand",
+      "tagline": "Book verified guidance for your home or on video—respectfully, with clear steps.",
+      "stepOf": "{{current}} of {{total}}",
+      "slides": {
+        "liveRemote": {
+          "title": "Rituals on live video",
+          "body": "At your booking, open a video call in the app—pandit ji leads the vidhi; you take part from home. Covers nazar utaro, guided homam or pooja, and blessings before exams or travel.",
+          "illustrationA11y": "Placeholder graphic: video ritual"
+        },
+        "homeCeremonies": {
+          "title": "Sacred ceremonies at your home",
+          "body": "Invite respected pandit jis for griha pravesh, new vehicle blessing, Satyanarayan katha, and other family observances—each vidhi conducted with reverence and care in your own space.",
+          "illustrationA11y": "Placeholder graphic: home ceremony"
+        }
+      },
+      "ctaNext": "Next",
       "ctaContinue": "Continue"
     },
     "login": {

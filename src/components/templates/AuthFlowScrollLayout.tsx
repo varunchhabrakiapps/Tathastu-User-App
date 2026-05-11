@@ -26,6 +26,7 @@ export function AuthFlowScrollLayout({ children, scrollClassName }: Props) {
         contentContainerClassName="grow pb-6"
         contentContainerStyle={{ paddingTop: safeTop }}
         keyboardShouldPersistTaps="handled"
+        nestedScrollEnabled={Platform.OS === 'android'}
         showsVerticalScrollIndicator={false}
       >
         {children}

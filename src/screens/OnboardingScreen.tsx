@@ -1,52 +1,74 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useColorScheme } from 'nativewind';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PrimaryGlassButton } from '@/components/atoms/PrimaryGlassButton';
-import { ElevatedSurfaceCard } from '@/components/molecules/ElevatedSurfaceCard';
-import { GradientHeroShell } from '@/components/molecules/GradientHeroShell';
-import { MarketingHeroCopy } from '@/components/molecules/MarketingHeroCopy';
-import { AuthFlowScrollLayout } from '@/components/templates/AuthFlowScrollLayout';
+import { OnboardingScreenBackdrop } from '@/components/molecules/OnboardingScreenBackdrop';
+import { OnboardingContent } from '@/components/organisms/OnboardingContent';
 import { useCompleteOnboarding } from '@/hooks/useCompleteOnboarding';
-import { getAuthHeroGradient } from '@/theme/heroGradients';
+import { useOnboardingPager } from '@/hooks/useOnboardingPager';
 
 export function OnboardingScreen() {
   const { t } = useTranslation();
-  const { colorScheme } = useColorScheme();
-  const paletteKey = colorScheme === 'dark' ? 'dark' : 'light';
+  const insets = useSafeAreaInsets();
+  const {
+    slides,
+    listRef,
+    slideWidth,
+    activeIndex,
+    viewabilityConfig,
+    onViewableItemsChanged,
+    getItemLayout,
+    onCarouselMomentumEnd,
+    goToNextSlide,
+    isLastSlide,
+  } = useOnboardingPager();
   const { completeOnboarding, isCompleting } = useCompleteOnboarding();
-  const heroColors = getAuthHeroGradient(paletteKey);
 
+  const onPrimaryPress = useCallback(() => {
+    if (isLastSlide) {
+      completeOnboarding();
+      return;
+    }
+    goToNextSlide();
+  }, [isLastSlide, goToNextSlide, completeOnboarding]);
+
+  const primaryCtaLabel = isLastSlide
+    ? t('screens.onboarding.ctaContinue')
+    : t('screens.onboarding.ctaNext');
+
+  const stepLabel = t('screens.onboarding.stepOf', {
+    current: activeIndex + 1,
+    total: slides.length,
+  });
 
   return (
-    <AuthFlowScrollLayout>
-      <GradientHeroShell colors={heroColors} contentTopInset={0}>
-        <MarketingHeroCopy
-          badge={t('screens.onboarding.heroBadge')}
-          title={t('screens.onboarding.title')}
-          subtitle={t('screens.onboarding.subtitle')}
-          body={t('screens.onboarding.body')}
+    <OnboardingScreenBackdrop>
+      <View
+        className="min-h-0 flex-1"
+        style={{
+          paddingTop: Math.max(insets.top, 12) + 4,
+          paddingBottom: Math.max(insets.bottom, 12) + 4,
+        }}
+      >
+        <OnboardingContent
+          eyebrowMarketing={t('screens.onboarding.eyebrowMarketing')}
+          brandName={t('product.brandName')}
+          tagline={t('screens.onboarding.tagline')}
+          stepLabel={stepLabel}
+          slides={slides}
+          listRef={listRef}
+          slideWidth={slideWidth}
+          activeIndex={activeIndex}
+          viewabilityConfig={viewabilityConfig}
+          onViewableItemsChanged={onViewableItemsChanged}
+          getItemLayout={getItemLayout}
+          onCarouselMomentumEnd={onCarouselMomentumEnd}
+          primaryCtaLabel={primaryCtaLabel}
+          onPrimaryPress={onPrimaryPress}
+          primaryLoading={isCompleting}
         />
-      </GradientHeroShell>
-
-      <View className="z-20 -mt-4 px-5 pb-10">
-        <ElevatedSurfaceCard>
-          <Text className="text-center text-xl font-semibold text-ink dark:text-ink-ondark">
-            {t('screens.onboarding.cardTitle')}
-          </Text>
-          <Text className="mt-2 text-center text-base leading-snug text-ink-muted dark:text-ink-muted-ondark">
-            {t('screens.onboarding.cardSubtitle')}
-          </Text>
-
-          <PrimaryGlassButton
-            className="mt-6"
-            label={t('screens.onboarding.ctaContinue')}
-            onPress={completeOnboarding}
-            loading={isCompleting}
-            accessibilityLabel={t('screens.onboarding.ctaContinue')}
-          />
-        </ElevatedSurfaceCard>
       </View>
-    </AuthFlowScrollLayout>
+    </OnboardingScreenBackdrop>
   );
 }

@@ -29,13 +29,13 @@ const BORDER_RADIUS = 16;
 function glassTints(mode: 'light' | 'dark') {
   return mode === 'dark'
     ? {
-        glassTint: 'rgba(165, 180, 252, 0.38)' as ColorValue,
-        overlayTint: 'rgba(49, 46, 129, 0.52)',
+        glassTint: 'rgba(165, 180, 252, 1)' as ColorValue,
+        overlayTint: 'rgba(55, 48, 163, 1)',
         blurType: 'dark' as const,
       }
     : {
-        glassTint: 'rgba(67, 56, 202, 0.45)' as ColorValue,
-        overlayTint: 'rgba(67, 56, 202, 0.42)',
+        glassTint: 'rgba(79, 70, 229, 1)' as ColorValue,
+        overlayTint: 'rgba(67, 56, 202, 1)',
         blurType: 'dark' as const,
       };
 }
@@ -63,21 +63,22 @@ export function PrimaryGlassButton({
   const labelContent: ReactNode = loading ? (
     <ActivityIndicator color={spinnerColor} />
   ) : (
-    <Text className="text-center text-base font-semibold text-white dark:text-ink-ondark">
+    <Text className="text-center text-base font-semibold text-white">
       {label}
     </Text>
   );
 
   let body: ReactNode;
 
+
   if (isLiquidGlassSupported) {
     body = (
-      <View className={cn('overflow-hidden rounded-2xl', className)}>
+      <View className={cn('rounded-2xl', className)}>
         <LiquidGlassView
-          effect="regular"
+          effect="clear"
           tintColor={glassTint}
           colorScheme={mode}
-          interactive={false}
+          interactive
           style={styles.liquid}
         >
           <View className="items-center justify-center py-4">{labelContent}</View>
@@ -124,7 +125,10 @@ export function PrimaryGlassButton({
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? label}
       accessibilityState={{ disabled: isBusy, busy: loading }}
-      className={cn(isBusy && 'opacity-50', 'active:opacity-90')}
+      className={cn(
+        'active:opacity-92',
+        disabled && !loading && 'opacity-48',
+      )}
     >
       {body}
     </Pressable>
@@ -137,6 +141,5 @@ const styles = StyleSheet.create({
   },
   liquid: {
     borderRadius: BORDER_RADIUS,
-    overflow: 'hidden',
   },
 });
