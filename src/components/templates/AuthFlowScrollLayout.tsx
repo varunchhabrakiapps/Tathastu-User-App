@@ -1,11 +1,8 @@
 import type { PropsWithChildren } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { cn } from '@/utils/cn';
-
-const content = StyleSheet.create({
-  scroll: { flexGrow: 1, paddingBottom: 24 },
-});
 
 type Props = PropsWithChildren<{
   /** Overrides default canvas background (e.g. transparent when the screen paints its own gradient). */
@@ -13,9 +10,12 @@ type Props = PropsWithChildren<{
 }>;
 
 /**
- * Shared scroll + keyboard + safe-area scaffold for auth and onboarding flows.
+ * Shared keyboard-aware scroll scaffold for auth and onboarding flows.
+ * Top inset follows the device safe area via `contentContainerStyle`.
  */
 export function AuthFlowScrollLayout({ children, scrollClassName }: Props) {
+  const { top: safeTop } = useSafeAreaInsets();
+
   return (
     <KeyboardAvoidingView
       className="flex-1"
@@ -23,13 +23,13 @@ export function AuthFlowScrollLayout({ children, scrollClassName }: Props) {
     >
       <ScrollView
         className={cn('flex-1', scrollClassName ?? 'bg-canvas dark:bg-canvas-dark')}
-        contentContainerStyle={content.scroll}
+        contentContainerClassName="grow pb-6"
+        contentContainerStyle={{ paddingTop: safeTop }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         {children}
       </ScrollView>
     </KeyboardAvoidingView>
-
   );
 }

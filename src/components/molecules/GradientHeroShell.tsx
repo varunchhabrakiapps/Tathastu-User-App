@@ -2,28 +2,8 @@ import type { PropsWithChildren } from 'react';
 import { View, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-type Props = PropsWithChildren<{
-  /** At least two hex/RGB strings for react-native-linear-gradient. */
-  colors: string[];
-  /**
-   * Top safe-area inset (e.g. `useSafeAreaInsets().top`) so gradient can extend edge-to-edge
-   * while text stays below the status bar.
-   */
-  contentTopInset?: number;
-  /** Minimum height (e.g. `useWindowDimensions().height`) so the hero gradient fills the viewport. */
-  minHeight?: number;
-}>;
-
-/**
- * Rounded marketing hero shell: diagonal gradient + soft vedic ornaments (reusable for auth / onboarding).
- */
-export function GradientHeroShell({
-  colors,
-  children,
-  contentTopInset = 0,
-  minHeight,
-}: Props) {
-  const ornaments = (
+export function GradientHeroOrnaments() {
+  return (
     <>
       <View
         pointerEvents="none"
@@ -51,7 +31,29 @@ export function GradientHeroShell({
       />
     </>
   );
+}
 
+type Props = PropsWithChildren<{
+  /** At least two hex/RGB strings for react-native-linear-gradient. */
+  colors: string[];
+  /**
+   * Top safe-area inset (e.g. `useSafeAreaInsets().top`) so gradient can extend edge-to-edge
+   * while text stays below the status bar.
+   */
+  contentTopInset?: number;
+  /** Minimum height (e.g. `useWindowDimensions().height`) so the hero gradient fills the viewport. */
+  minHeight?: number;
+}>;
+
+/**
+ * Rounded marketing hero shell: diagonal gradient + soft vedic ornaments (reusable for auth / onboarding).
+ */
+export function GradientHeroShell({
+  colors,
+  children,
+  contentTopInset = 0,
+  minHeight,
+}: Props) {
   return (
     <View className="relative flex-1 overflow-hidden" style={minHeight ? { minHeight } : undefined}>
       <LinearGradient
@@ -64,7 +66,7 @@ export function GradientHeroShell({
         pointerEvents="none"
         className="absolute inset-0 z-[5]"
       >
-        {ornaments}
+        <GradientHeroOrnaments />
       </View>
       <View
         className="z-10 px-6"

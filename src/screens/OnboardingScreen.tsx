@@ -1,9 +1,6 @@
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFocusEffect } from '@react-navigation/native';
 import { useColorScheme } from 'nativewind';
-import { Platform, StatusBar, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text, View } from 'react-native';
 
 import { PrimaryGlassButton } from '@/components/atoms/PrimaryGlassButton';
 import { ElevatedSurfaceCard } from '@/components/molecules/ElevatedSurfaceCard';
@@ -12,36 +9,18 @@ import { MarketingHeroCopy } from '@/components/molecules/MarketingHeroCopy';
 import { AuthFlowScrollLayout } from '@/components/templates/AuthFlowScrollLayout';
 import { useCompleteOnboarding } from '@/hooks/useCompleteOnboarding';
 import { getAuthHeroGradient } from '@/theme/heroGradients';
-import { semanticColors } from '@/theme/semanticColors';
 
 export function OnboardingScreen() {
   const { t } = useTranslation();
-  const { top: safeTop } = useSafeAreaInsets();
   const { colorScheme } = useColorScheme();
   const paletteKey = colorScheme === 'dark' ? 'dark' : 'light';
   const { completeOnboarding, isCompleting } = useCompleteOnboarding();
   const heroColors = getAuthHeroGradient(paletteKey);
 
-  useFocusEffect(
-    useCallback(() => {
-      StatusBar.setBarStyle('light-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setTranslucent(true);
-        StatusBar.setBackgroundColor('transparent');
-      }
-      return () => {
-        StatusBar.setBarStyle(semanticColors[paletteKey].statusBarStyle);
-        if (Platform.OS === 'android') {
-          StatusBar.setTranslucent(false);
-          StatusBar.setBackgroundColor(semanticColors[paletteKey].surface);
-        }
-      };
-    }, [paletteKey]),
-  );
 
   return (
     <AuthFlowScrollLayout>
-      <GradientHeroShell colors={heroColors} contentTopInset={safeTop}>
+      <GradientHeroShell colors={heroColors} contentTopInset={0}>
         <MarketingHeroCopy
           badge={t('screens.onboarding.heroBadge')}
           title={t('screens.onboarding.title')}
