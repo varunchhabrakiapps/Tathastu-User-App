@@ -67,7 +67,7 @@
           "illustrationA11y": "Warm illustration: video call with pandit ji from a cozy home"
         },
         "homeCeremonies": {
-          "title": "Book trusted home pujas easily",
+          "title": "Book trusted home pujas",
           "body": "Griha pravesh, havan, vastu, and family ceremonies—respectful visits, clearly booked.",
           "illustrationA11y": "Warm illustration: sacred home puja and ceremony"
         }
@@ -76,14 +76,12 @@
       "ctaContinue": "Continue"
     },
     "login": {
-      "heroDiyaA11y": "Decorative illustration of an ornate brass diya with a lit flame",
-      "heroBadge": "Vedic rituals · On demand",
-      "heroSubtitle": "Guidance that meets you wherever you call home.",
-      "heroBody": "Book verified pandits for live video rituals, homams, or sacred visits to your doorstep—clear steps, respectful service, timelines that bend around yours.",
-      "cardEyebrow": "Secure access",
-      "cardTitle": "Sign in",
-      "cardSubtitle": "Enter the mobile number you’ll use for one-time verification and booking alerts.",
-      "trustNote": "We never sell your number—only OTPs you request and reminders you opt into.",
+      "brandMarkA11y": "Tathastu ember flame mark",
+      "heroIllustrationA11y": "Warm illustration: video blessing on your phone, Tathastu mark and tagline",
+      "authTitle": "Welcome to Tathastu",
+      "trustTagline": "Trusted rituals, wherever you are.",
+      "authHelper": "Use your Indian mobile number. We'll text you a secure code to sign in.",
+      "privacyHint": "We only send updates you request.",
       "mobileLabel": "Mobile number",
       "mobilePrefix": "+91",
       "mobileFieldA11y": "Mobile number, country code India plus nine one",

@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import { AdaptiveGlassSurface } from '@/components/atoms/AdaptiveGlassSurface';
-import { PrimaryGlassButton } from '@/components/atoms/PrimaryGlassButton';
-import { LegalAgreementLinks } from '@/components/molecules/LegalAgreementLinks';
-import { LoginMobileNumberField } from '@/components/molecules/LoginMobileNumberField';
+import { RitualPrimaryButton } from '@/components/atoms/RitualPrimaryButton';
+import { AuthLegalFooter } from '@/components/molecules/AuthLegalFooter';
+import { LoginAuthSurface } from '@/components/molecules/LoginAuthSurface';
+import { PhoneInput } from '@/components/molecules/PhoneInput';
 
 type Props = {
   mobile: string;
@@ -15,7 +16,10 @@ type Props = {
   errorText: string | null;
 };
 
-export function LoginFormCard({
+/**
+ * Auth block + legal block: same horizontal origin as brand (`LoginAuthSurface` is flush; grid is screen `px-5`).
+ */
+export const LoginFormCard = memo(function LoginFormCard({
   mobile,
   onMobileChange,
   onContinue,
@@ -26,48 +30,41 @@ export function LoginFormCard({
   const { t } = useTranslation();
 
   return (
-    <AdaptiveGlassSurface>
-      <View className="px-6 py-8">
-        <Text className="text-center text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-ink-subtle dark:text-ink-muted-ondark">
-          {t('screens.login.cardEyebrow')}
-        </Text>
-        <Text className="mt-2 text-center text-2xl font-bold tracking-tight text-ink dark:text-ink-ondark">
-          {t('screens.login.cardTitle')}
-        </Text>
-        <Text className="mx-auto mt-2 max-w-sm text-center text-base leading-snug text-ink-muted dark:text-ink-muted-ondark">
-          {t('screens.login.cardSubtitle')}
-        </Text>
+    <View className="w-full gap-8">
+      <LoginAuthSurface>
+        <View className="gap-6">
+          <Text className="text-[14px] font-normal leading-[20px] text-ritual-inkMuted/88 dark:text-ritual-inkMuted-dark/86">
+            {t('screens.login.authHelper')}
+          </Text>
+          <PhoneInput
+            label={t('screens.login.mobileLabel')}
+            prefix={t('screens.login.mobilePrefix')}
+            value={mobile}
+            onChangeText={onMobileChange}
+            placeholder={t('screens.login.mobilePlaceholder')}
+            onSubmitPrimary={onContinue}
+            editable={!submitting}
+            errorText={errorText}
+            accessibilityLabel={t('screens.login.mobileFieldA11y')}
+          />
 
-        <View className="my-8 h-px w-full bg-border/80 dark:bg-border-dark/90" />
+          <RitualPrimaryButton
+            label={t('screens.login.ctaContinue')}
+            onPress={onContinue}
+            loading={submitting}
+            disabled={continueDisabled}
+            accessibilityLabel={t('screens.login.ctaContinue')}
+          />
+        </View>
+      </LoginAuthSurface>
 
-        <LoginMobileNumberField
-          label={t('screens.login.mobileLabel')}
-          prefix={t('screens.login.mobilePrefix')}
-          value={mobile}
-          onChangeText={onMobileChange}
-          placeholder={t('screens.login.mobilePlaceholder')}
-          onSubmitPrimary={onContinue}
-          editable={!submitting}
-          errorText={errorText}
-          accessibilityLabel={t('screens.login.mobileFieldA11y')}
-          inputClassName="rounded-[22px] border-0 bg-surface shadow-sm dark:bg-surface-elevated"
-        />
-
-        <PrimaryGlassButton
-          className="mt-7 rounded-[22px]"
-          label={t('screens.login.ctaContinue')}
-          onPress={onContinue}
-          loading={submitting}
-          disabled={continueDisabled}
-          accessibilityLabel={t('screens.login.ctaContinue')}
-        />
-
-        <Text className="mt-6 text-center text-sm leading-snug text-ink-muted dark:text-ink-muted-ondark">
-          {t('screens.login.trustNote')}
+      <View className="gap-3">
+        <Text className="text-center text-[10px] font-normal leading-[15px] text-ritual-inkMuted/48 dark:text-ritual-inkMuted-dark/44">
+          {t('screens.login.privacyHint')}
         </Text>
 
-        <LegalAgreementLinks />
+        <AuthLegalFooter />
       </View>
-    </AdaptiveGlassSurface>
+    </View>
   );
-}
+});

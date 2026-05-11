@@ -19,7 +19,8 @@ import { paletteHex } from '@/theme/palette';
 import { hexToRgba } from '@/theme/colorUtils';
 
 /**
- * Onboarding backdrop — ritual wash, soft orbs, imperceptible “breathing” light (premium calm).
+ * Onboarding / auth backdrop — ritual wash + imperceptible “breathing” light (premium calm).
+ * Decorative orbs intentionally omitted for a quieter, editorial canvas shared with login.
  */
 export function OnboardingScreenBackdrop({ children }: PropsWithChildren) {
   const { colorScheme } = useColorScheme();
@@ -73,22 +74,6 @@ export function OnboardingScreenBackdrop({ children }: PropsWithChildren) {
           pointerEvents="none"
         />
       </Animated.View>
-      <View
-        pointerEvents="none"
-        className="absolute -right-24 top-28 h-72 w-72 rounded-full bg-ritual-primarySoft/18 dark:bg-ritual-primary-dark/7"
-      />
-      <View
-        pointerEvents="none"
-        className="absolute -right-6 top-1/3 h-48 w-48 rounded-full bg-ritual-primary/7 dark:bg-ritual-primarySoft-dark/14"
-      />
-      <View
-        pointerEvents="none"
-        className="absolute -left-16 bottom-1/3 h-40 w-40 rounded-full bg-ritual-surfaceSecondary/55 dark:bg-ritual-surfaceSecondary-dark/22"
-      />
-      <View
-        pointerEvents="none"
-        className="absolute bottom-32 left-10 h-24 w-24 rounded-full bg-ritual-primary/5 dark:bg-ritual-primary-dark/9"
-      />
       {children}
     </View>
   );

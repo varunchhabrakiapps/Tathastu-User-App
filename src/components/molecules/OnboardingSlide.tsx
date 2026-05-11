@@ -49,9 +49,9 @@ export const OnboardingSlide = memo(function OnboardingSlide({
   }));
 
   return (
-    <View style={{ width: slideWidth }} className="min-h-0 flex-1 px-5">
-      <View className="min-h-0 flex-1 justify-between gap-4 pb-1">
-        <View className="min-h-0 flex-1 justify-center" accessible={false}>
+    <View style={{ width: slideWidth }} className="px-6">
+      <View className="min-h-0 gap-4 pb-1 mt-8">
+        <View className="min-h-0 justify-center" accessible={false}>
           {illustration}
         </View>
 

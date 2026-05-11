@@ -7,9 +7,9 @@ import {
   View,
 } from 'react-native';
 
-import { LabeledTextField } from '@/components/atoms/LabeledTextField';
+import { RitualPhoneField } from '@/components/atoms/RitualPhoneField';
 
-const LOGIN_MOBILE_INPUT_ACCESSORY_ID = 'loginMobileInputAccessory';
+const LOGIN_PHONE_INPUT_ACCESSORY_ID = 'loginPhoneInputAccessory';
 
 type Props = {
   label: string;
@@ -18,19 +18,16 @@ type Props = {
   value: string;
   maxLength?: number;
   onChangeText: (text: string) => void;
-  /** Continue / keyboard Done / IME action — dismiss + validation live in the caller hook. */
   onSubmitPrimary: () => void;
   editable: boolean;
   errorText: string | null;
   accessibilityLabel: string;
-  inputClassName?: string;
 };
 
 /**
- * Indian mobile entry: phone pad, Done via IME where available, iOS accessory toolbar
- * (phone-pad has no Return key on iOS — `returnKeyType` alone is insufficient there).
+ * India mobile — phone pad, iOS accessory Done, IME done where available.
  */
-export function LoginMobileNumberField({
+export function PhoneInput({
   label,
   prefix,
   placeholder,
@@ -41,22 +38,21 @@ export function LoginMobileNumberField({
   editable,
   errorText,
   accessibilityLabel,
-  inputClassName,
 }: Props) {
   const { t } = useTranslation();
 
   return (
     <>
       {Platform.OS === 'ios' ? (
-        <InputAccessoryView nativeID={LOGIN_MOBILE_INPUT_ACCESSORY_ID}>
-          <View className="flex-row items-center justify-end border-t border-border bg-canvas px-3 py-2 dark:border-border-dark dark:bg-canvas-dark">
+        <InputAccessoryView nativeID={LOGIN_PHONE_INPUT_ACCESSORY_ID}>
+          <View className="flex-row items-center justify-end bg-ritual-canvas/98 px-3 py-2.5 dark:bg-ritual-canvas-dark/98">
             <Pressable
               onPress={onSubmitPrimary}
               accessibilityRole="button"
               accessibilityLabel={t('common.done')}
               hitSlop={{ top: 8, bottom: 8, left: 12, right: 12 }}
             >
-              <Text className="text-base font-semibold text-primary dark:text-primary-dark">
+              <Text className="text-base font-semibold text-ritual-primary dark:text-ritual-primary-dark">
                 {t('common.done')}
               </Text>
             </Pressable>
@@ -64,7 +60,7 @@ export function LoginMobileNumberField({
         </InputAccessoryView>
       ) : null}
 
-      <LabeledTextField
+      <RitualPhoneField
         label={label}
         prefix={prefix}
         value={value}
@@ -77,12 +73,11 @@ export function LoginMobileNumberField({
         editable={editable}
         errorText={errorText}
         accessibilityLabel={accessibilityLabel}
-        inputClassName={inputClassName}
         returnKeyType="done"
         blurOnSubmit
         onSubmitEditing={onSubmitPrimary}
         inputAccessoryViewID={
-          Platform.OS === 'ios' ? LOGIN_MOBILE_INPUT_ACCESSORY_ID : undefined
+          Platform.OS === 'ios' ? LOGIN_PHONE_INPUT_ACCESSORY_ID : undefined
         }
       />
     </>

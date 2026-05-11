@@ -1,8 +1,10 @@
-import { useTranslation } from 'react-i18next';
+import { memo } from 'react';
 import { View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
-import { MarketingHeroCopy } from '@/components/molecules/MarketingHeroCopy';
+import { LoginTrustBrandSection } from '@/components/molecules/LoginTrustBrandSection';
 import { LoginFormCard } from '@/components/organisms/LoginFormCard';
+import { LoginHeroSection } from '@/components/organisms/LoginHeroSection';
 
 type Props = {
   mobile: string;
@@ -13,35 +15,22 @@ type Props = {
   errorText: string | null;
 };
 
-export function LoginScrollBody({
-  mobile,
-  onMobileChange,
-  onContinue,
-  continueDisabled,
-  submitting,
-  errorText,
-}: Props) {
-  const { t } = useTranslation();
-
+/**
+ * Login flow composition: hero → trust / brand → auth slab → legal (keyboard-safe scroll parent).
+ */
+export const LoginScrollBody = memo(function LoginScrollBody(props: Props) {
   return (
-    <View className="items-center px-6 pb-8">
-      <View className="w-full max-w-md items-center gap-5">
-        <MarketingHeroCopy
-          accentTone="warm"
-          badge={t('screens.login.heroBadge')}
-          title={t('product.brandName')}
-          subtitle={t('screens.login.heroSubtitle')}
-          body={t('screens.login.heroBody')}
-        />
-        <LoginFormCard
-          mobile={mobile}
-          onMobileChange={onMobileChange}
-          onContinue={onContinue}
-          continueDisabled={continueDisabled}
-          submitting={submitting}
-          errorText={errorText}
-        />
+    <View className="flex-1">
+      <LoginHeroSection />
+      <View className="flex-1 px-5">
+        <Animated.View
+          entering={FadeInDown.duration(520).delay(80)}
+          className="w-full gap-8 pb-2"
+        >
+          <LoginTrustBrandSection />
+          <LoginFormCard {...props} />
+        </Animated.View>
       </View>
     </View>
   );
-}
+});

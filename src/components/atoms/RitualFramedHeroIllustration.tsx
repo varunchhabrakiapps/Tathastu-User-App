@@ -20,15 +20,19 @@ import { cn } from '@/utils/cn';
 type Props = {
   source: ImageSourcePropType;
   accessibilityLabel: string;
+  /**
+   * When false (e.g. off-screen carousel slide), art rests with reduced emphasis.
+   * When true, full opacity and optional gentle float loop.
+   */
   isActive: boolean;
   artHeight: number;
   className?: string;
 };
 
 /**
- * Onboarding hero art: ambient wash, layered soft elevation, integrated float (not a harsh plaque).
+ * Shared editorial hero frame: ambient wash, layered elevation, soft float — used by onboarding deck and login.
  */
-export const OnboardingHero = memo(function OnboardingHero({
+export const RitualFramedHeroIllustration = memo(function RitualFramedHeroIllustration({
   source,
   accessibilityLabel,
   isActive,
@@ -104,16 +108,16 @@ export const OnboardingHero = memo(function OnboardingHero({
           style={cardShadow}
         >
           <View className="items-center justify-center bg-ritual-surfaceSecondary/24 px-1.5 pb-1 pt-2.5 dark:bg-ritual-surfaceSecondary-dark/18">
-            <View className="w-full overflow-hidden rounded-[26px]">
+            <View className="w-full overflow-hidden">
               <Image
                 source={source}
                 accessibilityIgnoresInvertColors
                 accessible
                 accessibilityRole="image"
                 accessibilityLabel={accessibilityLabel}
-                className="w-full"
+                className="w-full rounded-[26px]"
                 style={{ height: artHeight }}
-                resizeMode="contain"
+                resizeMode="cover"
               />
             </View>
           </View>

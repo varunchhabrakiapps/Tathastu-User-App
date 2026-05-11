@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { OnboardingHero } from '@/components/atoms/OnboardingHero';
+import { RitualFramedHeroIllustration } from '@/components/atoms/RitualFramedHeroIllustration';
 import { OnboardingSlide } from '@/components/molecules/OnboardingSlide';
 import { ONBOARDING_HERO_ART } from '@/constants/onboardingLayout';
 import type {
@@ -77,7 +77,7 @@ export const OnboardingSlidesCarousel = memo(function OnboardingSlidesCarousel({
         slideWidth={slideWidth}
         isActive={index === activeIndex}
         illustration={
-          <OnboardingHero
+          <RitualFramedHeroIllustration
             source={item.illustrationSource}
             accessibilityLabel={item.illustrationLabel}
             isActive={index === activeIndex}

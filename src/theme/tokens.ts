@@ -15,5 +15,22 @@ export const radii = {
   sm: 4,
   md: 8,
   lg: 16,
+  /** Ritual onboarding + auth chrome (matches `RitualPrimaryButton`). */
+  ritualLg: 18,
   full: 9999,
+} as const;
+
+/**
+ * Login screen rhythm — 8pt-derived scale (8, 12, 16, 20, 24, 32, 40).
+ * Mirrors Tailwind usage: `px-5`, `gap-8`, `gap-6`, `py-8`, `gap-3`, scroll bottom via `scrollBottom`.
+ */
+export const authScreen = {
+  insetX: 20,
+  /** Vertical gap between trust strip and auth slab. */
+  trustToAuth: 32,
+  credentialsStack: 24,
+  surfacePadY: 32,
+  credentialsToLegal: 32,
+  legalStack: 12,
+  scrollBottom: 40,
 } as const;
