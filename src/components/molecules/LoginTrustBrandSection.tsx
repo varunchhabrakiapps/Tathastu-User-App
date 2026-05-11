@@ -15,25 +15,27 @@ export const LoginTrustBrandSection = memo(function LoginTrustBrandSection() {
       <View className="self-start rounded-full bg-ritual-surfaceSecondary/55 px-3 py-2 dark:bg-ritual-surfaceSecondary-dark/38">
         <Text
           accessibilityRole="text"
-          className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark"
+          className="text-login-metadata font-medium uppercase text-ritual-inkMuted/90 dark:text-ritual-inkMuted-dark/88"
         >
           {t('screens.onboarding.eyebrowMarketing')}
         </Text>
       </View>
 
-      <View className="flex-row items-start gap-3.5">
-        <TathastuMark accessibilityLabel={t('screens.login.brandMarkA11y')} />
-        <View className="min-w-0 flex-1 gap-1.5 pt-0.5">
+      <View className="flex-row items-start gap-3">
+        <TathastuMark
+          accessibilityLabel={t('screens.login.brandMarkA11y')}
+        />
+        <View className="min-w-0 flex-1 gap-1">
           <Text
             accessibilityRole="header"
-            className="text-[26px] font-medium leading-[31px] tracking-[-0.02em] text-ritual-ink dark:text-ritual-ink-dark"
+            className="text-login-display font-medium text-ritual-ink dark:text-ritual-ink-dark"
           >
             {t('screens.login.authTitle')}
           </Text>
           <Text
             accessibilityRole="text"
             numberOfLines={3}
-            className="text-[16px] font-normal leading-[22px] text-ritual-ink/92 dark:text-ritual-ink-dark/92"
+            className="text-login-body font-normal text-ritual-ink/88 dark:text-ritual-ink-dark/88"
           >
             {t('screens.login.trustTagline')}
           </Text>

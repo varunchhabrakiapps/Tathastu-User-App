@@ -10,7 +10,7 @@ import { cn } from '@/utils/cn';
 const R = RITUAL_CORNER_RADIUS;
 
 /**
- * Grounded auth slab — iOS blur + soft tint (onboarding-adjacent), confident shadow, no stroke box.
+ * Auth slab — light iOS blur + opaque warm-tinted surface (Wallet-like, not glass-gradient).
  */
 export function LoginAuthSurface({ children }: PropsWithChildren) {
   const { colorScheme } = useColorScheme();
@@ -23,8 +23,8 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
         styles.shadowWrap,
         {
           shadowColor: rim,
-          shadowOpacity: isDark ? 0.13 : 0.078,
-          shadowRadius: isDark ? 22 : 26,
+          shadowOpacity: isDark ? 0.11 : 0.065,
+          shadowRadius: isDark ? 20 : 24,
           shadowOffset: { width: 0, height: 10 },
           elevation: isDark ? 5 : 4,
         },
@@ -34,20 +34,25 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
         {Platform.OS === 'ios' ? (
           <BlurView
             blurType={isDark ? 'dark' : 'light'}
-            blurAmount={22}
+            blurAmount={10}
             reducedTransparencyFallbackColor={
               isDark ? paletteHex.ritual.surface.dark : paletteHex.ritual.surface.light
             }
             style={StyleSheet.absoluteFill}
           />
         ) : null}
+        {/* Flat premium warm base + hairline tonal veil (no visible “card gradient”). */}
         <View
           className={cn(
             Platform.OS === 'ios'
-              ? 'bg-ritual-surface/66 dark:bg-ritual-surface-dark/58'
-              : 'bg-ritual-surface/97 dark:bg-ritual-surface-dark/95',
+              ? 'bg-ritual-surface/91 dark:bg-ritual-surface-dark/90'
+              : 'bg-ritual-surface/98 dark:bg-ritual-surface-dark/97',
           )}
         >
+          <View
+            pointerEvents="none"
+            className="absolute inset-0 bg-ritual-surfaceSecondary/[0.035] dark:bg-ritual-surfaceSecondary-dark/[0.042]"
+          />
           <View className="px-0 py-6">{children}</View>
         </View>
       </View>

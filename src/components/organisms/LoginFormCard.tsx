@@ -30,12 +30,9 @@ export const LoginFormCard = memo(function LoginFormCard({
   const { t } = useTranslation();
 
   return (
-    <View className="w-full gap-5">
+    <View className="w-full gap-4">
       <LoginAuthSurface>
         <View className="gap-4 px-4">
-          <Text className="text-basefont-normal leading-[18px] text-ritual-inkMuted/84 dark:text-ritual-inkMuted-dark/82">
-            {t('screens.login.authHelper')}
-          </Text>
           <PhoneInput
             label={t('screens.login.mobileLabel')}
             prefix={t('screens.login.mobilePrefix')}
@@ -58,8 +55,8 @@ export const LoginFormCard = memo(function LoginFormCard({
         </View>
       </LoginAuthSurface>
 
-      <View className="gap-2.5">
-        <Text className="text-center text-[10px] font-normal leading-[15px] text-ritual-inkMuted/48 dark:text-ritual-inkMuted-dark/44">
+      <View className="gap-1">
+        <Text className="text-login-legal text-center font-normal text-ritual-inkMuted/46 dark:text-ritual-inkMuted-dark/42">
           {t('screens.login.privacyHint')}
         </Text>
 

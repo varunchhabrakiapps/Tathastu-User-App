@@ -86,6 +86,12 @@ module.exports = {
       fontSize: {
         'onboarding-hero': ['28px', { lineHeight: '36px', letterSpacing: '-0.02em' }],
         'onboarding-body': ['15px', { lineHeight: '22px' }],
+        /** Login / auth editorial scale — display → legal (single source for rhythm). */
+        'login-display': ['24px', { lineHeight: '29px', letterSpacing: '-0.02em' }],
+        'login-body': ['15px', { lineHeight: '22px' }],
+        'login-metadata': ['10px', { lineHeight: '14px', letterSpacing: '0.12em' }],
+        'login-label': ['11px', { lineHeight: '15px', letterSpacing: '0.03em' }],
+        'login-legal': ['10px', { lineHeight: '14px' }],
       },
     },
   },

@@ -105,10 +105,10 @@ export const RitualPhoneField = memo(function RitualPhoneField({
     <View className={cn(className)}>
       <Text
         className={cn(
-          'mb-2 text-xs font-semibold tracking-[0.02em]',
+          'mb-2 text-login-label font-medium',
           focused
-            ? 'text-ritual-ink dark:text-ritual-ink-dark'
-            : 'text-ritual-inkMuted dark:text-ritual-inkMuted-dark',
+            ? 'text-ritual-ink/90 dark:text-ritual-ink-dark/92'
+            : 'text-ritual-inkMuted/68 dark:text-ritual-inkMuted-dark/62',
         )}
       >
         {label}

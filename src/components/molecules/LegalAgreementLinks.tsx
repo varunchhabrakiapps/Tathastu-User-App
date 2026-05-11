@@ -31,7 +31,7 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
   const isQuietAuth = prominence === 'quiet' && variant === 'ritual';
 
   const muted = isQuietAuth
-    ? 'text-ritual-inkMuted/50 dark:text-ritual-inkMuted-dark/46'
+    ? 'text-ritual-inkMuted/48 dark:text-ritual-inkMuted-dark/44'
     : variant === 'ritual'
       ? 'text-ritual-inkMuted/90 dark:text-ritual-inkMuted-dark/90'
       : 'text-ink-muted dark:text-ink-muted-ondark';
@@ -39,11 +39,11 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
   const linkTone =
     variant === 'ritual'
       ? isQuietAuth
-        ? 'text-ritual-primary/72 dark:text-ritual-primary-dark/68'
+        ? 'text-ritual-primary/56 dark:text-ritual-primary-dark/52'
         : 'text-ritual-primary/92 dark:text-ritual-primary-dark/90'
       : 'text-primary dark:text-primary-dark';
 
-  const labelSize = isQuietAuth ? 'text-[10px]' : 'text-xs';
+  const labelSize = isQuietAuth ? 'text-login-legal' : 'text-xs';
   const linkTypography = cn(
     labelSize,
     isQuietAuth ? 'font-normal' : 'font-semibold',
@@ -61,13 +61,20 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
 
   return (
     <View className={cn('items-center px-1', className)}>
-      <Text className={cn('text-center leading-[16px]', labelSize, muted)}>
+      <Text
+        className={cn(
+          'text-center font-normal',
+          isQuietAuth ? 'leading-[14px]' : 'leading-[16px]',
+          labelSize,
+          muted,
+        )}
+      >
         {t('screens.login.legal.prefix')}
       </Text>
       <View
         className={cn(
-          'flex-row flex-wrap items-center justify-center gap-x-1 gap-y-0.5',
-          isQuietAuth ? 'mt-1' : 'mt-2',
+          'flex-row flex-wrap items-center justify-center gap-x-1 gap-y-0',
+          isQuietAuth ? 'mt-0.5' : 'mt-2',
         )}
       >
         <Pressable
