@@ -6,25 +6,24 @@ import {
   type RefObject,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import type {
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ViewToken,
+import {
+  useWindowDimensions,
+  type FlatList,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
 } from 'react-native';
-import { useWindowDimensions } from 'react-native';
 
-import type { OnboardingGraphicVariant } from '@/components/molecules/OnboardingSlideGraphic';
+import {
+  ONBOARDING_SLIDE_IMAGES,
+  ONBOARDING_VIEWABILITY_PERCENT,
+} from '@/constants/onboardingLayout';
+import type {
+  OnboardingGetItemLayout,
+  OnboardingSlideModel,
+  ViewabilityChangeInfo,
+} from '@/types/onboarding';
 
-export type OnboardingSlideModel = {
-  id: string;
-  title: string;
-  body?: string;
-  lead?: string;
-  bullets?: string[];
-  illustrationLabel: string;
-  graphicVariant: OnboardingGraphicVariant;
-};
+export type { OnboardingSlideModel } from '@/types/onboarding';
 
 /**
  * Horizontal pager for onboarding: slide copy, list ref, and scroll helpers.
@@ -46,7 +45,7 @@ export function useOnboardingPager() {
         illustrationLabel: t(
           'screens.onboarding.slides.liveRemote.illustrationA11y',
         ),
-        graphicVariant: 'digital',
+        illustrationSource: ONBOARDING_SLIDE_IMAGES.liveRemote,
       },
       {
         id: 'homeCeremonies',
@@ -55,7 +54,7 @@ export function useOnboardingPager() {
         illustrationLabel: t(
           'screens.onboarding.slides.homeCeremonies.illustrationA11y',
         ),
-        graphicVariant: 'homeCeremony',
+        illustrationSource: ONBOARDING_SLIDE_IMAGES.homeCeremonies,
       },
     ];
   }, [t]);
@@ -63,11 +62,11 @@ export function useOnboardingPager() {
   const slideCount = slides.length;
 
   const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 55,
+    itemVisiblePercentThreshold: ONBOARDING_VIEWABILITY_PERCENT,
   }).current;
 
   const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    ({ viewableItems }: Pick<ViewabilityChangeInfo, 'viewableItems'>) => {
       const next = viewableItems[0]?.index;
       if (next != null) {
         setActiveIndex(next);
@@ -75,8 +74,8 @@ export function useOnboardingPager() {
     },
   ).current;
 
-  const getItemLayout = useCallback(
-    (_: ArrayLike<OnboardingSlideModel> | null | undefined, index: number) => ({
+  const getItemLayout = useCallback<OnboardingGetItemLayout>(
+    (_data, index) => ({
       length: slideWidth,
       offset: slideWidth * index,
       index,

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 /**
- * Semantic palette: Vedic / ritual-booking — indigo primary, warm stone neutrals,
- * teal secondary accent, plus restrained gold/amber (`warm`) for astro highlights only.
+ * Semantic palette: Vedic / ritual-booking — indigo primary for app chrome, teal accent,
+ * extended warm scale (peach, saffron, gold) for marketing and ritual highlights.
  *
  * Hex for canvas/surface/primary/ink must stay aligned with `src/theme/palette.ts`
  * (used by native tab bar via `semanticColors`).
@@ -42,14 +42,17 @@ module.exports = {
           dark: '#2dd4bf',
           'soft-dark': '#134e4a',
         },
-        /** Gold / amber — stars, subtle ritual highlights (not large fills) */
+        /** Peach / saffron / gold — ritual marketing + onboarding (see `palette.ts`) */
         warm: {
-          DEFAULT: '#b45309',
+          DEFAULT: '#c2410c',
           subtle: '#fff7ed',
           muted: '#fdba74',
           dark: '#fbbf24',
           'on-dark': '#fef3c7',
-          deep: '#9a3412',
+          deep: '#7c2d12',
+          peach: '#ffead5',
+          saffron: '#ea580c',
+          gold: '#facc15',
         },
         ink: {
           DEFAULT: '#1c1917',
@@ -58,6 +61,31 @@ module.exports = {
           'muted-ondark': '#a8a29e',
           subtle: '#78716c',
         },
+        /**
+         * Ritual marketing palette — onboarding, premium storytelling (see `palette.ts` ritual).
+         * Usage: `bg-ritual-canvas dark:bg-ritual-canvas-dark`, `text-ritual-ink`, etc.
+         */
+        ritual: {
+          canvas: { DEFAULT: '#FFF8F1', dark: '#1C1714' },
+          surface: { DEFAULT: '#FFFFFF', dark: '#25211D' },
+          surfaceSecondary: { DEFAULT: '#F9EBDD', dark: '#302922' },
+          primary: { DEFAULT: '#F97316', dark: '#D9915C' },
+          primarySoft: { DEFAULT: '#FDBA74', dark: '#4A3228' },
+          ink: { DEFAULT: '#1C1917', dark: '#F2EDE6' },
+          inkMuted: { DEFAULT: '#57534E', dark: '#9C948C' },
+          borderSoft: { DEFAULT: '#FED7AA', dark: '#5C4030' },
+          success: { DEFAULT: '#16A34A', dark: '#22C55E' },
+        },
+      },
+      spacing: {
+        /** 8pt grid helpers */
+        4.5: '18px',
+        7.5: '30px',
+        15: '60px',
+      },
+      fontSize: {
+        'onboarding-hero': ['28px', { lineHeight: '36px', letterSpacing: '-0.02em' }],
+        'onboarding-body': ['15px', { lineHeight: '22px' }],
       },
     },
   },

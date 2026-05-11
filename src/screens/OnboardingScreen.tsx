@@ -5,6 +5,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { OnboardingScreenBackdrop } from '@/components/molecules/OnboardingScreenBackdrop';
 import { OnboardingContent } from '@/components/organisms/OnboardingContent';
+import {
+  ONBOARDING_MIN_TOP_INSET,
+  ONBOARDING_TOP_INSET_EXTRA,
+} from '@/constants/onboardingLayout';
 import { useCompleteOnboarding } from '@/hooks/useCompleteOnboarding';
 import { useOnboardingPager } from '@/hooks/useOnboardingPager';
 
@@ -47,8 +51,9 @@ export function OnboardingScreen() {
       <View
         className="min-h-0 flex-1"
         style={{
-          paddingTop: Math.max(insets.top, 12) + 4,
-          paddingBottom: Math.max(insets.bottom, 12) + 4,
+          paddingTop:
+            Math.max(insets.top, ONBOARDING_MIN_TOP_INSET) +
+            ONBOARDING_TOP_INSET_EXTRA,
         }}
       >
         <OnboardingContent
@@ -67,6 +72,7 @@ export function OnboardingScreen() {
           primaryCtaLabel={primaryCtaLabel}
           onPrimaryPress={onPrimaryPress}
           primaryLoading={isCompleting}
+          safeAreaBottomInset={insets.bottom}
         />
       </View>
     </OnboardingScreenBackdrop>

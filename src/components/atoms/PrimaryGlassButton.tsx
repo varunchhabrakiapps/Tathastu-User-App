@@ -22,11 +22,33 @@ type Props = {
   disabled?: boolean;
   accessibilityLabel?: string;
   className?: string;
+  /** Marketing flows (e.g. onboarding) — saffron glass instead of indigo. */
+  tint?: 'primary' | 'warm';
 };
 
 const BORDER_RADIUS = 16;
 
-function glassTints(mode: 'light' | 'dark') {
+function glassTints(
+  mode: 'light' | 'dark',
+  tint: 'primary' | 'warm',
+): {
+  glassTint: ColorValue;
+  overlayTint: string;
+  blurType: 'light' | 'dark' | 'xlight' | 'prominent';
+} {
+  if (tint === 'warm') {
+    return mode === 'dark'
+      ? {
+          glassTint: 'rgba(251, 146, 60, 1)' as ColorValue,
+          overlayTint: 'rgba(234, 88, 12, 0.94)',
+          blurType: 'dark',
+        }
+      : {
+          glassTint: 'rgba(234, 88, 12, 1)' as ColorValue,
+          overlayTint: 'rgba(194, 65, 12, 0.95)',
+          blurType: 'dark',
+        };
+  }
   return mode === 'dark'
     ? {
         glassTint: 'rgba(165, 180, 252, 1)' as ColorValue,
@@ -53,12 +75,15 @@ export function PrimaryGlassButton({
   disabled = false,
   accessibilityLabel,
   className,
+  tint = 'primary',
 }: Props) {
   const { colorScheme } = useColorScheme();
   const mode = colorScheme === 'dark' ? 'dark' : 'light';
   const isBusy = loading || disabled;
   const spinnerColor = mode === 'dark' ? '#fafaf9' : '#ffffff';
-  const { glassTint, overlayTint, blurType } = glassTints(mode);
+  const { glassTint, overlayTint, blurType } = glassTints(mode, tint);
+  const iosFallback =
+    tint === 'warm' ? paletteHex.warm.saffron : paletteHex.primary.light;
 
   const labelContent: ReactNode = loading ? (
     <ActivityIndicator color={spinnerColor} />
@@ -92,7 +117,7 @@ export function PrimaryGlassButton({
           blurType={blurType}
           blurAmount={Platform.OS === 'ios' ? 16 : 14}
           {...(Platform.OS === 'ios'
-            ? { reducedTransparencyFallbackColor: paletteHex.primary.light }
+            ? { reducedTransparencyFallbackColor: iosFallback }
             : {})}
           style={StyleSheet.absoluteFill}
         />
@@ -109,7 +134,9 @@ export function PrimaryGlassButton({
     body = (
       <View
         className={cn(
-          'items-center justify-center overflow-hidden rounded-2xl bg-primary py-4 dark:bg-primary-soft-dark',
+          tint === 'warm'
+            ? 'items-center justify-center overflow-hidden rounded-2xl bg-warm-saffron py-4 dark:bg-warm-saffron'
+            : 'items-center justify-center overflow-hidden rounded-2xl bg-primary py-4 dark:bg-primary-soft-dark',
           className,
         )}
       >

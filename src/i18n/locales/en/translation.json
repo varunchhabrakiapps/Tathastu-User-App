@@ -54,19 +54,22 @@
       "placeholderRow": "More options coming soon"
     },
     "onboarding": {
-      "eyebrowMarketing": "Vedic rituals · On demand",
-      "tagline": "Book verified guidance for your home or on video—respectfully, with clear steps.",
+      "deckA11y": "Onboarding slides",
+      "deckA11yHint": "Swipe sideways to browse each story.",
+      "eyebrowMarketing": "Verified • Video & home",
+      "brandMarkA11y": "Tathastu ember flame mark",
+      "tagline": "Ancient rituals, modern experience.",
       "stepOf": "{{current}} of {{total}}",
       "slides": {
         "liveRemote": {
-          "title": "Rituals on live video",
-          "body": "At your booking, open a video call in the app—pandit ji leads the vidhi; you take part from home. Covers nazar utaro, guided homam or pooja, and blessings before exams or travel.",
-          "illustrationA11y": "Placeholder graphic: video ritual"
+          "title": "Rituals from anywhere",
+          "body": "Talk to verified pandit ji on a calm video call—guidance that meets you at home.",
+          "illustrationA11y": "Warm illustration: video call with pandit ji from a cozy home"
         },
         "homeCeremonies": {
-          "title": "Sacred ceremonies at your home",
-          "body": "Invite respected pandit jis for griha pravesh, new vehicle blessing, Satyanarayan katha, and other family observances—each vidhi conducted with reverence and care in your own space.",
-          "illustrationA11y": "Placeholder graphic: home ceremony"
+          "title": "Book trusted home pujas easily",
+          "body": "Griha pravesh, havan, vastu, and family ceremonies—respectful visits, clearly booked.",
+          "illustrationA11y": "Warm illustration: sacred home puja and ceremony"
         }
       },
       "ctaNext": "Next",

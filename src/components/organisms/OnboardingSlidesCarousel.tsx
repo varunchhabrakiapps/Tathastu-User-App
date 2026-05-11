@@ -1,35 +1,35 @@
 import type { RefObject } from 'react';
-import { memo, useCallback } from 'react';
-import type {
-  FlatList,
-  ListRenderItem,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ViewToken,
+import { memo, useCallback, useMemo } from 'react';
+import type { FlatList, ListRenderItem } from 'react-native';
+import {
+  FlatList as RNFlatList,
+  StyleSheet,
+  View,
+  useWindowDimensions,
 } from 'react-native';
-import { FlatList as RNFlatList, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
-import { OnboardingSlideGraphic } from '@/components/molecules/OnboardingSlideGraphic';
-import { OnboardingSlidePanel } from '@/components/molecules/OnboardingSlidePanel';
-import type { OnboardingSlideModel } from '@/hooks/useOnboardingPager';
+import { OnboardingHero } from '@/components/atoms/OnboardingHero';
+import { OnboardingSlide } from '@/components/molecules/OnboardingSlide';
+import { ONBOARDING_HERO_ART } from '@/constants/onboardingLayout';
+import type {
+  OnboardingCarouselAdapter,
+  OnboardingSlideModel,
+} from '@/types/onboarding';
 
-type Props = {
-  slides: OnboardingSlideModel[];
-  listRef: RefObject<FlatList<OnboardingSlideModel> | null>;
-  slideWidth: number;
-  activeIndex: number;
-  viewabilityConfig: { itemVisiblePercentThreshold: number };
-  onViewableItemsChanged: (info: {
-    viewableItems: ViewToken[];
-    changed: ViewToken[];
-  }) => void;
-  getItemLayout: (
-    data: ArrayLike<OnboardingSlideModel> | null | undefined,
-    index: number,
-  ) => { length: number; offset: number; index: number };
-  onCarouselMomentumEnd: (
-    event: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => void;
+type Props = Pick<
+  OnboardingCarouselAdapter,
+  | 'slides'
+  | 'listRef'
+  | 'slideWidth'
+  | 'activeIndex'
+  | 'viewabilityConfig'
+  | 'onViewableItemsChanged'
+  | 'getItemLayout'
+  | 'onCarouselMomentumEnd'
+> & {
+  /** Reserve space for floating footer + safe area so content is not obscured. */
+  carouselBottomPadding: number;
 };
 
 /**
@@ -44,24 +44,49 @@ export const OnboardingSlidesCarousel = memo(function OnboardingSlidesCarousel({
   onViewableItemsChanged,
   getItemLayout,
   onCarouselMomentumEnd,
+  carouselBottomPadding,
 }: Props) {
+  const { t } = useTranslation();
+  const { height: windowHeight } = useWindowDimensions();
+
+  const deckA11yLabel = t('screens.onboarding.deckA11y');
+  const deckA11yHint = t('screens.onboarding.deckA11yHint');
+
+  const artHeight = useMemo(
+    () =>
+      Math.round(
+        Math.min(
+          ONBOARDING_HERO_ART.maxHeight,
+          slideWidth * ONBOARDING_HERO_ART.widthFactor,
+          Math.max(
+            ONBOARDING_HERO_ART.minHeight,
+            windowHeight * ONBOARDING_HERO_ART.windowHeightFactor,
+          ),
+        ) * ONBOARDING_HERO_ART.heightScale,
+      ),
+    [slideWidth, windowHeight],
+  );
+
   const renderItem = useCallback<ListRenderItem<OnboardingSlideModel>>(
-    ({ item }) => (
-      <OnboardingSlidePanel
+    ({ item, index }) => (
+      <OnboardingSlide
         title={item.title}
         body={item.body}
         lead={item.lead}
         bullets={item.bullets}
         slideWidth={slideWidth}
+        isActive={index === activeIndex}
         illustration={
-          <OnboardingSlideGraphic
-            variant={item.graphicVariant}
+          <OnboardingHero
+            source={item.illustrationSource}
             accessibilityLabel={item.illustrationLabel}
+            isActive={index === activeIndex}
+            artHeight={artHeight}
           />
         }
       />
     ),
-    [slideWidth],
+    [slideWidth, activeIndex, artHeight],
   );
 
   const keyExtractor = useCallback((item: OnboardingSlideModel) => item.id, []);
@@ -82,6 +107,8 @@ export const OnboardingSlidesCarousel = memo(function OnboardingSlidesCarousel({
     <View className="min-h-0 w-full flex-1">
       <RNFlatList
         ref={listRef}
+        accessibilityLabel={deckA11yLabel}
+        accessibilityHint={deckA11yHint}
         data={slides}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -99,9 +126,17 @@ export const OnboardingSlidesCarousel = memo(function OnboardingSlidesCarousel({
         removeClippedSubviews={false}
         windowSize={2}
         maxToRenderPerBatch={2}
-        initialNumToRender={2}
+        initialNumToRender={Math.min(2, slides.length)}
         onScrollToIndexFailed={onScrollToIndexFailed}
+        contentContainerStyle={[
+          styles.listContent,
+          { paddingBottom: carouselBottomPadding },
+        ]}
       />
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  listContent: { flexGrow: 1 },
 });
