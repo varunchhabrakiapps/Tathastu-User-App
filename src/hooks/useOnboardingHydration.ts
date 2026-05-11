@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { DEV_ALWAYS_SHOW_ONBOARDING } from '@/devFlags';
 import { getOnboardingCompleted } from '@/services/onboardingStorage';
 
 /**
@@ -15,7 +16,9 @@ export function useOnboardingHydration() {
     (async () => {
       const completed = await getOnboardingCompleted();
       if (!cancelled) {
-        setHasCompletedOnboarding(completed);
+        setHasCompletedOnboarding(
+          DEV_ALWAYS_SHOW_ONBOARDING ? false : completed,
+        );
         setIsReady(true);
       }
     })();

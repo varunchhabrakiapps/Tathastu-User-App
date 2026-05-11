@@ -3,6 +3,7 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback, useState } from 'react';
 
 import type { RootStackParamList } from '@/navigation/types';
+import { DEV_ALWAYS_SHOW_ONBOARDING } from '@/devFlags';
 import { setOnboardingCompleted } from '@/services/onboardingStorage';
 
 /**
@@ -17,7 +18,9 @@ export function useCompleteOnboarding() {
     setIsCompleting(true);
     (async () => {
       try {
-        await setOnboardingCompleted();
+        if (!DEV_ALWAYS_SHOW_ONBOARDING) {
+          await setOnboardingCompleted();
+        }
         navigation.replace('Login');
       } catch {
         setIsCompleting(false);
