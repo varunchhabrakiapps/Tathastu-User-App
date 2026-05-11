@@ -22,7 +22,7 @@ export const HeroDiyaImage = memo(function HeroDiyaImage({
       accessibilityRole={accessibilityLabel ? 'image' : undefined}
       accessibilityLabel={accessibilityLabel}
       className={cn(
-        'h-[140px] w-[140px] -scale-x-100 opacity-80 dark:opacity-75',
+        'absolute bottom-0 h-[140px] w-[140px] -scale-x-100 opacity-80 dark:opacity-75',
         className,
       )}
       resizeMode="contain"

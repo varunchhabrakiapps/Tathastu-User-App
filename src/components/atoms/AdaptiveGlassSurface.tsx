@@ -62,7 +62,7 @@ export function AdaptiveGlassSurface({ children, className }: Props) {
       <View className={frameClass} style={styles.roundedWrap}>
         <BlurView
           blurType={blurType}
-          blurAmount={Platform.OS === 'ios' ? 20 : 16}
+          blurAmount={Platform.OS === 'ios' ? 2 : 4}
           {...(Platform.OS === 'ios'
             ? { reducedTransparencyFallbackColor: paletteHex.surface[mode] }
             : {})}
