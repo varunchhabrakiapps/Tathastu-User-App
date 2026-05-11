@@ -2,14 +2,15 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { AdaptiveGlassSurface } from '@/components/atoms/AdaptiveGlassSurface';
-import { LabeledTextField } from '@/components/atoms/LabeledTextField';
 import { PrimaryGlassButton } from '@/components/atoms/PrimaryGlassButton';
 import { LegalAgreementLinks } from '@/components/molecules/LegalAgreementLinks';
+import { LoginMobileNumberField } from '@/components/molecules/LoginMobileNumberField';
 
 type Props = {
   mobile: string;
   onMobileChange: (text: string) => void;
   onContinue: () => void;
+  continueDisabled: boolean;
   submitting: boolean;
   errorText: string | null;
 };
@@ -18,6 +19,7 @@ export function LoginFormCard({
   mobile,
   onMobileChange,
   onContinue,
+  continueDisabled,
   submitting,
   errorText,
 }: Props) {
@@ -38,16 +40,13 @@ export function LoginFormCard({
 
         <View className="my-8 h-px w-full bg-border/80 dark:bg-border-dark/90" />
 
-        <LabeledTextField
+        <LoginMobileNumberField
           label={t('screens.login.mobileLabel')}
           prefix={t('screens.login.mobilePrefix')}
           value={mobile}
-          maxLength={10}
           onChangeText={onMobileChange}
           placeholder={t('screens.login.mobilePlaceholder')}
-          keyboardType="phone-pad"
-          autoComplete="tel"
-          textContentType="telephoneNumber"
+          onSubmitPrimary={onContinue}
           editable={!submitting}
           errorText={errorText}
           accessibilityLabel={t('screens.login.mobileFieldA11y')}
@@ -59,6 +58,7 @@ export function LoginFormCard({
           label={t('screens.login.ctaContinue')}
           onPress={onContinue}
           loading={submitting}
+          disabled={continueDisabled}
           accessibilityLabel={t('screens.login.ctaContinue')}
         />
 

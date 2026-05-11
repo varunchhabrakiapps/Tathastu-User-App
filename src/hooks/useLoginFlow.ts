@@ -1,9 +1,14 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Keyboard } from 'react-native';
 import { useColorScheme } from 'nativewind';
 
 import { useAuth } from '@/context/AuthContext';
 import { getLoginHeroGradient, type PaletteMode } from '@/theme/heroGradients';
+import {
+  isValidLoginMobileNumber,
+  normalizeLoginMobileDigits,
+} from '@/utils/mobile';
 
 export function useLoginFlow() {
   const { t } = useTranslation();
@@ -17,7 +22,7 @@ export function useLoginFlow() {
 
   const heroColors = getLoginHeroGradient(paletteKey);
 
-  const onContinue = useCallback(async () => {
+  const submitLogin = useCallback(async () => {
     setErrorKey(null);
     setSubmitting(true);
     try {
@@ -33,17 +38,28 @@ export function useLoginFlow() {
     }
   }, [login, mobile]);
 
+  /** Continue button, IME Done, and iOS accessory Done share one path: dismiss keyboard, then submit if valid. */
+  const onContinue = useCallback(() => {
+    Keyboard.dismiss();
+    if (submitting || !isValidLoginMobileNumber(mobile)) {
+      return;
+    }
+    submitLogin();
+  }, [mobile, submitting, submitLogin]);
+
   const onMobileChange = useCallback((text: string) => {
-    const digits = text.replace(/\D/g, '').slice(0, 10);
-    setMobile(digits);
+    setMobile(normalizeLoginMobileDigits(text));
     setErrorKey(null);
   }, []);
+
+  const continueDisabled = !isValidLoginMobileNumber(mobile);
 
   return {
     paletteKey,
     heroColors,
     mobile,
     submitting,
+    continueDisabled,
     onContinue,
     onMobileChange,
     errorText: errorKey ? t(errorKey) : null,
@@ -52,7 +68,8 @@ export function useLoginFlow() {
     heroColors: string[];
     mobile: string;
     submitting: boolean;
-    onContinue: () => Promise<void>;
+    continueDisabled: boolean;
+    onContinue: () => void;
     onMobileChange: (text: string) => void;
     errorText: string | null;
   };

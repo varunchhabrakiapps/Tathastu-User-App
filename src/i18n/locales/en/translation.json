@@ -1,6 +1,7 @@
 {
   "common": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "done": "Done"
   },
   "product": {
     "brandName": "Tathastu",
@@ -75,7 +76,7 @@
       "mobileFieldA11y": "Mobile number, country code India plus nine one",
       "mobilePlaceholder": "9876543210",
       "ctaContinue": "Continue",
-      "errorInvalidMobile": "Enter a valid 10-digit Indian mobile number (starting with 6, 7, 8, or 9).",
+      "errorInvalidMobile": "Enter a valid Indian mobile number.",
       "errorGeneric": "Something went wrong. Please try again.",
       "legal": {
         "prefix": "By continuing, you agree to our",

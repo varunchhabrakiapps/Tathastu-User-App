@@ -8,6 +8,7 @@ type Props = {
   mobile: string;
   onMobileChange: (text: string) => void;
   onContinue: () => void;
+  continueDisabled: boolean;
   submitting: boolean;
   errorText: string | null;
 };
@@ -16,6 +17,7 @@ export function LoginScrollBody({
   mobile,
   onMobileChange,
   onContinue,
+  continueDisabled,
   submitting,
   errorText,
 }: Props) {
@@ -35,6 +37,7 @@ export function LoginScrollBody({
           mobile={mobile}
           onMobileChange={onMobileChange}
           onContinue={onContinue}
+          continueDisabled={continueDisabled}
           submitting={submitting}
           errorText={errorText}
         />

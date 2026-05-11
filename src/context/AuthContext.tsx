@@ -9,6 +9,11 @@ import {
   type PropsWithChildren,
 } from 'react';
 
+import {
+  isValidLoginMobileNumber,
+  normalizeMobileDigits,
+} from '@/utils/mobile';
+
 const STORAGE_KEY = '@tathastu/auth-session';
 
 export type AuthUser = {
@@ -30,15 +35,6 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-
-function normalizeMobile(raw: string): string {
-  return raw.replace(/\D/g, '');
-}
-
-/** Indian mobile: 10 digits, first digit 6–9. */
-function isValidMobileDigits(digits: string): boolean {
-  return /^[6-9]\d{9}$/.test(digits);
-}
 
 async function readSession(): Promise<PersistedSession | null> {
   try {
@@ -89,8 +85,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   const login = useCallback(async (mobileNumber: string) => {
-    const digits = normalizeMobile(mobileNumber);
-    if (!isValidMobileDigits(digits)) {
+    const digits = normalizeMobileDigits(mobileNumber);
+    if (!isValidLoginMobileNumber(digits)) {
       throw new Error('INVALID_MOBILE');
     }
     const nextUser: AuthUser = { mobileNumber: digits };

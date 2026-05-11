@@ -19,6 +19,7 @@ export function LoginScreen() {
           mobile={loginFlow.mobile}
           onMobileChange={loginFlow.onMobileChange}
           onContinue={loginFlow.onContinue}
+          continueDisabled={loginFlow.continueDisabled}
           submitting={loginFlow.submitting}
           errorText={loginFlow.errorText}
         />

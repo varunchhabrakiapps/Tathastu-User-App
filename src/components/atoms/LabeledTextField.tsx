@@ -20,6 +20,10 @@ type Props = Pick<
   | 'editable'
   | 'accessibilityLabel'
   | 'maxLength'
+  | 'returnKeyType'
+  | 'onSubmitEditing'
+  | 'blurOnSubmit'
+  | 'inputAccessoryViewID'
 > & {
   label: string;
   /** Resolved, user-visible error (caller runs `t(key)`). */
