@@ -105,11 +105,11 @@ export function RitualPrimaryButton({
       >
         <LinearGradient
           colors={[
-            hexToRgba(paletteHex.ritual.surface.light, 0.16),
+            hexToRgba(paletteHex.ritual.surface.light, 0.1),
             'transparent',
             hexToRgba(
               isDark ? paletteHex.ritual.primary.dark : paletteHex.ritual.primary.light,
-              isDark ? 0.09 : 0.07,
+              isDark ? 0.11 : 0.09,
             ),
           ]}
           start={{ x: 0.5, y: 0 }}
@@ -120,7 +120,7 @@ export function RitualPrimaryButton({
         <LinearGradient
           colors={[
             'transparent',
-            hexToRgba(paletteHex.warm.deep, isDark ? 0.1 : 0.07),
+            hexToRgba(paletteHex.warm.deep, isDark ? 0.12 : 0.09),
           ]}
           locations={[0.55, 1]}
           start={{ x: 0.5, y: 0 }}
@@ -136,18 +136,18 @@ export function RitualPrimaryButton({
 const styles = StyleSheet.create({
   outerShadowLight: {
     borderRadius: RADIUS,
-    shadowOffset: { width: 0, height: 14 },
-    shadowOpacity: 0.32,
-    shadowRadius: 34,
-    elevation: 9,
+    shadowOffset: { width: 0, height: 15 },
+    shadowOpacity: 0.37,
+    shadowRadius: 30,
+    elevation: 10,
   },
   outerShadowDark: {
     borderRadius: RADIUS,
     shadowColor: paletteHex.ritual.primary.dark,
     shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.38,
-    shadowRadius: 28,
-    elevation: 11,
+    shadowOpacity: 0.42,
+    shadowRadius: 26,
+    elevation: 12,
   },
   gradientFill: {
     borderRadius: RADIUS,
@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 0.4,
     textAlign: 'center',
-    textShadowColor: hexToRgba(paletteHex.warm.deep, 0.22),
+    textShadowColor: hexToRgba(paletteHex.warm.deep, 0.3),
     textShadowOffset: { width: 0, height: 0.5 },
-    textShadowRadius: 1.5,
+    textShadowRadius: 2,
   },
   highlight: {
     position: 'absolute',

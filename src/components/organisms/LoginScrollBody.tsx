@@ -25,7 +25,7 @@ export const LoginScrollBody = memo(function LoginScrollBody(props: Props) {
       <View className="flex-1 px-5">
         <Animated.View
           entering={FadeInDown.duration(520).delay(80)}
-          className="w-full gap-8 pb-2"
+          className="w-full gap-7 pb-2"
         >
           <LoginTrustBrandSection />
           <LoginFormCard {...props} />

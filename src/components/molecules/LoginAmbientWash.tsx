@@ -14,9 +14,9 @@ export const LoginAmbientWash = memo(function LoginAmbientWash() {
   const isDark = colorScheme === 'dark';
 
   const r = paletteHex.ritual;
-  const floor = hexToRgba(r.primarySoft[isDark ? 'dark' : 'light'], isDark ? 0.12 : 0.075);
-  const ceiling = hexToRgba(r.primary[isDark ? 'dark' : 'light'], isDark ? 0.08 : 0.045);
-  const mid = hexToRgba(r.surfaceSecondary[isDark ? 'dark' : 'light'], isDark ? 0.06 : 0.03);
+  const floor = hexToRgba(r.primarySoft[isDark ? 'dark' : 'light'], isDark ? 0.11 : 0.068);
+  const ceiling = hexToRgba(r.primary[isDark ? 'dark' : 'light'], isDark ? 0.07 : 0.036);
+  const mid = hexToRgba(r.surfaceSecondary[isDark ? 'dark' : 'light'], isDark ? 0.065 : 0.038);
 
   return (
     <View

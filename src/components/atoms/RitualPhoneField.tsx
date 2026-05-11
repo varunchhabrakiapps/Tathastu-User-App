@@ -39,7 +39,7 @@ type Props = Pick<
 };
 
 const inputClass =
-  'min-w-0 flex-1 border-0 bg-transparent py-4 pr-5 font-normal text-[17px] tracking-[-0.018em] text-ritual-ink dark:text-ritual-ink-dark';
+  'min-w-0 flex-1 border-0 bg-transparent py-3 pr-5 font-normal text-[17px] tracking-[-0.02em] text-ritual-ink dark:text-ritual-ink-dark';
 
 const rInk = paletteHex.ritual.ink;
 
@@ -84,20 +84,20 @@ export const RitualPhoneField = memo(function RitualPhoneField({
 
   const rowShadow = useMemo(() => {
     if (Platform.OS === 'android') {
-      return { elevation: focused ? 7 : 4 };
+      return { elevation: focused ? 6 : 3 };
     }
     return focused
       ? {
           shadowColor: rInk[isDark ? 'dark' : 'light'],
-          shadowOffset: { width: 0, height: 8 },
-          shadowOpacity: isDark ? 0.35 : 0.12,
-          shadowRadius: 20,
+          shadowOffset: { width: 0, height: 7 },
+          shadowOpacity: isDark ? 0.38 : 0.14,
+          shadowRadius: 18,
         }
       : {
           shadowColor: rInk[isDark ? 'dark' : 'light'],
-          shadowOffset: { width: 0, height: 5 },
-          shadowOpacity: isDark ? 0.22 : 0.08,
-          shadowRadius: 14,
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: isDark ? 0.24 : 0.1,
+          shadowRadius: 12,
         };
   }, [focused, isDark]);
 
@@ -105,7 +105,7 @@ export const RitualPhoneField = memo(function RitualPhoneField({
     <View className={cn(className)}>
       <Text
         className={cn(
-          'mb-3 text-xs font-semibold tracking-[0.02em]',
+          'mb-2 text-xs font-semibold tracking-[0.02em]',
           focused
             ? 'text-ritual-ink dark:text-ritual-ink-dark'
             : 'text-ritual-inkMuted dark:text-ritual-inkMuted-dark',
@@ -115,8 +115,8 @@ export const RitualPhoneField = memo(function RitualPhoneField({
       </Text>
       <View
         className={cn(
-          'min-h-[56px] flex-row items-center overflow-hidden',
-          'bg-ritual-surfaceSecondary dark:bg-ritual-surfaceSecondary-dark',
+          'min-h-[51px] flex-row items-center overflow-hidden',
+          'bg-ritual-canvas dark:bg-ritual-canvas-dark',
           focused && 'bg-ritual-surface dark:bg-ritual-surface-dark',
         )}
         style={[styles.row, rowShadow]}
@@ -141,7 +141,7 @@ export const RitualPhoneField = memo(function RitualPhoneField({
       {errorText ? (
         <Text
           accessibilityRole="alert"
-          className="mt-3 text-[13px] leading-[18px] text-warm-deep dark:text-warm-dark"
+          className="mt-2 text-[13px] leading-[18px] text-warm-deep dark:text-warm-dark"
         >
           {errorText}
         </Text>

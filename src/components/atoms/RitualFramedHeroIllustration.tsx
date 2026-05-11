@@ -75,8 +75,8 @@ export const RitualFramedHeroIllustration = memo(function RitualFramedHeroIllust
   });
 
   const ambientTop = isDark
-    ? hexToRgba(paletteHex.ritual.primary.dark, 0.06)
-    : hexToRgba(paletteHex.ritual.primary.light, 0.045);
+    ? hexToRgba(paletteHex.ritual.primary.dark, 0.045)
+    : hexToRgba(paletteHex.ritual.primary.light, 0.03);
   const ambientBottom = 'transparent';
 
   const cardShadow = isDark ? styles.heroCardDark : styles.heroCardLight;
@@ -98,16 +98,16 @@ export const RitualFramedHeroIllustration = memo(function RitualFramedHeroIllust
 
       <View
         pointerEvents="none"
-        className="absolute top-7 h-[86%] w-[92%] rounded-[42px] bg-ritual-primary/6 dark:bg-ritual-primary-dark/8"
-        style={styles.heroGlow}
+        className="absolute top-7 h-[86%] w-[92%] rounded-[42px] bg-ritual-primary/5 dark:bg-ritual-primary-dark/6"
+        style={[styles.heroGlow, { opacity: 0.52 }]}
       />
 
       <Animated.View style={heroStyle} className="w-full">
         <View
-          className="w-full overflow-hidden rounded-[26px] bg-ritual-surface/86 dark:bg-ritual-surface-dark/68"
+          className="w-full overflow-hidden rounded-[26px] bg-ritual-surface/92 dark:bg-ritual-surface-dark/74"
           style={cardShadow}
         >
-          <View className="items-center justify-center bg-ritual-surfaceSecondary/24 px-1.5 pb-1 pt-2.5 dark:bg-ritual-surfaceSecondary-dark/18">
+          <View className="items-center justify-center bg-ritual-surfaceSecondary/30 px-1.5 pb-0.5 pt-2 dark:bg-ritual-surfaceSecondary-dark/22">
             <View className="w-full overflow-hidden">
               <Image
                 source={source}
@@ -128,23 +128,22 @@ export const RitualFramedHeroIllustration = memo(function RitualFramedHeroIllust
 });
 
 const styles = StyleSheet.create({
-  ambientClip: { opacity: 0.95 },
+  ambientClip: { opacity: 0.82 },
   heroGlow: {
     transform: [{ scaleX: 1.04 }, { scaleY: 0.9 }],
-    opacity: 0.72,
   },
   heroCardLight: {
     shadowColor: paletteHex.ritual.primary.light,
-    shadowOffset: { width: 0, height: 14 },
-    shadowOpacity: 0.11,
-    shadowRadius: 44,
-    elevation: 6,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.13,
+    shadowRadius: 32,
+    elevation: 5,
   },
   heroCardDark: {
     shadowColor: paletteHex.ritual.primary.dark,
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.22,
-    shadowRadius: 36,
-    elevation: 6,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.24,
+    shadowRadius: 28,
+    elevation: 5,
   },
 });

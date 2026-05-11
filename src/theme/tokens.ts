@@ -22,15 +22,15 @@ export const radii = {
 
 /**
  * Login screen rhythm — 8pt-derived scale (8, 12, 16, 20, 24, 32, 40).
- * Mirrors Tailwind usage: `px-5`, `gap-8`, `gap-6`, `py-8`, `gap-3`, scroll bottom via `scrollBottom`.
+ * Mirrors Tailwind usage: e.g. `px-5`, `gap-7`, auth stack `gap-4`, surface `py-6`, legal spacing via `credentialsToLegal`.
  */
 export const authScreen = {
   insetX: 20,
   /** Vertical gap between trust strip and auth slab. */
-  trustToAuth: 32,
-  credentialsStack: 24,
-  surfacePadY: 32,
-  credentialsToLegal: 32,
+  trustToAuth: 28,
+  credentialsStack: 20,
+  surfacePadY: 24,
+  credentialsToLegal: 20,
   legalStack: 12,
   scrollBottom: 40,
 } as const;

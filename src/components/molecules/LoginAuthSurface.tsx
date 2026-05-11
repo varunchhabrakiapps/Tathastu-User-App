@@ -23,10 +23,10 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
         styles.shadowWrap,
         {
           shadowColor: rim,
-          shadowOpacity: isDark ? 0.16 : 0.1,
-          shadowRadius: isDark ? 28 : 34,
-          shadowOffset: { width: 0, height: 14 },
-          elevation: isDark ? 6 : 5,
+          shadowOpacity: isDark ? 0.13 : 0.078,
+          shadowRadius: isDark ? 22 : 26,
+          shadowOffset: { width: 0, height: 10 },
+          elevation: isDark ? 5 : 4,
         },
       ]}
     >
@@ -34,7 +34,7 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
         {Platform.OS === 'ios' ? (
           <BlurView
             blurType={isDark ? 'dark' : 'light'}
-            blurAmount={28}
+            blurAmount={22}
             reducedTransparencyFallbackColor={
               isDark ? paletteHex.ritual.surface.dark : paletteHex.ritual.surface.light
             }
@@ -44,11 +44,11 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
         <View
           className={cn(
             Platform.OS === 'ios'
-              ? 'bg-ritual-surface/58 dark:bg-ritual-surface-dark/54'
-              : 'bg-ritual-surface/96 dark:bg-ritual-surface-dark/94',
+              ? 'bg-ritual-surface/66 dark:bg-ritual-surface-dark/58'
+              : 'bg-ritual-surface/97 dark:bg-ritual-surface-dark/95',
           )}
         >
-          <View className="px-0 py-8">{children}</View>
+          <View className="px-0 py-6">{children}</View>
         </View>
       </View>
     </View>
