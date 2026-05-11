@@ -9,7 +9,10 @@ import {
   normalizeLoginMobileDigits,
 } from '@/utils/mobile';
 
-export function useLoginFlow() {
+/**
+ * Login step: mobile capture and navigation into OTP (no session until verification hook completes).
+ */
+export function useAuthFlow() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [mobile, setMobile] = useState('');
 

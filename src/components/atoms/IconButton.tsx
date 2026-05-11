@@ -8,11 +8,10 @@ import Animated, {
 
 import { useColorScheme } from 'nativewind';
 
+import { AuthGlassMaterial } from '@/components/atoms/auth/AuthGlassMaterial';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
-
-import { AuthGlassMaterial } from '@/components/atoms/auth/AuthGlassMaterial';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -24,9 +23,9 @@ type Props = Omit<PressableProps, 'children'> & {
 };
 
 /**
- * Tactile icon target — shares {@link AuthGlassMaterial} chrome preset (liquid / blur / solid).
+ * Tactile icon-only control — uses {@link AuthGlassMaterial} chrome (liquid / blur / solid).
  */
-export function AuthIconButton({
+export function IconButton({
   accessibilityLabel,
   disabled = false,
   className,

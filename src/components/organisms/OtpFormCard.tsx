@@ -6,12 +6,7 @@ import { RitualPrimaryButton } from '@/components/atoms/RitualPrimaryButton';
 import { AuthLegalFooter } from '@/components/molecules/AuthLegalFooter';
 import { LoginAuthSurface } from '@/components/molecules/LoginAuthSurface';
 import { OtpInput } from '@/components/molecules/OtpInput';
-
-function formatCountdown(totalSec: number): string {
-  const m = Math.floor(totalSec / 60);
-  const s = totalSec % 60;
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-}
+import { formatMmSsCountdown } from '@/utils/formatCountdown';
 
 type Props = {
   formattedPhone: string;
@@ -25,6 +20,7 @@ type Props = {
   secondsLeft: number;
   canResend: boolean;
   resendExhausted: boolean;
+  resendLoading: boolean;
   onResend: () => void;
 };
 
@@ -40,10 +36,14 @@ export const OtpFormCard = memo(function OtpFormCard({
   secondsLeft,
   canResend,
   resendExhausted,
+  resendLoading,
   onResend,
 }: Props) {
   const { t } = useTranslation();
-  const countdown = useMemo(() => formatCountdown(secondsLeft), [secondsLeft]);
+  const countdown = useMemo(
+    () => formatMmSsCountdown(secondsLeft),
+    [secondsLeft],
+  );
 
   return (
     <LoginAuthSurface>
@@ -82,7 +82,7 @@ export const OtpFormCard = memo(function OtpFormCard({
               value={otp}
               length={otpLength}
               onChangeText={onOtpChange}
-              editable={!verifyLoading}
+              editable={!verifyLoading && !resendLoading}
               accessibilityLabel={t('screens.otp.digitsA11y')}
             />
           </View>
@@ -95,9 +95,12 @@ export const OtpFormCard = memo(function OtpFormCard({
             ) : canResend ? (
               <Pressable
                 onPress={onResend}
+                disabled={resendLoading}
                 accessibilityRole="button"
                 accessibilityLabel={t('screens.otp.resend')}
+                accessibilityState={{ disabled: resendLoading, busy: resendLoading }}
                 hitSlop={{ top: 8, bottom: 8, left: 12, right: 12 }}
+                className={resendLoading ? 'opacity-48' : ''}
               >
                 <Text className="text-login-body font-semibold text-ritual-primary dark:text-ritual-primary-dark">
                   {t('screens.otp.resend')}
@@ -126,7 +129,7 @@ export const OtpFormCard = memo(function OtpFormCard({
         </View>
 
         <View className="mt-8 gap-3">
-          <Text className="text-login-legal text-center font-normal text-ritual-inkMuted/54 dark:text-ritual-inkMuted-dark/50">
+          <Text className="max-w-[250px] self-center text-login-legal text-center font-normal text-ritual-inkMuted/54 dark:text-ritual-inkMuted-dark/50">
             {t('screens.otp.helpFooter')}
           </Text>
           <AuthLegalFooter />

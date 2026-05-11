@@ -1,19 +1,19 @@
 import { LoginScrollBody } from '@/components/organisms/LoginScrollBody';
 import { AuthScreen } from '@/components/templates/AuthScreen';
-import { useLoginFlow } from '@/hooks/useLoginFlow';
+import { useAuthFlow } from '@/hooks/useAuthFlow';
 
 export function LoginScreen() {
-  const loginFlow = useLoginFlow();
+  const authFlow = useAuthFlow();
 
   return (
     <AuthScreen>
       <LoginScrollBody
-        mobile={loginFlow.mobile}
-        onMobileChange={loginFlow.onMobileChange}
-        onContinue={loginFlow.onContinue}
-        continueDisabled={loginFlow.continueDisabled}
-        submitting={loginFlow.submitting}
-        errorText={loginFlow.errorText}
+        mobile={authFlow.mobile}
+        onMobileChange={authFlow.onMobileChange}
+        onContinue={authFlow.onContinue}
+        continueDisabled={authFlow.continueDisabled}
+        submitting={authFlow.submitting}
+        errorText={authFlow.errorText}
       />
     </AuthScreen>
   );
