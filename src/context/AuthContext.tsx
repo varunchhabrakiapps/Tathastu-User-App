@@ -18,6 +18,8 @@ const STORAGE_KEY = '@tathastu/auth-session';
 
 export type AuthUser = {
   mobileNumber: string;
+  /** Optional display name once profile/API provides it — persisted separately later. */
+  displayName?: string;
 };
 
 type PersistedSession = {

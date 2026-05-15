@@ -33,7 +33,11 @@
   "screens": {
     "home": {
       "title": "Home",
-      "subtitle": "Book rituals, live poojas, and pandit visits — tailored to your needs."
+      "subtitle": "Book rituals, live poojas, and pandit visits — tailored to your needs.",
+      "greeting": "नमस्ते, {{name}}.",
+      "greetingFallbackName": "Friend",
+      "supportingLine": "Calm guidance for meaningful moments.",
+      "profileActionA11y": "Profile and settings"
     },
     "bookings": {
       "title": "Bookings",

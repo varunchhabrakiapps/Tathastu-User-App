@@ -1,14 +1,25 @@
-import { useTranslation } from 'react-i18next';
+import type { NativeBottomTabNavigationProp } from '@bottom-tabs/react-navigation';
+import { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-import { TabScreenScaffold } from '@/components/templates/TabScreenScaffold';
+import { GreetingSection } from '@/components/molecules/GreetingSection';
+import { HomeHeader } from '@/components/molecules/HomeHeader';
+import { HomeContainer } from '@/components/templates/HomeContainer';
+import { useHomeGreetingName } from '@/hooks/useHomeGreetingName';
+import type { RootTabParamList } from '@/navigation/types';
 
 export function HomeScreen() {
-  const { t } = useTranslation();
+  const navigation = useNavigation<NativeBottomTabNavigationProp<RootTabParamList>>();
+  const greetingName = useHomeGreetingName();
+
+  const onProfilePress = useCallback(() => {
+    navigation.navigate('Settings');
+  }, [navigation]);
 
   return (
-    <TabScreenScaffold
-      title={t('screens.home.title')}
-      subtitle={t('screens.home.subtitle')}
-    />
+    <HomeContainer>
+      <HomeHeader onProfilePress={onProfilePress} />
+      <GreetingSection greetingName={greetingName} />
+    </HomeContainer>
   );
 }
