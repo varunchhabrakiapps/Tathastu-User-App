@@ -33,4 +33,6 @@ export const authScreen = {
   credentialsToLegal: 20,
   legalStack: 12,
   scrollBottom: 40,
+  /** Extra bottom breathing room for the home feed (tab bar + comfortable scroll end). */
+  homeFeedExtraBottom: 72,
 } as const;

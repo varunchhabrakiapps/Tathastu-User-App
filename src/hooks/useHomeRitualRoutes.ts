@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import { useCallback } from 'react';
 
+import type { MomentCategoryId } from '@/domain/momentCategory';
 import type { RootStackParamList, RootTabParamList } from '@/navigation/types';
 
 type TabsNav = NativeBottomTabNavigationProp<RootTabParamList>;
@@ -24,8 +25,31 @@ export function useHomeRitualRoutes() {
   );
 
   const openRitualList = useCallback(() => {
-    tabNavigation.navigate('Explore');
+    tabNavigation.navigate('Explore', {});
   }, [tabNavigation]);
 
-  return { openRitualDetail, openRitualList };
+  const openExploreForMoment = useCallback(
+    (momentCategoryId: MomentCategoryId) => {
+      tabNavigation.navigate('Explore', { momentCategoryId });
+    },
+    [tabNavigation],
+  );
+
+  const openBuildCustomRitual = useCallback(() => {
+    const rootNavigation = getRootNavigator(tabNavigation);
+    rootNavigation?.navigate('BuildCustomRitual');
+  }, [tabNavigation]);
+
+  const openSearch = useCallback(() => {
+    const rootNavigation = getRootNavigator(tabNavigation);
+    rootNavigation?.navigate('Search');
+  }, [tabNavigation]);
+
+  return {
+    openRitualDetail,
+    openRitualList,
+    openExploreForMoment,
+    openBuildCustomRitual,
+    openSearch,
+  };
 }

@@ -5,6 +5,10 @@ import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native';
 
 import { GreetingBlock } from '@/components/molecules/GreetingBlock';
 import { HomeHeader } from '@/components/molecules/HomeHeader';
+import { HomeSearchBar } from '@/components/molecules/HomeSearchBar';
+import { BrowseByMomentSection } from '@/components/organisms/BrowseByMomentSection';
+import { BuildCustomRitualSection } from '@/components/organisms/BuildCustomRitualSection';
+import { TestimonialsSection } from '@/components/organisms/TestimonialsSection';
 import { TrendingRitualsSection } from '@/components/organisms/TrendingRitualsSection';
 import { UpcomingBookingSection } from '@/components/organisms/UpcomingBookingSection';
 import { HomeContainer } from '@/components/templates/HomeContainer';
@@ -17,12 +21,23 @@ import { authScreen } from '@/theme/tokens';
 
 type HomeTabsNavigation = NativeBottomTabNavigationProp<RootTabParamList>;
 
-type HomeFeedRow = { id: 'greeting' } | { id: 'trending' } | { id: 'upcoming' };
+type HomeFeedRow =
+  | { id: 'greeting' }
+  | { id: 'trending' }
+  | { id: 'upcoming' }
+  | { id: 'search' }
+  | { id: 'browseMoments' }
+  | { id: 'buildCustomRitual' }
+  | { id: 'testimonials' };
 
 const HOME_FEED_ROWS: HomeFeedRow[] = [
   { id: 'greeting' },
   { id: 'upcoming' },
+  { id: 'search' },
   { id: 'trending' },
+  { id: 'browseMoments' },
+  { id: 'buildCustomRitual' },
+  { id: 'testimonials' },
 ];
 
 export function HomeScreen() {
@@ -30,7 +45,13 @@ export function HomeScreen() {
   const greetingName = useHomeGreetingName();
   const previewBooking = useUpcomingBookingPreview();
   const { openBookingsList, openBookingDetail } = useHomeBookingRoutes();
-  const { openRitualDetail, openRitualList } = useHomeRitualRoutes();
+  const {
+    openRitualDetail,
+    openRitualList,
+    openExploreForMoment,
+    openBuildCustomRitual,
+    openSearch,
+  } = useHomeRitualRoutes();
 
   const onProfilePress = useCallback(() => {
     navigation.navigate('Profile', { screen: 'ProfileHub' });
@@ -56,12 +77,39 @@ export function HomeScreen() {
         );
       }
 
+      if (item.id === 'search') {
+        return (
+          <View style={layoutStyles.searchRail}>
+            <HomeSearchBar onPress={openSearch} />
+          </View>
+        );
+      }
+
       if (item.id === 'trending') {
         return <TrendingRitualsSection onViewAll={openRitualList} onOpenRitualDetail={openRitualDetail} />;
       }
-      return null
+      if (item.id === 'browseMoments') {
+        return <BrowseByMomentSection onSelectMoment={openExploreForMoment} />;
+      }
+      if (item.id === 'buildCustomRitual') {
+        return <BuildCustomRitualSection onOpenBuilder={openBuildCustomRitual} />;
+      }
+      if (item.id === 'testimonials') {
+        return <TestimonialsSection />;
+      }
+      return null;
     },
-    [greetingName, previewBooking, openBookingsList, openBookingDetail, openRitualDetail, openRitualList],
+    [
+      greetingName,
+      previewBooking,
+      openBookingsList,
+      openBookingDetail,
+      openRitualDetail,
+      openRitualList,
+      openExploreForMoment,
+      openBuildCustomRitual,
+      openSearch,
+    ],
   );
 
   return (
@@ -90,9 +138,14 @@ const layoutStyles = StyleSheet.create({
   headerInset: {
     paddingHorizontal: authScreen.insetX,
   },
+  searchRail: {
+    marginTop: 16,
+    marginBottom: 4,
+    paddingHorizontal: authScreen.insetX,
+  },
   list: { flex: 1 },
   listContent: {
     flexGrow: 1,
-    paddingBottom: authScreen.scrollBottom,
+    paddingBottom: authScreen.scrollBottom + authScreen.homeFeedExtraBottom,
   },
 });

@@ -1,18 +1,12 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useColorScheme } from 'nativewind';
 
 import { LEGAL_URLS } from '@/constants/legalUrls';
 import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
-
-async function openUrl(url: string) {
-  const supported = await Linking.canOpenURL(url);
-  if (supported) {
-    await Linking.openURL(url);
-  }
-}
+import { openExternalUrl } from '@/utils/openExternalUrl';
 
 type Props = {
   variant?: 'default' | 'ritual';
@@ -25,7 +19,7 @@ type Props = {
  * Compact legal footer: Terms + Privacy links (opens in browser).
  */
 export const LegalAgreementLinks = memo(function LegalAgreementLinks({
-  variant = 'default',  
+  variant = 'default',
   className,
 }: Props) {
   const { t } = useTranslation();
@@ -41,11 +35,11 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
   );
 
   const onTerms = useCallback(() => {
-    openUrl(LEGAL_URLS.termsOfService);
+    openExternalUrl(LEGAL_URLS.termsOfService).catch(() => {});
   }, []);
 
   const onPrivacy = useCallback(() => {
-    openUrl(LEGAL_URLS.privacyPolicy);
+    openExternalUrl(LEGAL_URLS.privacyPolicy).catch(() => {});
   }, []);
 
   const chromeUnderline = variant === 'default';
@@ -62,11 +56,7 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
       >
         {t('screens.login.legal.prefix')}
       </Text>
-      <View
-        className={cn(
-          'flex-row flex-wrap items-center justify-center '
-        )}
-      >
+      <View className={cn('flex-row flex-wrap items-center justify-center ')}>
         <Pressable
           onPress={onTerms}
           accessibilityRole="link"

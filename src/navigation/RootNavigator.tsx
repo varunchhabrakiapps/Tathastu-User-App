@@ -5,7 +5,9 @@ import { ActivityIndicator, View } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
 import { useOnboardingHydration } from '@/hooks/useOnboardingHydration';
 import { BookingDetailScreen } from '@/screens/BookingDetailScreen';
+import { BuildCustomRitualScreen } from '@/screens/BuildCustomRitualScreen';
 import { RitualDetailScreen } from '@/screens/RitualDetailScreen';
+import { SearchScreen } from '@/screens/SearchScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
 import { OtpVerificationScreen } from '@/screens/OtpVerificationScreen';
@@ -53,6 +55,16 @@ export function RootNavigator() {
           <Stack.Screen
             name="RitualDetail"
             component={RitualDetailScreen}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="BuildCustomRitual"
+            component={BuildCustomRitualScreen}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Search"
+            component={SearchScreen}
             options={{ headerShown: true }}
           />
         </>

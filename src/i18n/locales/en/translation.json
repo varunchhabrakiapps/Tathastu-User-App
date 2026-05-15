@@ -38,6 +38,11 @@
       "greetingFallbackName": "Friend",
       "supportingLine": "Calm guidance for meaningful moments.",
       "profileActionA11y": "Profile and settings",
+      "searchBar": {
+        "placeholder": "Search rituals, blessings, pandits…",
+        "accessibilityLabel": "Search rituals",
+        "accessibilityHint": "Opens the search screen"
+      },
       "upcomingBooking": {
         "sectionTitle": "Upcoming",
         "viewAll": "View all",
@@ -105,6 +110,75 @@
             "volumeTag": "Exam season"
           }
         }
+      },
+      "browseByMoment": {
+        "sectionTitle": "Browse by moment",
+        "sectionDescription": "Tap the energy you’re in — rituals that meet you without the lecture.",
+        "sectionLeadingA11y": "Browse by life moment",
+        "chipOpenHint": "Opens Explore with this moment in mind",
+        "moments": {
+          "situationship": {
+            "headline": "Situationship",
+            "subline": "Clarity rituals"
+          },
+          "newChapter": {
+            "headline": "New chapter",
+            "subline": "Jobs & moves"
+          },
+          "squad": {
+            "headline": "Squad",
+            "subline": "Friendship bonds"
+          },
+          "glowUp": {
+            "headline": "Glow-up",
+            "subline": "Self-care pujas"
+          },
+          "vibes": {
+            "headline": "Vibes",
+            "subline": "Energy clearing"
+          },
+          "lovedOnes": {
+            "headline": "Loved ones",
+            "subline": "Family & roots"
+          }
+        }
+      },
+      "buildCustomRitual": {
+        "sectionTitle": "Build your ritual",
+        "sectionDescription": "Nothing in the carousel or mood row clicks? Sketch the ceremony you wish existed — clarity lives here.",
+        "sectionLeadingA11y": "Custom ritual maker",
+        "cardTitle": "Your vibe, your flow",
+        "cardSubtitle": "If the preset rituals don’t match your plot twist, tap in — we’re making space for rituals that spell you out loud.",
+        "cardHint": "Open ritual studio →",
+        "cardOpenHint": "Opens the custom ritual workspace"
+      },
+      "testimonials": {
+        "sectionTitle": "What people carry with them",
+        "sectionDescription": "Real words from families and solo seekers — rituals that felt respectful, clear, and oddly calming.",
+        "sectionLeadingA11y": "Community testimonials",
+        "cardA11y": "{{name}} says: {{quote}}. {{context}}.",
+        "items": {
+          "anya": {
+            "quote": "Pandit ji didn’t rush me. The video felt sacred, not like a Zoom grind — I cried in the best way.",
+            "name": "Ananya · Mumbai",
+            "context": "Blessing on video · first flat"
+          },
+          "rohan": {
+            "quote": "We wanted griha pravesh done right without the stress spiral. The visit felt grounded; parents actually relaxed.",
+            "name": "Rohan & Neha · Pune",
+            "context": "Home visit · griha pravesh"
+          },
+          "kiara": {
+            "quote": "Needed nazar utaro after a chaotic month. It was gentle, intentional — like someone finally lit a lamp in my head.",
+            "name": "Kiara · Jaipur",
+            "context": "Protective clearing · video"
+          },
+          "dev": {
+            "quote": "Exam season had me spiraling. This wasn’t performative ‘good luck’ — more like steady energy before the papers.",
+            "name": "Dev · Bengaluru",
+            "context": "Blessing before exams"
+          }
+        }
       }
     },
     "bookingDetail": {
@@ -118,21 +192,62 @@
       "placeholderLead": "You’re exploring {{ritualName}}.",
       "placeholderBody": "Ceremony notes, preparations, and gentle guidance from pandit ji will settle here as this experience takes shape."
     },
+    "buildCustomRitual": {
+      "title": "Your ritual studio",
+      "heroEyebrow": "Custom lane",
+      "heroTitle": "Design a ritual that actually fits your storyline.",
+      "lead": "This is the nook for when Explore feels almost right — not wrong, just not you. Sketch what you’re holding: the moment, the energy, how you want to show up. We’ll keep shaping the toolkit so pandit ji can meet you there without the awkward \"close enough.\"",
+      "stepBadge": "Step {{n}}",
+      "step1Title": "Name the moment",
+      "step1Body": "New flat, exam season, soft launch, healing era — say it in your words, not ours.",
+      "step2Title": "Choose your setup",
+      "step2Body": "Video calm, doorstep ceremony, or a hybrid — pick what feels grounded, not performative.",
+      "step3Title": "Lock timing + trust",
+      "step3Body": "Share when it has to happen; we’ll match you with someone who gets the brief and keeps the reverence real.",
+      "footer": "Builder tools are en route — for now, treat this page as your permission slip: you’re allowed to ask for a ritual that fits your exact chapter.",
+      "browseExploreCta": "Browse Explore while we build",
+      "browseExploreA11y": "Open Explore tab to browse rituals in the catalog"
+    },
     "bookings": {
       "title": "Bookings",
       "subtitle": "Video poojas, home visits, and scheduled ceremonies in one place."
     },
     "explore": {
       "title": "Explore",
-      "subtitle": "Rituals, auspicious rhythms, and quiet guidance — discovered with care, not noise."
+      "subtitle": "Rituals, auspicious rhythms, and quiet guidance — discovered with care, not noise.",
+      "subtitleWithMoment": "Starting from {{moment}} — explore the full catalog while we make this space smarter."
+    },
+    "search": {
+      "title": "Search",
+      "placeholderLead": "Find a ritual that matches your moment — by name, need, or how you want to show up.",
+      "placeholderBody": "Smart suggestions and filters are on the way. For now, this screen is a calm placeholder while we connect the full catalog."
     },
     "profile": {
       "title": "Profile",
-      "subtitle": "Account, preferences, and gentle support when you need it.",
-      "sectionAccount": "Account",
-      "sectionSupport": "Support",
+      "subtitle": "Account details and gentle support — kept calm like the rest of your journey.",
+      "identitySupportingLine": "Tune reminders, the look of the app, or reach us — your pace, your journey.",
+      "mobilePlaceholder": "Phone number unavailable",
       "openSettings": "Settings",
-      "openHelp": "Help & guidance"
+      "openNotifications": "Notifications",
+      "openHelp": "Help & guidance",
+      "openLegal": "Legal & privacy",
+      "openAbout": "About Tathastu",
+      "contactSupport": "Contact us",
+      "contactSupportA11yHint": "Opens your email app to message Tathastu support."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "lead": "Quiet updates for the rituals you care about — not a flood of alerts.",
+      "body": "Soon you’ll choose reminders for upcoming bookings, live poojas, and gentle nudges from Tathastu. We’ll never trade peace for noise."
+    },
+    "legalInfo": {
+      "title": "Legal & privacy",
+      "lead": "The same terms and privacy promises you see at sign-in — open whenever you need them."
+    },
+    "about": {
+      "title": "About Tathastu",
+      "lead": "Ancient rituals with a calm, modern shape — built for families who want trusted guidance without the clutter.",
+      "versionCaption": "App version"
     },
     "help": {
       "title": "Help",

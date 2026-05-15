@@ -4,7 +4,10 @@ import { useMemo } from 'react';
 import { useColorScheme } from 'nativewind';
 
 import type { ProfileStackParamList } from '@/navigation/types';
+import { AboutScreen } from '@/screens/AboutScreen';
 import { HelpScreen } from '@/screens/HelpScreen';
+import { LegalInfoScreen } from '@/screens/LegalInfoScreen';
+import { NotificationPreferencesScreen } from '@/screens/NotificationPreferencesScreen';
 import { ProfileHubScreen } from '@/screens/ProfileHubScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
 import { paletteHex } from '@/theme/palette';
@@ -13,7 +16,7 @@ import { semanticColors } from '@/theme/semanticColors';
 const Stack = createStackNavigator<ProfileStackParamList>();
 
 /**
- * Nested profile journeys — hub entry with Settings / Help routed off-main-tabs.
+ * Nested profile journeys — hub entry; settings, help, and utility screens off the main tab strip.
  */
 export function ProfileStackNavigator() {
   const { t } = useTranslation();
@@ -56,6 +59,21 @@ export function ProfileStackNavigator() {
         name="Help"
         component={HelpScreen}
         options={{ title: t('screens.help.title') }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={NotificationPreferencesScreen}
+        options={{ title: t('screens.notifications.title') }}
+      />
+      <Stack.Screen
+        name="LegalInfo"
+        component={LegalInfoScreen}
+        options={{ title: t('screens.legalInfo.title') }}
+      />
+      <Stack.Screen
+        name="About"
+        component={AboutScreen}
+        options={{ title: t('screens.about.title') }}
       />
     </Stack.Navigator>
   );
