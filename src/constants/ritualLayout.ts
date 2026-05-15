@@ -3,21 +3,18 @@ import { radii } from '@/theme/tokens';
 /** Shared ritual chrome — matches `RitualPrimaryButton` + `radii.ritualLg`. */
 export const RITUAL_CORNER_RADIUS = radii.ritualLg;
 
-/** Tighter rounding for dense reel previews (horizontal strip). */
-export const HOME_RITUAL_PREVIEW_CORNER_RADIUS = radii.lg;
-
 /** Home trending carousel — partial next card visible past the padded rail. */
-export const HOME_RITUAL_CARD_PEEK_PX = 22;
+export const HOME_RITUAL_CARD_PEEK_PX = 26;
 
-/** Reel-strip tile width clamps as a fraction of the window — fits ~3 previews + peek on phones. */
-export const HOME_RITUAL_PREVIEW_WIDTH_FRACTION = 0.296;
-export const HOME_RITUAL_PREVIEW_WIDTH_MIN = 102;
-export const HOME_RITUAL_PREVIEW_WIDTH_MAX = 126;
+/** Reel-strip tile width — biased wider for readable subtitles without cramped ellipsis. */
+export const HOME_RITUAL_PREVIEW_WIDTH_FRACTION = 0.342;
+export const HOME_RITUAL_PREVIEW_WIDTH_MIN = 116;
+export const HOME_RITUAL_PREVIEW_WIDTH_MAX = 148;
 
 /**
  * Portrait reel preview — height from width (9∶16), capped so the strip stays glanceable.
  */
-export const HOME_RITUAL_REEL_MAX_HEIGHT = 186;
+export const HOME_RITUAL_REEL_MAX_HEIGHT = 216;
 
 /** 9∶16 portrait preview — width → height before cap (`resizeMode: cover` inside). */
 export function trendingReelTileHeight(cardWidth: number): number {
@@ -34,5 +31,5 @@ export function trendingPreviewCardWidth(windowWidth: number): number {
   );
 }
 
-/** Between carousel tiles — tight strip rhythm. */
-export const HOME_RITUAL_CARD_GAP = 10;
+/** Between carousel tiles — tactile but calm. */
+export const HOME_RITUAL_CARD_GAP = 11;

@@ -47,11 +47,28 @@ export function getTrendingReelOverlayGradient(
   return {
     colors: [
       hexToRgba(mid, 0),
-      hexToRgba(mid, 0.55),
-      hexToRgba(floor, 0.92),
+      hexToRgba(mid, 0.58),
+      hexToRgba(floor, 0.94),
     ],
-    locations: [0, 0.45, 1],
-    start: { x: 0.5, y: 0.38 },
+    locations: [0, 0.42, 1],
+    start: { x: 0.5, y: 0.36 },
     end: { x: 0.5, y: 1 },
+  };
+}
+
+/**
+ * Subtle top-right wash so volume chips stay legible on bright artwork corners.
+ */
+export function getTrendingCardTopCornerScrim(scheme: 'light' | 'dark'): {
+  colors: [string, string];
+  start: { x: number; y: number };
+  end: { x: number; y: number };
+} {
+  const deep = scheme === 'dark' ? '#100e0d' : '#14100e';
+  const tint = mixHex(deep, paletteHex.warm.deep, scheme === 'dark' ? 0.18 : 0.26);
+  return {
+    colors: [hexToRgba(tint, 0.04), hexToRgba(tint, 0.68)],
+    start: { x: 0.15, y: 0 },
+    end: { x: 1, y: 0.95 },
   };
 }

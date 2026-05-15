@@ -63,36 +63,42 @@
           "videoBlessing": {
             "title": "Blessing on video call",
             "description": "Sit with pandit ji from home — calm guidance when distance matters.",
+            "cardSubtitle": "Pandit by video",
             "socialProof": "Guided 120+ times this week",
             "volumeTag": "120+/week"
           },
           "nazarUttaro": {
             "title": "Nazar utaro",
             "description": "A protective clearing — gentle words and ritual focus for your household.",
+            "cardSubtitle": "Protective clearing",
             "socialProof": "Chosen by 80+ families recently",
             "volumeTag": "80+ bookings"
           },
           "grihaPravesh": {
             "title": "Griha pravesh",
             "description": "Bless the threshold — auspicious entry rites tailored to your new space.",
+            "cardSubtitle": "Threshold blessing",
             "socialProof": "Frequently booked this week",
             "volumeTag": "Hot this week"
           },
           "homeHavan": {
             "title": "Home havan",
             "description": "Sacred fire at home — structured steps you can follow alongside pandit ji.",
+            "cardSubtitle": "Sacred guided fire",
             "socialProof": "Often requested for weekends",
             "volumeTag": "Peak weekends"
           },
           "newCarBlessing": {
             "title": "New car blessing",
             "description": "A mindful beginning for journeys ahead — small rituals with big heart.",
+            "cardSubtitle": "New vehicle blessings",
             "socialProof": "Welcomed by many new drivers lately",
             "volumeTag": "Trending daily"
           },
           "examBlessings": {
             "title": "Exam blessings",
             "description": "Support before big moments — steadiness for students and parents alike.",
+            "cardSubtitle": "Calm before exams",
             "socialProof": "Trusted ahead of exam season",
             "volumeTag": "Exam season"
           }
