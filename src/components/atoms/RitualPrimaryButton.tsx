@@ -29,6 +29,7 @@ type Props = {
   loading?: boolean;
   disabled?: boolean;
   accessibilityLabel?: string;
+  accessibilityHint?: string;
   className?: string;
 };
 
@@ -41,6 +42,7 @@ export function RitualPrimaryButton({
   loading = false,
   disabled = false,
   accessibilityLabel,
+  accessibilityHint,
   className,
 }: Props) {
   const { colorScheme } = useColorScheme();
@@ -81,6 +83,7 @@ export function RitualPrimaryButton({
       disabled={isBusy}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: isBusy, busy: loading }}
       onPressIn={() => {
         scale.value = withSpring(0.987, { damping: 21, stiffness: 450, mass: 0.28 });

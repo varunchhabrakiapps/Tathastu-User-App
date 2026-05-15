@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useOnboardingHydration } from '@/hooks/useOnboardingHydration';
 import { BookingDetailScreen } from '@/screens/BookingDetailScreen';
 import { BuildCustomRitualScreen } from '@/screens/BuildCustomRitualScreen';
-import { RitualDetailScreen } from '@/screens/RitualDetailScreen';
+import { RitualDetailScreen } from '@/screens/ritual-detail/RitualDetailScreen';
 import { SearchScreen } from '@/screens/SearchScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
