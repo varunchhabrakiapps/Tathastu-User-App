@@ -9,11 +9,11 @@ import { hexToRgba } from '@/theme/colorUtils';
 import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
 
-export type AuthGlassMaterialPreset = 'primary' | 'warm' | 'chrome';
+export type LiquidGlassMaterialPreset = 'primary' | 'warm' | 'chrome' | 'ghost';
 
 type Props = {
-  preset: AuthGlassMaterialPreset;
-  /** Border radius in px (defaults to ritual auth chrome). */
+  preset: LiquidGlassMaterialPreset;
+  /** Border radius in px (defaults to shared ritual chrome). */
   borderRadius?: number;
   className?: string;
   children: ReactNode;
@@ -29,7 +29,7 @@ type Resolved = {
   solidDarkClass: string;
 };
 
-function resolvePreset(preset: AuthGlassMaterialPreset, mode: 'light' | 'dark'): Resolved {
+function resolvePreset(preset: LiquidGlassMaterialPreset, mode: 'light' | 'dark'): Resolved {
   if (preset === 'warm') {
     return mode === 'dark'
       ? {
@@ -69,6 +69,22 @@ function resolvePreset(preset: AuthGlassMaterialPreset, mode: 'light' | 'dark'):
     };
   }
 
+  if (preset === 'ghost') {
+    const surface = paletteHex.ritual.surface[mode];
+    const glassTint = (mode === 'dark'
+      ? hexToRgba(paletteHex.ritual.primary.dark, 0.18)
+      : hexToRgba(paletteHex.ritual.primary.light, 0.14)) as ColorValue;
+    return {
+      liquidTint: glassTint,
+      blurType: mode === 'dark' ? 'dark' : 'light',
+      iosFallback: hexToRgba(surface, 0.82),
+      overlayTint:
+        mode === 'dark' ? hexToRgba(surface, 0.36) : hexToRgba(surface, 0.48),
+      solidLightClass: 'bg-ritual-surfaceSecondary',
+      solidDarkClass: 'dark:bg-ritual-surfaceSecondary-dark',
+    };
+  }
+
   return mode === 'dark'
     ? {
         liquidTint: 'rgba(165, 180, 252, 1)' as ColorValue,
@@ -89,10 +105,10 @@ function resolvePreset(preset: AuthGlassMaterialPreset, mode: 'light' | 'dark'):
 }
 
 /**
- * Shared auth “material” stack: **Liquid Glass** → **BlurView** → **solid semantic surface**.
- * Use for CTAs (`primary` / `warm`) and tactile chrome (`chrome` — back / secondary icon targets).
+ * App-wide **liquid / blur / solid** material stack (login, home chrome, marketing CTAs, etc.).
+ * Use presets: `primary`, `warm`, `chrome` (icon chrome), `ghost` (whisper actions).
  */
-export function AuthGlassMaterial({
+export function LiquidGlassMaterial({
   preset,
   borderRadius = RITUAL_CORNER_RADIUS,
   className,

@@ -7,8 +7,10 @@ import {
 } from 'react-native';
 import { useColorScheme } from 'nativewind';
 
-import { AuthGlassMaterial } from '@/components/atoms/auth/AuthGlassMaterial';
-import type { AuthGlassMaterialPreset } from '@/components/atoms/auth/AuthGlassMaterial';
+import {
+  LiquidGlassMaterial,
+  type LiquidGlassMaterialPreset,
+} from '@/components/atoms/LiquidGlassMaterial';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import { cn } from '@/utils/cn';
 
@@ -24,7 +26,7 @@ type Props = {
 };
 
 /**
- * Primary CTA with platform materials (see {@link AuthGlassMaterial}).
+ * Primary CTA with platform materials (see {@link LiquidGlassMaterial}).
  */
 export function PrimaryGlassButton({
   label,
@@ -37,7 +39,7 @@ export function PrimaryGlassButton({
 }: Props) {
   const { colorScheme } = useColorScheme();
   const mode = colorScheme === 'dark' ? 'dark' : 'light';
-  const preset: AuthGlassMaterialPreset = tint === 'warm' ? 'warm' : 'primary';
+  const preset: LiquidGlassMaterialPreset = tint === 'warm' ? 'warm' : 'primary';
   const isBusy = loading || disabled;
   const spinnerColor = mode === 'dark' ? '#fafaf9' : '#ffffff';
 
@@ -59,13 +61,13 @@ export function PrimaryGlassButton({
         disabled && !loading && 'opacity-48',
       )}
     >
-      <AuthGlassMaterial
+      <LiquidGlassMaterial
         preset={preset}
         borderRadius={RITUAL_CORNER_RADIUS}
         className={cn('rounded-[18px]', className)}
       >
         <View className="items-center justify-center py-4">{labelContent}</View>
-      </AuthGlassMaterial>
+      </LiquidGlassMaterial>
     </Pressable>
   );
 }

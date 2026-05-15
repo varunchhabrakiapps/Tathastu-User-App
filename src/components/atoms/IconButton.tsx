@@ -8,8 +8,9 @@ import Animated, {
 
 import { useColorScheme } from 'nativewind';
 
-import { AuthGlassMaterial } from '@/components/atoms/auth/AuthGlassMaterial';
+import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
+import { hexToRgba } from '@/theme/colorUtils';
 import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
 
@@ -20,16 +21,19 @@ type Props = Omit<PressableProps, 'children'> & {
   children: ReactNode;
   disabled?: boolean;
   className?: string;
+  /** `chrome` — filled icon chrome; `ghost` — translucent whisper control. */
+  glassVariant?: 'chrome' | 'ghost';
 };
 
 /**
- * Tactile icon-only control — uses {@link AuthGlassMaterial} chrome (liquid / blur / solid).
+ * Tactile icon-only control — {@link LiquidGlassMaterial} with `chrome` (default) or `ghost` preset.
  */
 export function IconButton({
   accessibilityLabel,
   disabled = false,
   className,
   children,
+  glassVariant = 'chrome',
   onPress,
   onPressIn,
   onPressOut,
@@ -43,9 +47,14 @@ export function IconButton({
     transform: [{ scale: scale.value }],
   }));
 
-  const shadowColor = isDark
-    ? paletteHex.ritual.primary.dark
-    : paletteHex.ritual.primary.light;
+  const shadowColor =
+    glassVariant === 'ghost'
+      ? isDark
+        ? hexToRgba(paletteHex.ritual.ink.dark, 0.28)
+        : hexToRgba(paletteHex.ritual.ink.light, 0.12)
+      : isDark
+        ? paletteHex.ritual.primary.dark
+        : paletteHex.ritual.primary.light;
 
   const shadowStyle =
     Platform.OS === 'android'
@@ -84,13 +93,13 @@ export function IconButton({
       )}
       {...rest}
     >
-      <AuthGlassMaterial
-        preset="chrome"
+      <LiquidGlassMaterial
+        preset={glassVariant === 'ghost' ? 'ghost' : 'chrome'}
         borderRadius={RITUAL_CORNER_RADIUS}
         className="rounded-[18px]"
       >
         <View className="h-11 w-11 items-center justify-center">{children}</View>
-      </AuthGlassMaterial>
+      </LiquidGlassMaterial>
     </AnimatedPressable>
   );
 }

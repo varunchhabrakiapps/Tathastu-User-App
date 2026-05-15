@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
-import { QuietCaptionLink } from '@/components/atoms/QuietCaptionLink';
+import { GhostGlassButton } from '@/components/atoms/GhostGlassButton';
 import { UpcomingBookingCard } from '@/components/molecules/UpcomingBookingCard';
 import type { UpcomingBookingPreview } from '@/domain/bookingPreview';
 
@@ -33,15 +33,12 @@ export const UpcomingBookingSection = memo(function UpcomingBookingSection({
         >
           {t('screens.home.upcomingBooking.sectionTitle')}
         </Text>
-        <QuietCaptionLink
+        <GhostGlassButton
           accessibilityLabel={t('screens.home.upcomingBooking.viewAllA11y')}
+          label={t('screens.home.upcomingBooking.viewAll')}
           onPress={onViewAllBookings}
           className="flex-shrink-0"
-        >
-          <Text className="text-login-legal-link font-semibold text-ritual-primary dark:text-ritual-primary-dark">
-            {t('screens.home.upcomingBooking.viewAll')}
-          </Text>
-        </QuietCaptionLink>
+        />
       </View>
 
       {booking ? (
