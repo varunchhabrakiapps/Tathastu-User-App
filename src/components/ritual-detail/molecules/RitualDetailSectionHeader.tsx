@@ -6,16 +6,19 @@ type Props = PropsWithChildren<{
   title?: string;
 }>;
 
-/** Editorial section chrome — accent eyebrow + optional display title (ritual detail screen). */
+/**
+ * Section lead — tone matches `SectionGhostHeader` (home): warm accent label, calm display title.
+ * Avoids shouty all-caps chrome; reads as editorial, family-trustworthy.
+ */
 export function RitualDetailSectionHeader({ eyebrow, title, children }: Props) {
   return (
     <View className="gap-3">
       <View className="gap-1">
-        <Text className="text-login-label font-semibold uppercase tracking-[0.12em] text-ritual-primary dark:text-ritual-primary-dark">
+        <Text className="text-[13px] font-semibold leading-[19px] tracking-[-0.01em] text-ritual-primary dark:text-ritual-primary-dark">
           {eyebrow}
         </Text>
         {title ? (
-          <Text className="font-medium text-login-display text-ritual-ink dark:text-ritual-ink-dark">
+          <Text className="font-semibold text-[22px] leading-[27px] tracking-[-0.02em] text-ritual-ink dark:text-ritual-ink-dark">
             {title}
           </Text>
         ) : null}

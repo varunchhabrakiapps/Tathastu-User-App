@@ -188,6 +188,7 @@
     },
     "ritualDetail": {
       "title": "Ritual",
+      "backA11y": "Go back",
       "placeholderRitualTitle": "This ritual",
       "placeholderLead": "You're exploring {{ritualName}}.",
       "placeholderBody": "Ceremony notes, preparations, and gentle guidance from pandit ji will settle here as this experience takes shape.",

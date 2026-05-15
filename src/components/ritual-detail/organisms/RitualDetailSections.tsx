@@ -1,5 +1,5 @@
 import type { ImageSourcePropType } from 'react-native';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { RitualDetailCard } from '@/components/ritual-detail/molecules/RitualDetailCard';
 import { RitualDetailSectionHeader } from '@/components/ritual-detail/molecules/RitualDetailSectionHeader';
@@ -8,6 +8,7 @@ import { RitualDetailSampleVideo } from '@/components/ritual-detail/organisms/Ri
 import { RitualDetailStepList } from '@/components/ritual-detail/organisms/RitualDetailStepList';
 
 import type { RitualDetailBookingVM, RitualDetailNarrativeVM } from '@/domain/ritualDetail';
+import { authScreen } from '@/theme/tokens';
 
 type Props = {
   narrative: RitualDetailNarrativeVM;
@@ -15,17 +16,20 @@ type Props = {
   videoThumbnailSource: ImageSourcePropType;
 };
 
-/** Scroll body below the hero — overview, how-it-works, deliverables, sample video. */
+/**
+ * Editorial column — rhythm matches home insets (`authScreen.insetX`); slight lift into hero
+ * curve for magazine-style flow.
+ */
 export function RitualDetailSections({
   narrative,
   booking,
   videoThumbnailSource,
 }: Props) {
   return (
-    <View className="gap-10 px-6 pb-14 pt-10">
+    <View className="-mt-2 gap-11 pb-10 pt-4" style={styles.inset}>
       <RitualDetailSectionHeader eyebrow={narrative.overviewEyebrow}>
-        <RitualDetailCard className="gap-4">
-          <Text className="text-login-body leading-relaxed text-ritual-ink dark:text-ritual-ink-dark">
+        <RitualDetailCard className="gap-4 px-5 py-5">
+          <Text className="text-[16px] font-medium leading-[24px] text-ritual-ink dark:text-ritual-ink-dark">
             {narrative.description}
           </Text>
           <Text className="text-login-body leading-relaxed text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
@@ -34,12 +38,14 @@ export function RitualDetailSections({
         </RitualDetailCard>
       </RitualDetailSectionHeader>
 
-      <View className="gap-3">
-        <RitualDetailSectionHeader eyebrow={narrative.howEyebrow} title={narrative.howTitle} />
+      <RitualDetailSectionHeader eyebrow={narrative.howEyebrow} title={narrative.howTitle}>
         <RitualDetailStepList steps={narrative.steps} />
-      </View>
+      </RitualDetailSectionHeader>
 
-      <RitualDetailDeliverables eyebrow={booking.deliverablesEyebrow} lines={booking.deliverableLines} />
+      <RitualDetailDeliverables
+        eyebrow={booking.deliverablesEyebrow}
+        lines={booking.deliverableLines}
+      />
 
       <RitualDetailSampleVideo
         eyebrow={narrative.videoEyebrow}
@@ -53,3 +59,9 @@ export function RitualDetailSections({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  inset: {
+    paddingHorizontal: authScreen.insetX,
+  },
+});

@@ -55,7 +55,7 @@ export function RootNavigator() {
           <Stack.Screen
             name="RitualDetail"
             component={RitualDetailScreen}
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="BuildCustomRitual"

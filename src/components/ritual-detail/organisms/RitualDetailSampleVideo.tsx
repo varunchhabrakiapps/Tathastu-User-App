@@ -52,7 +52,7 @@ export function RitualDetailSampleVideo({
           <View
             className={cn(
               'absolute inset-0 items-center justify-center',
-              disabled ? 'bg-black/45' : 'bg-black/35',
+              disabled ? 'bg-black/38' : 'bg-black/28',
             )}
           >
             <Pressable
@@ -72,12 +72,12 @@ export function RitualDetailSampleVideo({
           </View>
         </View>
 
-        <View className="gap-2 px-4 py-4">
+        <View className="gap-2 px-5 py-5">
           <Text className="text-login-body leading-relaxed text-ritual-ink dark:text-ritual-ink-dark">
             {body}
           </Text>
           {disabled ? (
-            <Text className="text-login-metadata font-medium uppercase tracking-[0.1em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
+            <Text className="text-[12px] font-medium leading-[17px] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
               {disabledHint}
             </Text>
           ) : null}

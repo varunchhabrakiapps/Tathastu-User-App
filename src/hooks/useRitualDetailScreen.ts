@@ -7,8 +7,8 @@ import { useWindowDimensions } from 'react-native';
 import {
   RITUAL_DETAIL_HERO_HEIGHT,
   RITUAL_DETAIL_HERO_IMAGE,
-  RITUAL_DETAIL_SAMPLE_VIDEO_POSTER,
 } from '@/constants/ritualDetailLayout';
+import { trendingRitualCoverSource } from '@/constants/trendingRitualCovers';
 import type {
   RitualDetailBookingVM,
   RitualDetailNarrativeVM,
@@ -58,9 +58,28 @@ export function useRitualDetailScreen() {
     );
   }, [windowHeight]);
 
-  const heroAccessibilityLabel = t(
-    'screens.onboarding.slides.liveRemote.illustrationA11y',
+  const heroSource = useMemo(
+    () =>
+      ritualKey ? trendingRitualCoverSource(ritualKey) : RITUAL_DETAIL_HERO_IMAGE,
+    [ritualKey],
   );
+
+  /** Matches home trending reel overlay rotation (`TRENDING_RITUALS_PREVIEW`). */
+  const heroOverlayPreset = useMemo(
+    () => (ritualKey !== null ? TRENDING_RITUAL_IDS.indexOf(ritualKey) : null),
+    [ritualKey],
+  );
+
+  const heroAccessibilityLabel = useMemo(() => {
+    if (!ritualKey) return t('screens.onboarding.slides.liveRemote.illustrationA11y');
+    const prefix = `screens.home.trendingRituals.items.${ritualKey}`;
+    return `${t(`${prefix}.title`)}. ${t(`${prefix}.description`)}`;
+  }, [ritualKey, t]);
+
+  const heroSubtitle = useMemo(() => {
+    if (ritualKey) return t(`screens.home.trendingRituals.items.${ritualKey}.cardSubtitle`);
+    return t('screens.ritualDetail.heroSubtitle');
+  }, [ritualKey, t]);
 
   const narrative = useMemo((): RitualDetailNarrativeVM => {
     const steps: RitualDetailStepVM[] = [1, 2, 3].map((n) => ({
@@ -105,13 +124,14 @@ export function useRitualDetailScreen() {
 
   return {
     ritualTitle,
-    heroSource: RITUAL_DETAIL_HERO_IMAGE,
+    heroSource,
+    heroOverlayPreset,
     heroAccessibilityLabel,
     heroHeight,
     windowWidth,
-    heroSubtitle: t('screens.ritualDetail.heroSubtitle'),
+    heroSubtitle,
     narrative,
     booking,
-    sampleVideoPosterSource: RITUAL_DETAIL_SAMPLE_VIDEO_POSTER,
+    sampleVideoPosterSource: heroSource,
   };
 }
