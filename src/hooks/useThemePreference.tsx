@@ -1,42 +1,46 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from 'nativewind';
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   type PropsWithChildren,
 } from 'react';
 
-const STORAGE_KEY = '@tathastu/theme-preference';
+import {
+  coerceThemePreference,
+  defaultThemePreference,
+  loadThemePreference,
+  persistThemePreference,
+  type ThemePreference,
+} from '@/services/themePreferenceStorage';
 
-export type ThemePreference = 'light' | 'dark' | 'system';
+export type { ThemePreference };
 
 type ThemePreferenceContextValue = {
-  /** Storage hydration finished; `preference` matches persisted value. */
+  /** AsyncStorage hydrate completed; NativeWind reflects `preference`. */
   isReady: boolean;
   preference: ThemePreference;
   /** Effective light/dark for the current preference and OS setting. */
   resolvedScheme: 'light' | 'dark';
-  setPreference: (next: ThemePreference) => Promise<void>;
+  setPreference: (next: ThemePreference) => void;
 };
 
 const ThemePreferenceContext = createContext<ThemePreferenceContextValue | null>(null);
 
 export function ThemePreferenceProvider({ children }: PropsWithChildren) {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const [preference, setPreferenceState] = useState<ThemePreference>('system');
+  const [preference, setPreferenceState] = useState<ThemePreference>(() => defaultThemePreference());
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let cancelled = false;
     void (async () => {
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEY);
-        const next: ThemePreference =
-          raw === 'light' || raw === 'dark' || raw === 'system' ? raw : 'system';
+        const stored = await loadThemePreference();
+        const next = coerceThemePreference(stored);
         if (!cancelled) {
           setPreferenceState(next);
           setColorScheme(next);
@@ -53,14 +57,10 @@ export function ThemePreferenceProvider({ children }: PropsWithChildren) {
   }, [setColorScheme]);
 
   const setPreference = useCallback(
-    async (next: ThemePreference) => {
+    (next: ThemePreference) => {
       setPreferenceState(next);
       setColorScheme(next);
-      try {
-        await AsyncStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        /* ignore persistence errors */
-      }
+      void persistThemePreference(next);
     },
     [setColorScheme],
   );

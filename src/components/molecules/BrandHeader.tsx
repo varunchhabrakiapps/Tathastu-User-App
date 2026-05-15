@@ -24,7 +24,7 @@ export function BrandHeader({
   return (
     <View className="mb-1 gap-3">
       <View className="flex-row items-center justify-between gap-3">
-        <View className="shrink-0 rounded-full bg-ritual-surfaceSecondary/55 px-3 py-2 dark:bg-ritual-surfaceSecondary-dark/38">
+        <View className="shrink-0 rounded-full bg-ritual-surfaceSecondary/55 px-3 py-2 dark:bg-ritual-surfaceSecondary-dark/55">
           <Text
             accessibilityRole="text"
             className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark"
@@ -35,7 +35,7 @@ export function BrandHeader({
         <Text
           accessibilityRole="text"
           accessibilityLiveRegion="polite"
-          className="shrink-0 text-[11px] font-medium tabular-nums tracking-[0.06em] text-ritual-inkMuted/90 dark:text-ritual-inkMuted-dark/90"
+          className="shrink-0 text-[11px] font-medium tabular-nums tracking-[0.06em] text-ritual-inkMuted/90 dark:text-ritual-inkMuted-dark"
         >
           {stepLabel}
         </Text>
@@ -55,7 +55,7 @@ export function BrandHeader({
           <Text
             accessibilityRole="text"
             numberOfLines={2}
-            className="max-w-[17.5rem] text-[15px] font-normal leading-[22px] text-ritual-inkMuted/92 dark:text-ritual-inkMuted-dark/92"
+            className="max-w-[17.5rem] text-[15px] font-normal leading-[22px] text-ritual-inkMuted/92 dark:text-ritual-inkMuted-dark"
           >
             {tagline}
           </Text>

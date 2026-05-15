@@ -4,6 +4,8 @@ import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
 import { useColorScheme } from 'nativewind';
 
+import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
+import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import type { BookingPreviewServiceMode, UpcomingBookingPreview } from '@/domain/bookingPreview';
 import { hexToRgba } from '@/theme/colorUtils';
 import { paletteHex } from '@/theme/palette';
@@ -33,15 +35,19 @@ function ModeIcon({
 }
 
 /**
- * Compact upcoming ritual tile — soft layered warmth, minimal chrome, tactile press.
+ * Compact upcoming ritual tile — {@link LiquidGlassMaterial} chrome (matches auth / icon glass depth).
  */
 export const UpcomingBookingCard = memo(function UpcomingBookingCard({ booking, onPress }: Props) {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
-  const inkMutedCore = paletteHex.ritual.inkMuted[isDark ? 'dark' : 'light'];
-  const glyphMuted = hexToRgba(inkMutedCore, isDark ? 0.55 : 0.52);
-  const glyphSofter = hexToRgba(inkMutedCore, isDark ? 0.48 : 0.46);
+  const k = isDark ? 'dark' : 'light';
+  const titleColor = paletteHex.ritual.ink[k];
+  const metaBase = paletteHex.ritual.inkMuted[k];
+  const timingColor = isDark ? metaBase : hexToRgba(metaBase, 0.93);
+  const togetherColor = isDark ? metaBase : hexToRgba(metaBase, 0.85);
+  const glyphCalendar = isDark ? metaBase : hexToRgba(metaBase, 0.55);
+  const glyphMode = isDark ? hexToRgba(metaBase, 0.95) : hexToRgba(metaBase, 0.48);
 
   const combinedA11y = `${booking.ritualName}. ${booking.timingGlanceLine}. ${booking.togetherGlanceLine}`;
 
@@ -53,78 +59,88 @@ export const UpcomingBookingCard = memo(function UpcomingBookingCard({ booking, 
       accessibilityHint={t('screens.home.upcomingBooking.openDetailHint')}
       accessibilityLabel={combinedA11y}
       onPress={onPress}
-      className="overflow-hidden rounded-[18px]"
-      style={Platform.OS === 'ios' ? iosShadowStyle : styles.tileShadowAndroid}
+      className="self-stretch active:opacity-[0.98]"
+      style={[
+        styles.shadowBase,
+        Platform.OS === 'ios' ? iosShadowStyle : styles.tileShadowAndroid,
+      ]}
     >
       {({ pressed }) => (
-        <View className={cn('overflow-hidden rounded-[18px]', pressed && 'opacity-[0.98]')}>
-          <View className="relative overflow-hidden rounded-[18px]">
-            <View className="absolute inset-0 bg-ritual-surfaceSecondary/65 dark:bg-ritual-surfaceSecondary-dark/48" />
-            <View className="relative rounded-[18px] bg-ritual-surface/76 px-4 py-3 dark:bg-ritual-surface-dark/68">
-              <View className="gap-2.5">
-                <Text
-                  accessibilityRole="header"
-                  numberOfLines={2}
-                  className="font-semibold text-[17px] leading-snug tracking-[-0.02em] text-ritual-ink dark:text-ritual-ink-dark"
-                >
-                  {booking.ritualName}
-                </Text>
+        <LiquidGlassMaterial
+          preset="chrome"
+          borderRadius={RITUAL_CORNER_RADIUS}
+          className={cn('rounded-[18px]', pressed && 'opacity-[0.98]')}
+        >
+          <View className="px-4 py-3">
+            <View className="gap-2.5">
+              <Text
+                accessibilityRole="header"
+                numberOfLines={2}
+                style={{ color: titleColor }}
+                className="font-semibold text-[17px] leading-snug tracking-[-0.02em]"
+              >
+                {booking.ritualName}
+              </Text>
 
-                <View className="gap-2 pt-px">
-                  <View className="flex-row items-center gap-2.5">
-                    <View className="w-[20px] items-center">
-                      <FontAwesome
-                        name="calendar"
-                        size={9}
-                        color={glyphMuted}
-                        importantForAccessibility="no-hide-descendants"
-                      />
-                    </View>
-                    <Text
-                      numberOfLines={1}
-                      className="flex-1 font-normal text-login-label tracking-[0.01em] text-ritual-inkMuted/93 dark:text-ritual-inkMuted-dark/93"
-                    >
-                      {booking.timingGlanceLine}
-                    </Text>
+              <View className="gap-2 pt-px">
+                <View className="flex-row items-center gap-2.5">
+                  <View className="w-[20px] items-center">
+                    <FontAwesome
+                      name="calendar"
+                      size={9}
+                      color={glyphCalendar}
+                      importantForAccessibility="no-hide-descendants"
+                    />
                   </View>
+                  <Text
+                    numberOfLines={1}
+                    style={{ color: timingColor }}
+                    className="flex-1 font-normal text-login-label tracking-[0.01em]"
+                  >
+                    {booking.timingGlanceLine}
+                  </Text>
+                </View>
 
-                  <View className="flex-row items-start gap-2.5">
-                    <View className="mt-[2px] w-[20px] items-center">
-                      <ModeIcon mode={booking.mode} color={glyphSofter} />
-                    </View>
-                    <Text
-                      numberOfLines={2}
-                      className="flex-1 font-normal text-login-label leading-[18px] text-ritual-inkMuted/85 dark:text-ritual-inkMuted-dark/86"
-                    >
-                      {booking.togetherGlanceLine}
-                    </Text>
+                <View className="flex-row items-start gap-2.5">
+                  <View className="mt-[2px] w-[20px] items-center">
+                    <ModeIcon mode={booking.mode} color={glyphMode} />
                   </View>
+                  <Text
+                    numberOfLines={2}
+                    style={{ color: togetherColor }}
+                    className="flex-1 font-normal text-login-label leading-[18px]"
+                  >
+                    {booking.togetherGlanceLine}
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
-        </View>
+        </LiquidGlassMaterial>
       )}
     </Pressable>
   );
 });
 
 const styles = StyleSheet.create({
+  shadowBase: {
+    borderRadius: RITUAL_CORNER_RADIUS,
+  },
   tileShadowIosLight: {
     shadowColor: paletteHex.ritual.primary.light,
     shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.068,
+    shadowOpacity: 0.1,
     shadowRadius: 16,
     elevation: 0,
   },
   tileShadowIosDark: {
-    shadowColor: paletteHex.canvas.dark,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.16,
-    shadowRadius: 14,
+    shadowColor: paletteHex.ritual.primary.dark,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.28,
+    shadowRadius: 18,
     elevation: 0,
   },
   tileShadowAndroid: {
-    elevation: 1,
+    elevation: 4,
   },
 });

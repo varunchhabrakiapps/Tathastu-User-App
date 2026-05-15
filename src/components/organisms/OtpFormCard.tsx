@@ -1,11 +1,13 @@
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
 
 import { RitualPrimaryButton } from '@/components/atoms/RitualPrimaryButton';
 import { AuthLegalFooter } from '@/components/molecules/AuthLegalFooter';
 import { LoginAuthSurface } from '@/components/molecules/LoginAuthSurface';
 import { OtpInput } from '@/components/molecules/OtpInput';
+import { paletteHex } from '@/theme/palette';
 import { formatMmSsCountdown } from '@/utils/formatCountdown';
 
 type Props = {
@@ -40,6 +42,12 @@ export const OtpFormCard = memo(function OtpFormCard({
   onResend,
 }: Props) {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const key = colorScheme === 'dark' ? 'dark' : 'light';
+  const muted = paletteHex.ritual.inkMuted[key];
+  const ink = paletteHex.ritual.ink[key];
+  const primary = paletteHex.ritual.primary[key];
+
   const countdown = useMemo(
     () => formatMmSsCountdown(secondsLeft),
     [secondsLeft],
@@ -51,12 +59,16 @@ export const OtpFormCard = memo(function OtpFormCard({
         <View className="gap-5">
           <View className="flex-row items-end justify-between gap-4">
             <View className="min-w-0 flex-1">
-              <Text className="mb-2 text-login-label font-medium text-ritual-inkMuted/72 dark:text-ritual-inkMuted-dark/68">
+              <Text
+                style={{ color: muted }}
+                className="mb-2 text-login-label font-medium"
+              >
                 {t('screens.otp.phoneLabel')}
               </Text>
               <Text
                 accessibilityRole="text"
-                className="text-login-body font-semibold tabular-nums text-ritual-ink dark:text-ritual-ink-dark"
+                style={{ color: ink }}
+                className="text-login-body font-semibold tabular-nums"
               >
                 {formattedPhone}
               </Text>
@@ -68,14 +80,14 @@ export const OtpFormCard = memo(function OtpFormCard({
               hitSlop={{ top: 10, bottom: 10, left: 12, right: 12 }}
               className="pb-0.5"
             >
-              <Text className="text-login-metadata font-semibold uppercase tracking-wide text-ritual-primary dark:text-ritual-primary-dark">
+              <Text style={{ color: primary }} className="text-login-metadata font-semibold uppercase tracking-wide">
                 {t('screens.otp.edit')}
               </Text>
             </Pressable>
           </View>
 
           <View className="gap-2">
-            <Text className="text-login-label font-medium text-ritual-inkMuted/72 dark:text-ritual-inkMuted-dark/68">
+            <Text style={{ color: muted }} className="text-login-label font-medium">
               {t('screens.otp.codeLabel')}
             </Text>
             <OtpInput
@@ -89,7 +101,10 @@ export const OtpFormCard = memo(function OtpFormCard({
 
           <View className="items-center gap-1.5">
             {resendExhausted ? (
-              <Text className="text-center text-login-legal text-ritual-inkMuted/66 dark:text-ritual-inkMuted-dark/62">
+              <Text
+                className="text-center text-login-legal"
+                style={{ color: muted }}
+              >
                 {t('screens.otp.resendLimit')}
               </Text>
             ) : canResend ? (
@@ -102,7 +117,10 @@ export const OtpFormCard = memo(function OtpFormCard({
                 hitSlop={{ top: 8, bottom: 8, left: 12, right: 12 }}
                 className={resendLoading ? 'opacity-48' : ''}
               >
-                <Text className="text-login-body font-semibold text-ritual-primary dark:text-ritual-primary-dark">
+                <Text
+                  style={{ color: primary }}
+                  className="text-login-body font-semibold"
+                >
                   {t('screens.otp.resend')}
                 </Text>
               </Pressable>
@@ -112,7 +130,8 @@ export const OtpFormCard = memo(function OtpFormCard({
                 accessibilityLabel={t('screens.otp.resendCountdownA11y', {
                   time: countdown,
                 })}
-                className="text-login-body font-medium tabular-nums text-ritual-inkMuted/62 dark:text-ritual-inkMuted-dark/58"
+                style={{ color: muted }}
+                className="text-login-body font-medium tabular-nums"
               >
                 {t('screens.otp.resendIn', { time: countdown })}
               </Text>
@@ -129,7 +148,10 @@ export const OtpFormCard = memo(function OtpFormCard({
         </View>
 
         <View className="mt-8 gap-3">
-          <Text className="max-w-[250px] self-center text-login-legal text-center font-normal text-ritual-inkMuted/54 dark:text-ritual-inkMuted-dark/50">
+          <Text
+            className="max-w-[250px] self-center text-center text-login-legal font-normal"
+            style={{ color: muted }}
+          >
             {t('screens.otp.helpFooter')}
           </Text>
           <AuthLegalFooter />

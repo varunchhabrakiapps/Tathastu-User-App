@@ -12,11 +12,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useColorScheme } from 'nativewind';
 
 import {
-  getOnboardingBackdropGradient,
+  getOnboardingBackdrop,
   type PaletteMode,
 } from '@/theme/heroGradients';
 import { paletteHex } from '@/theme/palette';
 import { hexToRgba } from '@/theme/colorUtils';
+import { cn } from '@/utils/cn';
 
 /**
  * Onboarding / auth backdrop — ritual wash + imperceptible “breathing” light (premium calm).
@@ -25,7 +26,8 @@ import { hexToRgba } from '@/theme/colorUtils';
 export function OnboardingScreenBackdrop({ children }: PropsWithChildren) {
   const { colorScheme } = useColorScheme();
   const mode: PaletteMode = colorScheme === 'dark' ? 'dark' : 'light';
-  const gradientColors = getOnboardingBackdropGradient(mode);
+  const { colors: gradientColors, locations: gradientLocations } =
+    getOnboardingBackdrop(mode);
   const breath = useSharedValue(1);
 
   useEffect(() => {
@@ -47,29 +49,31 @@ export function OnboardingScreenBackdrop({ children }: PropsWithChildren) {
   const breathTint =
     mode === 'light'
       ? hexToRgba(r.primary.light, 0.028)
-      : hexToRgba(r.primary.dark, 0.045);
+      : hexToRgba(r.primary.dark, 0.034);
 
   return (
-    <View className="flex-1 bg-ritual-canvas dark:bg-ritual-canvas-dark">
+    <View
+      className={cn(
+        'flex-1',
+        mode === 'light' ? 'bg-ritual-canvas' : 'bg-ritual-surface-dark',
+      )}
+    >
       <Animated.View
         pointerEvents="none"
         style={[StyleSheet.absoluteFill, breathStyle]}
       >
         <LinearGradient
           colors={gradientColors}
-          locations={
-            mode === 'light'
-              ? [0, 0.24, 0.48, 0.68, 1]
-              : [0, 0.26, 0.5, 0.72, 1]
-          }
+          locations={[...gradientLocations]}
           start={{ x: 0, y: 0 }}
-          end={{ x: 0.88, y: 1 }}
+          end={{ x: mode === 'dark' ? 0.52 : 0.88, y: 1 }}
           style={StyleSheet.absoluteFill}
         />
         <LinearGradient
           colors={[breathTint, 'transparent']}
-          start={{ x: 0.45, y: 0.2 }}
-          end={{ x: 0.55, y: 0.55 }}
+          locations={mode === 'dark' ? [0, 0.42] : undefined}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: mode === 'light' ? 0.55 : 0.45 }}
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
         />

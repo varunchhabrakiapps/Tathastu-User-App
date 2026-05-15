@@ -1,8 +1,10 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Pressable, Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
 
 import { LEGAL_URLS } from '@/constants/legalUrls';
+import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
 
 async function openUrl(url: string) {
@@ -27,7 +29,10 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
   className,
 }: Props) {
   const { t } = useTranslation();
-
+  const { colorScheme } = useColorScheme();
+  const key = colorScheme === 'dark' ? 'dark' : 'light';
+  const bodyColor = paletteHex.ritual.inkMuted[key];
+  const linkColor = paletteHex.ritual.primary[key];
 
   const legalBodySize = 'text-xs';
   const linkTypography = cn(
@@ -53,6 +58,7 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
           'leading-[16px]',
           legalBodySize,
         )}
+        style={{ color: bodyColor }}
       >
         {t('screens.login.legal.prefix')}
       </Text>
@@ -77,11 +83,14 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
               linkTypography,
               chromeUnderline && 'underline',
             )}
+            style={{ color: linkColor }}
           >
             {t('screens.login.legal.terms')}
           </Text>
         </Pressable>
-        <Text className={cn(legalBodySize)}>{t('screens.login.legal.middle')}</Text>
+        <Text className={cn(legalBodySize)} style={{ color: bodyColor }}>
+          {t('screens.login.legal.middle')}
+        </Text>
         <Pressable
           onPress={onPrivacy}
           accessibilityRole="link"
@@ -98,6 +107,7 @@ export const LegalAgreementLinks = memo(function LegalAgreementLinks({
               linkTypography,
               chromeUnderline && 'underline',
             )}
+            style={{ color: linkColor }}
           >
             {t('screens.login.legal.privacy')}
           </Text>

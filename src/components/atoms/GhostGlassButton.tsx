@@ -1,7 +1,9 @@
 import { Pressable, Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
 
 import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
+import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
 
 type Props = {
@@ -22,6 +24,10 @@ export function GhostGlassButton({
   accessibilityLabel,
   className,
 }: Props) {
+  const { colorScheme } = useColorScheme();
+  const key = colorScheme === 'dark' ? 'dark' : 'light';
+  const labelColor = paletteHex.ritual.primary[key];
+
   return (
     <Pressable
       onPress={onPress}
@@ -38,7 +44,10 @@ export function GhostGlassButton({
         className="rounded-[18px]"
       >
         <View className="justify-center px-3.5 py-2">
-          <Text className="text-center text-sm font-semibold text-ritual-primary dark:text-ritual-primary-dark">
+          <Text
+            style={{ color: labelColor }}
+            className="text-center text-sm font-semibold"
+          >
             {label}
           </Text>
         </View>

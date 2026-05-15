@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { useColorScheme } from 'nativewind';
 
 import { OnboardingSlideBulletList } from '@/components/molecules/OnboardingSlideBulletList';
 import { ONBOARDING_COPY_FOCUS_DURATION_MS } from '@/constants/onboardingLayout';
@@ -36,6 +37,8 @@ export const OnboardingSlide = memo(function OnboardingSlide({
 }: Props) {
   const hasBullets = (bullets?.length ?? 0) > 0;
   const copyFocus = useSharedValue(isActive ? 1 : 0);
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   useEffect(() => {
     copyFocus.value = withTiming(isActive ? 1 : 0, {
@@ -43,10 +46,13 @@ export const OnboardingSlide = memo(function OnboardingSlide({
     });
   }, [copyFocus, isActive]);
 
-  const copyStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(copyFocus.value, [0, 1], [0.35, 1]),
-    transform: [{ translateY: interpolate(copyFocus.value, [0, 1], [8, 0]) }],
-  }));
+  const copyStyle = useAnimatedStyle(
+    () => ({
+      opacity: interpolate(copyFocus.value, [0, 1], [isDark ? 0.52 : 0.35, 1]),
+      transform: [{ translateY: interpolate(copyFocus.value, [0, 1], [8, 0]) }],
+    }),
+    [isDark],
+  );
 
   return (
     <View style={{ width: slideWidth }} className="px-6">
@@ -65,14 +71,14 @@ export const OnboardingSlide = memo(function OnboardingSlide({
           {hasBullets ? (
             <>
               {lead ? (
-                <Text className="text-onboarding-body text-ritual-inkMuted/95 dark:text-ritual-inkMuted-dark/95">
+                <Text className="text-onboarding-body text-ritual-inkMuted/95 dark:text-ritual-inkMuted-dark">
                   {lead}
                 </Text>
               ) : null}
               <OnboardingSlideBulletList items={bullets!} />
             </>
           ) : body ? (
-            <Text className="max-w-[20.5rem] text-onboarding-body text-ritual-inkMuted/94 dark:text-ritual-inkMuted-dark/94">
+            <Text className="max-w-[20.5rem] text-onboarding-body text-ritual-inkMuted/94 dark:text-ritual-inkMuted-dark">
               {body}
             </Text>
           ) : null}

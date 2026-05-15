@@ -1,14 +1,20 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
 
 import { TathastuMark } from '@/components/atoms/TathastuMark';
+import { paletteHex } from '@/theme/palette';
 
 /**
  * Compact editorial anchor — continues login typography without the full hero illustration.
  */
 export const OtpHeroSection = memo(function OtpHeroSection() {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const key = colorScheme === 'dark' ? 'dark' : 'light';
+  const titleColor = paletteHex.ritual.ink[key];
+  const subtitleColor = paletteHex.ritual.inkMuted[key];
 
   return (
     <View className="gap-4 px-5 pb-2">
@@ -19,13 +25,15 @@ export const OtpHeroSection = memo(function OtpHeroSection() {
         <View className="min-w-0 flex-1 gap-1">
           <Text
             accessibilityRole="header"
-            className="text-login-display font-medium text-ritual-ink dark:text-ritual-ink-dark"
+            style={{ color: titleColor }}
+            className="text-login-display font-medium"
           >
             {t('screens.otp.title')}
           </Text>
           <Text
             accessibilityRole="text"
-            className="text-login-body font-normal text-ritual-ink/88 dark:text-ritual-ink-dark/88"
+            style={{ color: subtitleColor }}
+            className="text-login-body font-normal"
           >
             {t('screens.otp.subtitle')}
           </Text>

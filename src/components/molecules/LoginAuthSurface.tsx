@@ -45,8 +45,9 @@ export function LoginAuthSurface({ children }: PropsWithChildren) {
         <View
           className={cn(
             Platform.OS === 'ios'
-              ? 'bg-ritual-surface/91 dark:bg-ritual-surface-dark/90'
+              ? 'bg-ritual-surface/91 dark:bg-ritual-surface-dark/94'
               : 'bg-ritual-surface/98 dark:bg-ritual-surface-dark/97',
+            isDark && 'border border-ritual-borderSoft-dark/45',
           )}
         >
           <View

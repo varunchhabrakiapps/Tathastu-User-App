@@ -15,11 +15,11 @@ module.exports = {
       colors: {
         canvas: {
           DEFAULT: '#fafaf9',
-          dark: '#0c0a09',
+          dark: '#161311',
         },
         surface: {
           DEFAULT: '#ffffff',
-          dark: '#1c1917',
+          dark: '#201c19',
         },
         'surface-elevated': {
           DEFAULT: '#f5f5f4',
@@ -58,7 +58,7 @@ module.exports = {
           DEFAULT: '#1c1917',
           ondark: '#fafaf9',
           muted: '#57534e',
-          'muted-ondark': '#a8a29e',
+          'muted-ondark': '#c8c2bc',
           subtle: '#78716c',
         },
         /**
@@ -66,14 +66,14 @@ module.exports = {
          * Usage: `bg-ritual-canvas dark:bg-ritual-canvas-dark`, `text-ritual-ink`, etc.
          */
         ritual: {
-          canvas: { DEFAULT: '#FFF8F1', dark: '#1C1714' },
-          surface: { DEFAULT: '#FFFFFF', dark: '#25211D' },
-          surfaceSecondary: { DEFAULT: '#F9EBDD', dark: '#302922' },
-          primary: { DEFAULT: '#F97316', dark: '#D9915C' },
-          primarySoft: { DEFAULT: '#FDBA74', dark: '#4A3228' },
-          ink: { DEFAULT: '#1C1917', dark: '#F2EDE6' },
-          inkMuted: { DEFAULT: '#57534E', dark: '#9C948C' },
-          borderSoft: { DEFAULT: '#FED7AA', dark: '#5C4030' },
+          canvas: { DEFAULT: '#FFF8F1', dark: '#221E1B' },
+          surface: { DEFAULT: '#FFFFFF', dark: '#2E2924' },
+          surfaceSecondary: { DEFAULT: '#F9EBDD', dark: '#3D3630' },
+          primary: { DEFAULT: '#F97316', dark: '#F0A66E' },
+          primarySoft: { DEFAULT: '#FDBA74', dark: '#6B5346' },
+          ink: { DEFAULT: '#1C1917', dark: '#FAF6F1' },
+          inkMuted: { DEFAULT: '#57534E', dark: '#C9BDB1' },
+          borderSoft: { DEFAULT: '#FED7AA', dark: '#786456' },
           success: { DEFAULT: '#16A34A', dark: '#22C55E' },
         },
       },

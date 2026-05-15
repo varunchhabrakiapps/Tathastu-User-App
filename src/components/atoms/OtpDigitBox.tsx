@@ -17,6 +17,9 @@ const rInk = paletteHex.ritual.ink;
 export const OtpDigitBox = memo(function OtpDigitBox({ char, active }: Props) {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const k = isDark ? 'dark' : 'light';
+  const digitColor = rInk[k];
+  const primaryDot = paletteHex.ritual.primary[k];
 
   const rowShadow = useMemo(() => {
     if (!active) {
@@ -47,7 +50,7 @@ export const OtpDigitBox = memo(function OtpDigitBox({ char, active }: Props) {
         'h-[52px] min-w-0 flex-1 items-center justify-center overflow-hidden',
         char
           ? 'bg-ritual-surface dark:bg-ritual-surface-dark'
-          : 'bg-ritual-canvas dark:bg-ritual-surfaceSecondary-dark/22',
+          : 'bg-ritual-canvas dark:bg-ritual-surfaceSecondary-dark/55',
         active && 'bg-ritual-surface dark:bg-ritual-surface-dark',
       )}
       style={[styles.box, rowShadow]}
@@ -55,13 +58,15 @@ export const OtpDigitBox = memo(function OtpDigitBox({ char, active }: Props) {
       {char ? (
         <Animated.Text
           entering={FadeIn.duration(200)}
-          className="text-[20px] font-semibold tabular-nums tracking-tight text-ritual-ink dark:text-ritual-ink-dark"
+          style={{ color: digitColor }}
+          className="text-[20px] font-semibold tabular-nums tracking-tight"
         >
           {char}
         </Animated.Text>
       ) : active ? (
         <View
-          className="h-2 w-2 rounded-full bg-ritual-primary/55 dark:bg-ritual-primary-dark/50"
+          style={{ backgroundColor: primaryDot }}
+          className="h-2 w-2 rounded-full opacity-[0.85]"
           accessibilityElementsHidden
           importantForAccessibility="no"
         />

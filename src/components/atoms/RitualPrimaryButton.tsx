@@ -51,7 +51,7 @@ export function RitualPrimaryButton({
 
   const cta = paletteHex.ritual.cta;
   const gradientColors = isDark
-    ? [hexToRgba(cta.dark.top, 1), paletteHex.ritual.primary.dark]
+    ? [hexToRgba(cta.dark.top, 1), hexToRgba(cta.dark.bottom, 1)]
     : [
         hexToRgba(cta.light.top, 1),
         hexToRgba(paletteHex.ritual.primarySoft.light, 1),
@@ -63,9 +63,14 @@ export function RitualPrimaryButton({
   }));
 
   const labelContent: ReactNode = loading ? (
-    <ActivityIndicator color={paletteHex.ritual.surface.light} />
+    <ActivityIndicator
+      color={isDark ? paletteHex.ritual.ink.light : paletteHex.ritual.surface.light}
+    />
   ) : (
-    <Text accessibilityRole="text" style={styles.ctaLabel}>
+    <Text
+      accessibilityRole="text"
+      style={[styles.ctaLabel, isDark ? styles.ctaLabelDarkWarm : null]}
+    >
       {label}
     </Text>
   );
@@ -160,6 +165,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
     textAlign: 'center',
     textShadowColor: hexToRgba(paletteHex.warm.deep, 0.3),
+    textShadowOffset: { width: 0, height: 0.5 },
+    textShadowRadius: 2,
+  },
+  ctaLabelDarkWarm: {
+    color: paletteHex.ritual.ink.light,
+    textShadowColor: hexToRgba(paletteHex.ritual.surface.light, 0.35),
     textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 2,
   },

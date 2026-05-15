@@ -1,10 +1,12 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
 
 import { GhostGlassButton } from '@/components/atoms/GhostGlassButton';
 import { UpcomingBookingCard } from '@/components/molecules/UpcomingBookingCard';
 import type { UpcomingBookingPreview } from '@/domain/bookingPreview';
+import { paletteHex } from '@/theme/palette';
 
 type Props = {
   booking: UpcomingBookingPreview | null;
@@ -22,6 +24,9 @@ export const UpcomingBookingSection = memo(function UpcomingBookingSection({
   onOpenBookingDetail,
 }: Props) {
   const { t } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const key = colorScheme === 'dark' ? 'dark' : 'light';
+  const sectionTitleColor = paletteHex.ritual.ink[key];
 
   return (
     <View className="mt-8" accessibilityRole="none">
@@ -29,7 +34,8 @@ export const UpcomingBookingSection = memo(function UpcomingBookingSection({
         <Text
           accessibilityRole="header"
           numberOfLines={1}
-          className="min-w-0 flex-1 font-semibold text-login-body tracking-[-0.01em] text-ritual-ink dark:text-ritual-ink-dark"
+          style={{ color: sectionTitleColor }}
+          className="min-w-0 flex-1 font-semibold text-login-body tracking-[-0.01em]"
         >
           {t('screens.home.upcomingBooking.sectionTitle')}
         </Text>

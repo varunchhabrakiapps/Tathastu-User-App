@@ -16,7 +16,7 @@ export function getAppNativeTabBarScreenOptions(mode: PaletteKey) {
 
   return {
     tabBarActiveTintColor: active,
-    tabBarInactiveTintColor: hexToRgba(inactiveMuted, isDark ? 0.52 : 0.46),
+    tabBarInactiveTintColor: hexToRgba(inactiveMuted, isDark ? 0.62 : 0.46),
     /** Scene behind tabs — stays stone canvas like {@link TabScreenScaffold}. */
     sceneStyle: { backgroundColor: canvasBg },
     tabBarStyle: {

@@ -38,8 +38,8 @@ type Props = Pick<
   className?: string;
 };
 
-const inputClass =
-  'min-w-0 flex-1 border-0 bg-transparent py-3 pr-5 font-normal text-[17px] tracking-[-0.02em] text-ritual-ink dark:text-ritual-ink-dark';
+const inputTypography =
+  'min-w-0 flex-1 border-0 bg-transparent py-3 pr-5 font-normal text-[17px] tracking-[-0.02em]';
 
 const rInk = paletteHex.ritual.ink;
 
@@ -62,7 +62,7 @@ export const RitualPhoneField = memo(function RitualPhoneField({
 
   const placeholderColor = useMemo(
     () =>
-      hexToRgba(paletteHex.ritual.inkMuted[paletteKey], isDark ? 0.42 : 0.36),
+      hexToRgba(paletteHex.ritual.inkMuted[paletteKey], isDark ? 0.58 : 0.36),
     [paletteKey, isDark],
   );
 
@@ -101,37 +101,39 @@ export const RitualPhoneField = memo(function RitualPhoneField({
         };
   }, [focused, isDark]);
 
+  const labelColor = focused
+    ? paletteHex.ritual.ink[paletteKey]
+    : paletteHex.ritual.inkMuted[paletteKey];
+  const prefixColor = focused
+    ? paletteHex.ritual.primary[paletteKey]
+    : paletteHex.ritual.inkMuted[paletteKey];
+  const inputColor = paletteHex.ritual.ink[paletteKey];
+
   return (
     <View className={cn(className)}>
       <Text
-        className={cn(
-          'mb-2 text-login-label font-medium',
-          focused
-            ? 'text-ritual-ink/90 dark:text-ritual-ink-dark/92'
-            : 'text-ritual-inkMuted/68 dark:text-ritual-inkMuted-dark/62',
-        )}
+        style={{ color: labelColor }}
+        className="mb-2 text-login-label font-medium"
       >
         {label}
       </Text>
       <View
         className={cn(
           'min-h-[51px] flex-row items-center overflow-hidden',
-          'bg-ritual-canvas dark:bg-ritual-surfaceSecondary-dark/20',
-          focused && 'bg-ritual-surface dark:bg-ritual-surface-dark',
+          'bg-ritual-canvas dark:bg-ritual-surfaceSecondary-dark/55',          focused && 'bg-ritual-surface dark:bg-ritual-surface-dark',
         )}
         style={[styles.row, rowShadow]}
       >
         <Text
-          className={cn(
-            'pl-5 pr-2.5 pb-[1px] pt-[1px] text-[17px] font-semibold tabular-nums leading-none text-ritual-inkMuted dark:text-ritual-inkMuted-dark',
-            focused && 'text-ritual-primary dark:text-ritual-primary-dark',
-          )}
+          style={{ color: prefixColor }}
+          className="pl-5 pr-2.5 pb-[1px] pt-[1px] text-[17px] font-semibold tabular-nums leading-none"
         >
           {prefix}
         </Text>
         <TextInput
           placeholderTextColor={placeholderColor}
-          className={inputClass}
+          style={{ color: inputColor }}
+          className={inputTypography}
           onFocus={onFocus}
           onBlur={onBlur}
           underlineColorAndroid="transparent"

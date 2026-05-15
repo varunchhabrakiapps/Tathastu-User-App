@@ -38,9 +38,11 @@ export const LoginFormCard = memo(function LoginFormCard({
 
   const trustIconColor = useMemo(
     () =>
-      hexToRgba(paletteHex.ritual.inkMuted[paletteKey], isDark ? 0.58 : 0.52),
+      hexToRgba(paletteHex.ritual.inkMuted[paletteKey], isDark ? 0.72 : 0.52),
     [paletteKey, isDark],
   );
+
+  const trustHintColor = paletteHex.ritual.inkMuted[paletteKey];
 
   return (
     <LoginAuthSurface>
@@ -81,7 +83,8 @@ export const LoginFormCard = memo(function LoginFormCard({
           />
           <Text
             importantForAccessibility="no"
-            className="text-[12px] font-medium leading-4 text-ritual-inkMuted/72 dark:text-ritual-inkMuted-dark/68"
+            style={{ color: trustHintColor }}
+            className="text-[12px] font-medium leading-4"
           >
             {t('screens.login.secureOtpHint')}
           </Text>

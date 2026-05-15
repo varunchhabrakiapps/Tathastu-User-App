@@ -10,6 +10,7 @@ import Animated, {
 import { useColorScheme } from 'nativewind';
 
 import { paletteHex } from '@/theme/palette';
+import { cn } from '@/utils/cn';
 
 type Props = {
   accessibilityLabel: string;
@@ -60,8 +61,9 @@ export const TathastuMark = memo(function TathastuMark({
 }: Props) {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  /** Dark: gold flame on solid neutral shell — `primary.dark` on translucent secondary was low contrast. */
   const glyphColor = isDark
-    ? paletteHex.ritual.primary.dark
+    ? paletteHex.warm.gold
     : paletteHex.ritual.primary.light;
   const breath = useSharedValue(1);
 
@@ -86,7 +88,12 @@ export const TathastuMark = memo(function TathastuMark({
       accessible
       accessibilityRole="image"
       accessibilityLabel={accessibilityLabel}
-      className="h-11 w-11 items-center justify-center rounded-[14px] bg-ritual-surfaceSecondary/45 dark:bg-ritual-surfaceSecondary-dark/28"
+      className={cn(
+        'h-11 w-11 items-center justify-center rounded-[14px]',
+        isDark
+          ? 'border border-ritual-borderSoft-dark/60 bg-ritual-surface-dark'
+          : 'border border-transparent bg-ritual-surfaceSecondary/45',
+      )}
       style={isDark ? styles.markShellDark : styles.markShellLight}
     >
       <Animated.View style={breathStyle}>
@@ -105,10 +112,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   markShellDark: {
-    shadowColor: paletteHex.ritual.primary.dark,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 14,
+    shadowColor: paletteHex.warm.gold,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.14,
+    shadowRadius: 10,
     elevation: 3,
   },
   glyphWrap: {
