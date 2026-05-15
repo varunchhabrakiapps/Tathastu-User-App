@@ -12,6 +12,6 @@ export type TrendingRitualId = (typeof TRENDING_RITUAL_IDS)[number];
 
 export type TrendingRitualPreview = {
   id: TrendingRitualId;
-  /** Rotates onboarding cover art + reel scrim until dedicated trending imagery ships. */
+  /** Varied reel overlay tint rotation (covers are keyed separately by ritual id). */
   artworkPreset: number;
 };

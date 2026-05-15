@@ -2,7 +2,8 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import { SectionGhostHeader } from '@/components/molecules/SectionGhostHeader';
+import { FontAwesomeCircleIcon } from '@/components/atoms/FontAwesomeCircleIcon';
+import { SectionGhostHeader, SECTION_GHOST_HEADER_LEADING_SIZE } from '@/components/molecules/SectionGhostHeader';
 import { UpcomingBookingCard } from '@/components/molecules/UpcomingBookingCard';
 import type { UpcomingBookingPreview } from '@/domain/bookingPreview';
 import { authScreen } from '@/theme/tokens';
@@ -27,6 +28,13 @@ export const UpcomingBookingSection = memo(function UpcomingBookingSection({
   return (
     <View style={styles.inset} className="mt-6" accessibilityRole="none">
       <SectionGhostHeader
+        leading={
+          <FontAwesomeCircleIcon
+            name="calendar"
+            circleSize={SECTION_GHOST_HEADER_LEADING_SIZE}
+            accessibilityLabel={t('screens.home.upcomingBooking.sectionLeadingA11y')}
+          />
+        }
         title={t('screens.home.upcomingBooking.sectionTitle')}
         actionLabel={t('screens.home.upcomingBooking.viewAll')}
         actionAccessibilityLabel={t('screens.home.upcomingBooking.viewAllA11y')}

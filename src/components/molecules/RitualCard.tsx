@@ -6,13 +6,12 @@ import { useColorScheme } from 'nativewind';
 
 import { TrendingVolumeTag } from '@/components/atoms/TrendingVolumeTag';
 import { RITUAL_CORNER_RADIUS, trendingReelTileHeight } from '@/constants/ritualLayout';
+import { trendingRitualCoverSource } from '@/constants/trendingRitualCovers';
 import type { TrendingRitualPreview } from '@/domain/trendingRitual';
 import { hexToRgba } from '@/theme/colorUtils';
 import { paletteHex } from '@/theme/palette';
 import {
-  getTrendingCardTopCornerScrim,
   getTrendingReelOverlayGradient,
-  getTrendingRitualCoverSource,
 } from '@/theme/trendingRitualArtwork';
 
 type Props = {
@@ -39,17 +38,13 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
 
   const reelHeight = useMemo(() => trendingReelTileHeight(cardWidth), [cardWidth]);
 
-  const coverSource = useMemo(
-    () => getTrendingRitualCoverSource(ritual.artworkPreset),
-    [ritual.artworkPreset],
-  );
+  const coverSource = useMemo(() => trendingRitualCoverSource(ritual.id), [ritual.id]);
 
   const overlay = useMemo(
     () => getTrendingReelOverlayGradient(ritual.artworkPreset, schemeKey),
     [ritual.artworkPreset, schemeKey],
   );
 
-  const topCornerScrim = useMemo(() => getTrendingCardTopCornerScrim(schemeKey), [schemeKey]);
 
   const combinedA11y = `${title}. ${description}. ${socialProof}`;
   const iosWash =
@@ -71,14 +66,19 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
         className="overflow-hidden bg-ritual-canvas dark:bg-ritual-canvas-dark"
       >
         <View style={{ height: reelHeight }}>
+
+
+
+
           <Image
             source={coverSource}
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
             accessible={false}
             resizeMode="cover"
-            style={StyleSheet.absoluteFill}
+            style={{ height: reelHeight, width: cardWidth }}
           />
+
 
           <LinearGradient
             colors={overlay.colors}
@@ -89,16 +89,6 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
             pointerEvents="none"
             style={StyleSheet.absoluteFill}
           />
-
-          <LinearGradient
-            colors={topCornerScrim.colors}
-            start={topCornerScrim.start}
-            end={topCornerScrim.end}
-            accessibilityIgnoresInvertColors
-            pointerEvents="none"
-            style={styles.topCornerScrim}
-          />
-
           <TrendingVolumeTag label={volumeTag} />
 
           <View

@@ -42,6 +42,7 @@
         "sectionTitle": "Upcoming",
         "viewAll": "View all",
         "viewAllA11y": "View all bookings",
+        "sectionLeadingA11y": "Calendar for upcoming rituals",
         "openDetailHint": "Opens details for this ritual",
         "stubTimingGlance": "Tomorrow at 6:30 AM",
         "togetherGlance": "Guided live by {{name}}",
@@ -56,6 +57,7 @@
       "trendingRituals": {
         "sectionTitle": "Trending rituals",
         "sectionDescription": "Quiet moments families are reaching for this week.",
+        "sectionLeadingA11y": "Trending rituals chart",
         "viewAll": "View all",
         "viewAllA11y": "Browse more rituals",
         "cardOpenHint": "Opens ritual details",
