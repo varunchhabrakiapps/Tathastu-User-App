@@ -31,7 +31,7 @@ export const GreetingBlock = memo(function GreetingBlock({ greetingName }: Props
         accessibilityRole="text"
         numberOfLines={4}
         style={{ color: bodyColor }}
-        className="font-normal text-login-body"
+        className="font-normal text-login-body -mt-2"
       >
         {t('screens.home.supportingLine')}
       </Text>
