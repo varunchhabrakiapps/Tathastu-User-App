@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { ProductProvider } from '@/context/ProductContext';
+import { ThemePreferenceProvider } from '@/hooks/useThemePreference';
 import { RootNavigator } from '@/navigation';
 
 import { semanticColors } from '@/theme';
@@ -26,14 +27,16 @@ export default function App() {
   return (
     <GestureHandlerRootView className="flex-1 bg-canvas dark:bg-canvas-dark">
       <SafeAreaProvider>
-        <AuthProvider>
-          <ProductProvider>
-            <NavigationContainer>
-              <StatusBar barStyle={semantic.statusBarStyle} />
-              <RootNavigator />
-            </NavigationContainer>
-          </ProductProvider>
-        </AuthProvider>
+        <ThemePreferenceProvider>
+          <AuthProvider>
+            <ProductProvider>
+              <NavigationContainer>
+                <StatusBar barStyle={semantic.statusBarStyle} />
+                <RootNavigator />
+              </NavigationContainer>
+            </ProductProvider>
+          </AuthProvider>
+        </ThemePreferenceProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

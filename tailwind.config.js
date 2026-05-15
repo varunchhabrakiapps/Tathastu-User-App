@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 /**
- * Semantic palette: Vedic / ritual-booking — indigo primary for app chrome, teal accent,
- * extended warm scale (peach, saffron, gold) for marketing and ritual highlights.
+ * Semantic palette: Vedic / ritual-booking — indigo primary actions, teal accent,
+ * extended warm scale (peach, saffron, gold) for ritual marketing surfaces.
  *
  * Hex for canvas/surface/primary/ink must stay aligned with `src/theme/palette.ts`
- * (used by native tab bar via `semanticColors`).
+ * (native tab ritual tint via `semanticColors` + `src/navigation/tabBarAppearance.ts`).
  */
 module.exports = {
   content: ['./App.tsx', './src/**/*.{js,jsx,ts,tsx}'],

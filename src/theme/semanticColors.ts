@@ -1,24 +1,23 @@
 import { paletteHex } from '@/theme/palette';
 
 /**
- * Native-only: tab bar & StatusBar (no Tailwind `className`).
- * Hex values come from `palette.ts` so they match the indigo primary + stone canvas theme.
+ * Native-only: StatusBar + stack/tab scene surfaces (no Tailwind `className`).
+ * Ritual-accented native **tab tint** lives in `@/navigation/tabBarAppearance`; values here align `paletteHex`.
  */
 
 export const semanticColors = {
   light: {
-    /** Content viewport — same as `bg-canvas` */
+    /** Stack headers & scenes — matches `bg-canvas` tabs */
     surface: paletteHex.canvas.light,
-    /** Tab bar — same as `bg-surface` */
     tabBarBg: paletteHex.surface.light,
-    tabActive: paletteHex.primary.light,
+    tabActive: paletteHex.ritual.primary.light,
     tabInactive: paletteHex.inkMuted.light,
     statusBarStyle: 'dark-content' as const,
   },
   dark: {
     surface: paletteHex.canvas.dark,
     tabBarBg: paletteHex.surface.dark,
-    tabActive: paletteHex.primary.dark,
+    tabActive: paletteHex.ritual.primary.dark,
     tabInactive: paletteHex.inkMuted.dark,
     statusBarStyle: 'light-content' as const,
   },

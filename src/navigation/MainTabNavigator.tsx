@@ -1,43 +1,41 @@
 /**
- * Tab tint + scene colors: `semanticColors` → `paletteHex` (matches Tailwind primary/canvas/surface).
+ * Native bottom tabs — core journeys only; ritual-tint chrome stays visually quiet.
  *
- * iOS tab icons: outline SF Symbols only — selection is shown by tab tint, not fill/circle swaps,
- * so all tabs behave consistently (Bookings/Help no longer jump to a “circle” glyph).
+ * Accent + wash: `@/navigation/tabBarAppearance` (+ `paletteHex` rituals).
  */
 import { createNativeBottomTabNavigator } from '@bottom-tabs/react-navigation';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { useColorScheme } from 'nativewind';
 import { Platform } from 'react-native';
+import { useColorScheme } from 'nativewind';
 import type { AppleIcon } from 'react-native-bottom-tabs';
 
+import {
+  getAppNativeTabBarScreenOptions,
+  getAppNativeTabViewPassthrough,
+} from '@/navigation/tabBarAppearance';
+import { ProfileStackNavigator } from '@/navigation/ProfileStackNavigator';
 import type { RootTabParamList } from '@/navigation/types';
+
 import { BookingsScreen } from '@/screens/BookingsScreen';
-import { HelpScreen } from '@/screens/HelpScreen';
+import { ExploreScreen } from '@/screens/ExploreScreen';
 import { HomeScreen } from '@/screens/HomeScreen';
-import { SettingsScreen } from '@/screens/SettingsScreen';
-import { semanticColors } from '@/theme';
 
 const Tab = createNativeBottomTabNavigator<RootTabParamList>();
 
+/** Home / Bookings / Explore / Profile — utility routes live under Profile stack. */
 export function MainTabNavigator() {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const paletteKey = colorScheme === 'dark' ? 'dark' : 'light';
-  const semantic = semanticColors[paletteKey];
 
-  const navigatorScreenOptions = useMemo(
-    () => ({
-      tabBarActiveTintColor: semantic.tabActive,
-      tabBarInactiveTintColor: semantic.tabInactive,
-      tabBarStyle: { backgroundColor: semantic.tabBarBg },
-      sceneStyle: { backgroundColor: semantic.surface },
-    }),
-    [semantic],
-  );
+  const navigatorScreenOptions = useMemo(() => getAppNativeTabBarScreenOptions(paletteKey), [paletteKey]);
+
+  const tabViewPassthrough = useMemo(() => getAppNativeTabViewPassthrough(paletteKey), [paletteKey]);
 
   return (
     <Tab.Navigator
+      {...tabViewPassthrough}
       initialRouteName="Home"
       screenOptions={navigatorScreenOptions}
     >
@@ -49,9 +47,9 @@ export function MainTabNavigator() {
           tabBarLabel: t('tabs.home'),
           ...Platform.select({
             ios: {
-              tabBarIcon: ({ focused }: { focused: boolean }): AppleIcon =>
+              tabBarIcon: (): AppleIcon =>
                 ({
-                  sfSymbol: focused ? 'house.fill' : 'house',
+                  sfSymbol: 'house',
                 }) as AppleIcon,
             },
             default: {},
@@ -66,38 +64,43 @@ export function MainTabNavigator() {
           tabBarLabel: t('tabs.bookings'),
           ...Platform.select({
             ios: {
-              tabBarIcon: (): AppleIcon => ({ sfSymbol: 'calendar' }) as AppleIcon,
+              tabBarIcon: (): AppleIcon =>
+                ({
+                  sfSymbol: 'calendar',
+                }) as AppleIcon,
             },
             default: {},
           }),
         }}
       />
       <Tab.Screen
-        name="Help"
-        component={HelpScreen}
+        name="Explore"
+        component={ExploreScreen}
         options={{
-          title: t('tabs.help'),
-          tabBarLabel: t('tabs.help'),
+          title: t('tabs.explore'),
+          tabBarLabel: t('tabs.explore'),
           ...Platform.select({
             ios: {
               tabBarIcon: (): AppleIcon =>
-                ({ sfSymbol: 'headphones' }) as AppleIcon,
+                ({
+                  sfSymbol: 'safari',
+                }) as AppleIcon,
             },
             default: {},
           }),
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Profile"
+        component={ProfileStackNavigator}
         options={{
-          title: t('tabs.settings'),
-          tabBarLabel: t('tabs.settings'),
+          title: t('tabs.profile'),
+          tabBarLabel: t('tabs.profile'),
           ...Platform.select({
             ios: {
-              tabBarIcon: ({ focused }: { focused: boolean }): AppleIcon =>
+              tabBarIcon: (): AppleIcon =>
                 ({
-                  sfSymbol: focused ? 'gearshape.fill' : 'gearshape',
+                  sfSymbol: 'person.circle',
                 }) as AppleIcon,
             },
             default: {},

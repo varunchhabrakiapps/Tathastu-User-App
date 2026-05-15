@@ -21,7 +21,7 @@ export const paletteHex = {
   inkMuted: { light: '#78716c', dark: '#a8a29e' },
   /**
    * Warm accents — peach / saffron / gold from onboarding artwork; use for ritual highlights
-   * and marketing surfaces. App chrome (tabs) stays on `primary` indigo via `semanticColors`.
+   * and marketing surfaces. Native tab accents use ritual primaries (`tabBarAppearance` + `semanticColors`).
    */
   warm: {
     DEFAULT: '#c2410c',

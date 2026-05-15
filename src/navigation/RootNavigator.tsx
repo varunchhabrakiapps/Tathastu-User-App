@@ -4,10 +4,11 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { useAuth } from '@/context/AuthContext';
 import { useOnboardingHydration } from '@/hooks/useOnboardingHydration';
-import { paletteHex } from '@/theme/palette';
+import { BookingDetailScreen } from '@/screens/BookingDetailScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
 import { OtpVerificationScreen } from '@/screens/OtpVerificationScreen';
+import { paletteHex } from '@/theme/palette';
 
 import { MainTabNavigator } from './MainTabNavigator';
 import type { RootStackParamList } from './types';
@@ -41,7 +42,14 @@ export function RootNavigator() {
       screenOptions={{ headerShown: false }}
     >
       {isLoggedIn ? (
-        <Stack.Screen name="Main" component={MainTabNavigator} />
+        <>
+          <Stack.Screen name="Main" component={MainTabNavigator} />
+          <Stack.Screen
+            name="BookingDetail"
+            component={BookingDetailScreen}
+            options={{ headerShown: true }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />

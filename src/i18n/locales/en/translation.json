@@ -27,8 +27,8 @@
   "tabs": {
     "home": "Home",
     "bookings": "Bookings",
-    "help": "Help",
-    "settings": "Settings"
+    "explore": "Explore",
+    "profile": "Profile"
   },
   "screens": {
     "home": {
@@ -37,11 +37,43 @@
       "greeting": "नमस्ते, {{name}}.",
       "greetingFallbackName": "Friend",
       "supportingLine": "Calm guidance for meaningful moments.",
-      "profileActionA11y": "Profile and settings"
+      "profileActionA11y": "Profile and settings",
+      "upcomingBooking": {
+        "sectionTitle": "Upcoming",
+        "viewAll": "View all",
+        "viewAllA11y": "View all bookings",
+        "openDetailHint": "Opens details for this ritual",
+        "stubTimingGlance": "Tomorrow at 6:30 AM",
+        "togetherGlance": "Guided live by {{name}}",
+        "stubPanditName": "Acharya Vivek Mishra"
+      },
+      "bookingStatus": {
+        "confirmed": "Confirmed",
+        "upcomingTomorrow": "Tomorrow",
+        "today": "Today",
+        "startingSoon": "Starting soon"
+      }
+    },
+    "bookingDetail": {
+      "title": "Your ritual",
+      "placeholderLead": "Reference · {{bookingId}}",
+      "placeholderBody": "Timings, preparations, and notes from pandit ji will appear here as your ceremony draws closer."
     },
     "bookings": {
       "title": "Bookings",
       "subtitle": "Video poojas, home visits, and scheduled ceremonies in one place."
+    },
+    "explore": {
+      "title": "Explore",
+      "subtitle": "Rituals, auspicious rhythms, and quiet guidance — discovered with care, not noise."
+    },
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Account, preferences, and gentle support when you need it.",
+      "sectionAccount": "Account",
+      "sectionSupport": "Support",
+      "openSettings": "Settings",
+      "openHelp": "Help & guidance"
     },
     "help": {
       "title": "Help",
@@ -51,7 +83,13 @@
       "title": "Settings",
       "subtitle": "Account and app preferences.",
       "sectionGeneral": "General",
+      "sectionAppearance": "Appearance",
       "sectionAccount": "Account",
+      "theme": "Theme",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "themeSystem": "Follow system",
+      "themeOptionsA11y": "Color theme",
       "signedInAs": "Signed in as {{mobile}}",
       "signOut": "Sign out",
       "signOutConfirm": "You will need to sign in again to use your account.",
