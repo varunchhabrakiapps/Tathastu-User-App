@@ -1,15 +1,18 @@
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useColorScheme } from 'nativewind';
 
-import { RitualMeta } from '@/components/atoms/RitualMeta';
-import { HOME_RITUAL_CARD_ARTWORK_HEIGHT } from '@/constants/ritualLayout';
+import { TrendingVolumeTag } from '@/components/atoms/TrendingVolumeTag';
+import { HOME_RITUAL_PREVIEW_CORNER_RADIUS, trendingReelTileHeight } from '@/constants/ritualLayout';
 import type { TrendingRitualPreview } from '@/domain/trendingRitual';
 import { hexToRgba } from '@/theme/colorUtils';
 import { paletteHex } from '@/theme/palette';
-import { getTrendingArtworkGradient } from '@/theme/trendingRitualArtwork';
+import {
+  getTrendingReelOverlayGradient,
+  getTrendingRitualCoverSource,
+} from '@/theme/trendingRitualArtwork';
 
 type Props = {
   ritual: TrendingRitualPreview;
@@ -25,16 +28,22 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const schemeKey = colorScheme === 'dark' ? 'dark' : 'light';
-  const titleColor = paletteHex.ritual.ink[schemeKey];
-  const supportingColor = paletteHex.ritual.inkMuted[schemeKey];
 
   const prefix = itemTranslationPrefix(ritual.id);
   const title = t(`${prefix}.title`);
   const description = t(`${prefix}.description`);
   const socialProof = t(`${prefix}.socialProof`);
+  const volumeTag = t(`${prefix}.volumeTag`);
 
-  const gradient = useMemo(
-    () => getTrendingArtworkGradient(ritual.artworkPreset, schemeKey),
+  const reelHeight = useMemo(() => trendingReelTileHeight(cardWidth), [cardWidth]);
+
+  const coverSource = useMemo(
+    () => getTrendingRitualCoverSource(ritual.artworkPreset),
+    [ritual.artworkPreset],
+  );
+
+  const overlay = useMemo(
+    () => getTrendingReelOverlayGradient(ritual.artworkPreset, schemeKey),
     [ritual.artworkPreset, schemeKey],
   );
 
@@ -42,7 +51,7 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
   const iosWash =
     schemeKey === 'dark'
       ? { shadowColor: paletteHex.ritual.primary.dark }
-      : { shadowColor: hexToRgba(paletteHex.ritual.primary.light, 0.22) };
+      : { shadowColor: hexToRgba(paletteHex.ritual.primary.light, 0.18) };
 
   return (
     <Pressable
@@ -51,38 +60,58 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
       accessibilityLabel={combinedA11y}
       onPress={onPress}
       style={{ width: cardWidth }}
-      className="active:opacity-[0.97]"
+      className="active:opacity-[0.96]"
     >
       <View
-        style={[styles.cardShadow, Platform.OS === 'ios' ? iosWash : styles.cardShadowAndroid]}
-        className="overflow-hidden rounded-2xl bg-ritual-surface dark:bg-ritual-surface-dark"
+        style={[
+          styles.cardShadow,
+          { borderRadius: HOME_RITUAL_PREVIEW_CORNER_RADIUS },
+          Platform.OS === 'ios' ? iosWash : styles.cardShadowAndroid,
+        ]}
+        className="overflow-hidden bg-ritual-canvas dark:bg-ritual-canvas-dark"
       >
-        <View className="overflow-hidden rounded-2xl">
-          <LinearGradient
-            colors={gradient.colors}
-            start={gradient.start}
-            end={gradient.end}
-            accessibilityIgnoresInvertColors
-            style={styles.gradientArt}
+        <View style={{ height: reelHeight }}>
+          <Image
+            source={coverSource}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            accessible={false}
+            resizeMode="cover"
+            style={StyleSheet.absoluteFill}
           />
 
-          <View className="gap-1.5 px-3.5 pb-3.5 pt-3">
+          <LinearGradient
+            colors={overlay.colors}
+            locations={overlay.locations}
+            start={overlay.start}
+            end={overlay.end}
+            accessibilityIgnoresInvertColors
+            pointerEvents="none"
+            style={StyleSheet.absoluteFill}
+          />
+
+          <TrendingVolumeTag label={volumeTag} />
+
+          <View
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            pointerEvents="none"
+            className="absolute inset-x-0 bottom-0 gap-1 px-2.5 pb-2.5 pt-12"
+          >
             <Text
               accessibilityRole="header"
               numberOfLines={2}
-              style={{ color: titleColor }}
-              className="font-medium text-[15px] leading-[20px] tracking-[-0.015em]"
+              className="font-semibold text-[14px] leading-[18px] tracking-[-0.016em] text-white"
+              style={styles.titleShadow}
             >
               {title}
             </Text>
             <Text
               numberOfLines={2}
-              style={{ color: supportingColor }}
-              className="font-normal text-[12px] leading-[17px]"
+              className="font-normal text-[12px] leading-[16px] text-white/92 dark:text-white/92"
             >
               {description}
             </Text>
-            <RitualMeta accessibilityLabel={socialProof}>{socialProof}</RitualMeta>
           </View>
         </View>
       </View>
@@ -91,18 +120,18 @@ export const RitualCard = memo(function RitualCard({ ritual, cardWidth, onPress 
 });
 
 const styles = StyleSheet.create({
-  gradientArt: {
-    width: '100%',
-    height: HOME_RITUAL_CARD_ARTWORK_HEIGHT,
+  titleShadow: {
+    textShadowColor: 'rgba(0,0,0,0.32)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
   },
   cardShadow: {
-    borderRadius: 16,
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.09,
-    shadowRadius: 22,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.11,
+    shadowRadius: 16,
     elevation: 0,
   },
   cardShadowAndroid: {
-    elevation: 3,
+    elevation: 5,
   },
 });

@@ -1,9 +1,10 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useColorScheme } from 'nativewind';
 
 import { paletteHex } from '@/theme/palette';
+import { authScreen } from '@/theme/tokens';
 
 type Props = {
   greetingName: string;
@@ -18,7 +19,7 @@ export const GreetingBlock = memo(function GreetingBlock({ greetingName }: Props
   const bodyColor = paletteHex.ritual.inkMuted[key];
 
   return (
-    <View className="gap-2">
+    <View style={styles.inset} className="gap-2">
       <Text
         accessibilityRole="header"
         numberOfLines={2}
@@ -37,4 +38,8 @@ export const GreetingBlock = memo(function GreetingBlock({ greetingName }: Props
       </Text>
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  inset: { paddingHorizontal: authScreen.insetX },
 });

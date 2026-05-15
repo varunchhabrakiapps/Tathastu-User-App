@@ -1,10 +1,11 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { SectionGhostHeader } from '@/components/molecules/SectionGhostHeader';
 import { UpcomingBookingCard } from '@/components/molecules/UpcomingBookingCard';
 import type { UpcomingBookingPreview } from '@/domain/bookingPreview';
+import { authScreen } from '@/theme/tokens';
 
 type Props = {
   booking: UpcomingBookingPreview | null;
@@ -24,7 +25,7 @@ export const UpcomingBookingSection = memo(function UpcomingBookingSection({
   const { t } = useTranslation();
 
   return (
-    <View className="mt-6" accessibilityRole="none">
+    <View style={styles.inset} className="mt-6" accessibilityRole="none">
       <SectionGhostHeader
         title={t('screens.home.upcomingBooking.sectionTitle')}
         actionLabel={t('screens.home.upcomingBooking.viewAll')}
@@ -37,4 +38,8 @@ export const UpcomingBookingSection = memo(function UpcomingBookingSection({
       ) : null}
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  inset: { paddingHorizontal: authScreen.insetX },
 });

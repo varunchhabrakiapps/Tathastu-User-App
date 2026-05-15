@@ -78,6 +78,7 @@ export function HomeScreen() {
           style={layoutStyles.list}
           contentContainerStyle={layoutStyles.listContent}
           keyboardShouldPersistTaps="handled"
+          nestedScrollEnabled
           showsVerticalScrollIndicator={false}
         />
       </View>
@@ -92,7 +93,6 @@ const layoutStyles = StyleSheet.create({
   list: { flex: 1 },
   listContent: {
     flexGrow: 1,
-    paddingHorizontal: authScreen.insetX,
     paddingBottom: authScreen.scrollBottom,
   },
 });

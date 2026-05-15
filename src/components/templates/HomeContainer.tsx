@@ -6,7 +6,7 @@ import { OnboardingScreenBackdrop } from '@/components/molecules/OnboardingScree
 
 /**
  * Tab home shell — same ritual canvas + safe top inset as onboarding/auth.
- * Horizontal inset lives on the Home feed (`FlatList` content container + header) so carousels can scroll edge-to-edge inside their lane without clipping.
+ * Horizontal inset is applied per home section; the trending rail pad lives on its inner `FlatList` `contentContainerStyle` so tiles can peek past the aligned header.
  */
 export function HomeContainer({ children }: PropsWithChildren) {
   return (

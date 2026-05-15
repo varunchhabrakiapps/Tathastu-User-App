@@ -12,6 +12,6 @@ export type TrendingRitualId = (typeof TRENDING_RITUAL_IDS)[number];
 
 export type TrendingRitualPreview = {
   id: TrendingRitualId;
-  /** Gradient preset index for placeholder artwork (rotates through calm ritual tones). */
+  /** Rotates onboarding cover art + reel scrim until dedicated trending imagery ships. */
   artworkPreset: number;
 };
