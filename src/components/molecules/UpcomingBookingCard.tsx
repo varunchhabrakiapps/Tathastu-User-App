@@ -67,7 +67,7 @@ export const UpcomingBookingCard = memo(function UpcomingBookingCard({ booking, 
     >
       {({ pressed }) => (
         <LiquidGlassMaterial
-          preset="chrome"
+          preset="ghost"
           borderRadius={RITUAL_CORNER_RADIUS}
           className={cn('rounded-[18px]', pressed && 'opacity-[0.98]')}
         >

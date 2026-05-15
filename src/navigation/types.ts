@@ -6,6 +6,7 @@ export type RootStackParamList = {
   OtpVerification: { mobile: string };
   Main: undefined;
   BookingDetail: { bookingId: string };
+  RitualDetail: { ritualId: string };
 };
 
 export type ProfileStackParamList = {

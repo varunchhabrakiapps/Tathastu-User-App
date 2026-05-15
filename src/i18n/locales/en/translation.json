@@ -52,12 +52,57 @@
         "upcomingTomorrow": "Tomorrow",
         "today": "Today",
         "startingSoon": "Starting soon"
+      },
+      "trendingRituals": {
+        "sectionTitle": "Trending rituals",
+        "sectionDescription": "Quiet moments families are reaching for this week.",
+        "viewAll": "View all",
+        "viewAllA11y": "Browse more rituals",
+        "cardOpenHint": "Opens ritual details",
+        "items": {
+          "videoBlessing": {
+            "title": "Blessing on video call",
+            "description": "Sit with pandit ji from home — calm guidance when distance matters.",
+            "socialProof": "Guided 120+ times this week"
+          },
+          "nazarUttaro": {
+            "title": "Nazar utaro",
+            "description": "A protective clearing — gentle words and ritual focus for your household.",
+            "socialProof": "Chosen by 80+ families recently"
+          },
+          "grihaPravesh": {
+            "title": "Griha pravesh",
+            "description": "Bless the threshold — auspicious entry rites tailored to your new space.",
+            "socialProof": "Frequently booked this week"
+          },
+          "homeHavan": {
+            "title": "Home havan",
+            "description": "Sacred fire at home — structured steps you can follow alongside pandit ji.",
+            "socialProof": "Often requested for weekends"
+          },
+          "newCarBlessing": {
+            "title": "New car blessing",
+            "description": "A mindful beginning for journeys ahead — small rituals with big heart.",
+            "socialProof": "Welcomed by many new drivers lately"
+          },
+          "examBlessings": {
+            "title": "Exam blessings",
+            "description": "Support before big moments — steadiness for students and parents alike.",
+            "socialProof": "Trusted ahead of exam season"
+          }
+        }
       }
     },
     "bookingDetail": {
       "title": "Your ritual",
       "placeholderLead": "Reference · {{bookingId}}",
       "placeholderBody": "Timings, preparations, and notes from pandit ji will appear here as your ceremony draws closer."
+    },
+    "ritualDetail": {
+      "title": "Ritual",
+      "placeholderRitualTitle": "This ritual",
+      "placeholderLead": "You’re exploring {{ritualName}}.",
+      "placeholderBody": "Ceremony notes, preparations, and gentle guidance from pandit ji will settle here as this experience takes shape."
     },
     "bookings": {
       "title": "Bookings",
