@@ -21,7 +21,7 @@ export function RitualDetailDeliverables({ eyebrow, lines }: Props) {
 
   return (
     <RitualDetailSectionHeader eyebrow={eyebrow}>
-      <RitualDetailCard className="gap-3.5 bg-warm-subtle/40 dark:bg-ritual-surfaceSecondary-dark/80">
+      <RitualDetailCard className="gap-3">
         {lines.map((line, index) => (
           <View
             key={`${index}-${line.slice(0, 28)}`}

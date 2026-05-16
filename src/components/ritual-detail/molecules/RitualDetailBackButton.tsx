@@ -1,54 +1,48 @@
-import { Pressable } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
 import { useTranslation } from 'react-i18next';
 import { useColorScheme } from 'nativewind';
 
-import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
+import { IconButton } from '@/components/atoms/IconButton';
+import { hexToRgba } from '@/theme/colorUtils';
 import { paletteHex } from '@/theme/palette';
 
 type Props = {
-  /** After scrolling past the hero — higher-contrast chrome for readability on prose. */
-  elevated: boolean;
+  /** Hero reel — ghost glass + light icon; scrolled body — chrome + ink (same as OTP). */
+  onHero: boolean;
 };
 
-const BTN = 40;
-
 /**
- * Ritual detail only — circular glass back; no previous-route title (“Main”) beside the chevron.
+ * Ritual detail back — mirrors {@link AuthFlowHeader} (`angle-left` on {@link IconButton}).
  */
-export function RitualDetailBackButton({ elevated }: Props) {
+export function RitualDetailBackButton({ onHero }: Props) {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const paletteKey = isDark ? 'dark' : 'light';
 
-  const preset = elevated ? 'chrome' : 'ghost';
-
-  const iconColor = elevated
-    ? isDark
-      ? paletteHex.ritual.ink.dark
-      : paletteHex.ritual.ink.light
-    : '#FFFFFF';
+  const iconColor = onHero
+    ? hexToRgba('#FFFFFF', isDark ? 0.92 : 0.95)
+    : hexToRgba(paletteHex.ritual.ink[paletteKey], isDark ? 0.78 : 0.82);
 
   return (
-    <Pressable
-      onPress={() => {
-        if (navigation.canGoBack()) navigation.goBack();
-      }}
-      accessibilityRole="button"
-      accessibilityLabel={t('screens.ritualDetail.backA11y')}
-      hitSlop={12}
-      className="active:opacity-90"
-      style={{ width: BTN, height: BTN }}
-    >
-      <LiquidGlassMaterial
-        preset={preset}
-        borderRadius={BTN / 2}
-        className="h-full w-full items-center justify-center"
+    <View className="flex-row items-center">
+      <IconButton
+        onPress={() => {
+          if (navigation.canGoBack()) navigation.goBack();
+        }}
+        accessibilityLabel={t('screens.ritualDetail.backA11y')}
+        glassVariant={onHero ? 'ghost' : 'chrome'}
       >
-        <FontAwesome name="chevron-left" size={15} color={iconColor} />
-      </LiquidGlassMaterial>
-    </Pressable>
+        <FontAwesome
+          name="angle-left"
+          size={22}
+          color={iconColor}
+          importantForAccessibility="no"
+        />
+      </IconButton>
+    </View>
   );
 }

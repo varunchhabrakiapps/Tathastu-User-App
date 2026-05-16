@@ -40,7 +40,7 @@ export function RitualDetailSampleVideo({
     <View className="gap-3">
       <RitualDetailSectionHeader eyebrow={eyebrow} title={title} />
 
-      <RitualDetailCard className="gap-0 overflow-hidden p-0">
+      <RitualDetailCard contentClassName="none" className="overflow-hidden">
         <View className="w-full" style={{ aspectRatio: 16 / 9 }}>
           <Image
             source={thumbnailSource}
@@ -72,7 +72,7 @@ export function RitualDetailSampleVideo({
           </View>
         </View>
 
-        <View className="gap-2 px-5 py-5">
+        <View className="gap-1.5 px-4 py-3">
           <Text className="text-login-body leading-relaxed text-ritual-ink dark:text-ritual-ink-dark">
             {body}
           </Text>

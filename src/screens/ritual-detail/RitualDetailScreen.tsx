@@ -20,25 +20,23 @@ import {
   RitualDetailSections,
 } from '@/components/ritual-detail';
 import { RitualDetailBackButton } from '@/components/ritual-detail/molecules/RitualDetailBackButton';
-import { RitualDetailHeaderBackground } from '@/components/ritual-detail/molecules/RitualDetailHeaderBackground';
 import { OnboardingScreenBackdrop } from '@/components/molecules/OnboardingScreenBackdrop';
 import { RITUAL_DETAIL_BOOKING_FOOTER_BODY } from '@/constants/ritualDetailLayout';
 import { useRitualDetailScreen } from '@/hooks/useRitualDetailScreen';
 import { useThemePreference } from '@/hooks/useThemePreference';
 import type { RootStackParamList } from '@/navigation/types';
 import { semanticColors } from '@/theme/semanticColors';
-import { authScreen } from '@/theme/tokens';
 
 type RitualNav = StackNavigationProp<RootStackParamList, 'RitualDetail'>;
 
-/** Height from top of screen through the floating back cluster (safe area + pt-2 + 40px control + pb). */
+/** IconButton cluster — safe top + 44px control (matches {@link IconButton}). */
 function ritualDetailTopChromeHeight(insetTop: number) {
-  return insetTop + 8 + 40 + 14;
+  return insetTop + 6 + 44;
 }
 
 /**
- * Ritual catalogue detail — floating glass back (no native “Main” label), scroll-reveal top scrim
- * so section labels never collide with navigation.
+ * Ritual catalogue detail — onboarding backdrop, OTP-style glass back, glass sections,
+ * compact onboarding-style footer (price left · CTA right).
  */
 export function RitualDetailScreen() {
   const navigation = useNavigation<RitualNav>();
@@ -48,15 +46,14 @@ export function RitualDetailScreen() {
   const { resolvedScheme } = useThemePreference();
   const defaultStatusBarStyle = semanticColors[resolvedScheme].statusBarStyle;
 
-  const [navElevated, setNavElevated] = useState(false);
+  const [navOnHero, setNavOnHero] = useState(true);
 
   const topChromeH = useMemo(() => ritualDetailTopChromeHeight(insets.top), [insets.top]);
 
-  const scrollBottomPad =
-    authScreen.scrollBottom + RITUAL_DETAIL_BOOKING_FOOTER_BODY + insets.bottom;
+  const scrollBottomPad = RITUAL_DETAIL_BOOKING_FOOTER_BODY + insets.bottom + 8;
 
-  const scrollElevateThreshold = useMemo(
-    () => Math.max(0, vm.heroHeight - topChromeH - 20),
+  const scrollHeroThreshold = useMemo(
+    () => Math.max(0, vm.heroHeight - topChromeH - 16),
     [vm.heroHeight, topChromeH],
   );
 
@@ -67,10 +64,10 @@ export function RitualDetailScreen() {
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const y = event.nativeEvent.contentOffset.y;
-      const next = y >= scrollElevateThreshold;
-      setNavElevated((prev) => (prev === next ? prev : next));
+      const onHero = y < scrollHeroThreshold;
+      setNavOnHero((prev) => (prev === onHero ? prev : onHero));
     },
-    [scrollElevateThreshold],
+    [scrollHeroThreshold],
   );
 
   useFocusEffect(
@@ -83,12 +80,8 @@ export function RitualDetailScreen() {
 
   useEffect(() => {
     if (!isFocused) return;
-    if (!navElevated) {
-      StatusBar.setBarStyle('light-content');
-      return;
-    }
-    StatusBar.setBarStyle(resolvedScheme === 'dark' ? 'light-content' : 'dark-content');
-  }, [isFocused, navElevated, resolvedScheme]);
+    StatusBar.setBarStyle(navOnHero ? 'light-content' : defaultStatusBarStyle);
+  }, [isFocused, navOnHero, defaultStatusBarStyle]);
 
   return (
     <OnboardingScreenBackdrop>
@@ -120,28 +113,15 @@ export function RitualDetailScreen() {
           />
         </ScrollView>
 
-        {navElevated ? (
-          <View
-            pointerEvents="none"
-            className="absolute inset-x-0 top-0 z-30 overflow-hidden"
-            style={{ height: topChromeH }}
-          >
-            <RitualDetailHeaderBackground />
-          </View>
-        ) : null}
         <SafeAreaView
           edges={['top']}
           pointerEvents="box-none"
-          className="absolute inset-x-0 top-0 z-40 px-3 pb-3.5 pt-2"
+          className="absolute inset-x-0 top-0 z-40 px-5 pt-1"
         >
-          <RitualDetailBackButton elevated={navElevated} />
+          <RitualDetailBackButton onHero={navOnHero} />
         </SafeAreaView>
 
-        <RitualDetailBookingFooter
-          booking={vm.booking}
-          bottomInset={insets.bottom}
-          onBookPress={onBookPress}
-        />
+        <RitualDetailBookingFooter booking={vm.booking} onBookPress={onBookPress} />
       </View>
     </OnboardingScreenBackdrop>
   );

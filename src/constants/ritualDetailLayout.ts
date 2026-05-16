@@ -16,7 +16,6 @@ export const RITUAL_DETAIL_HERO_HEIGHT = {
 } as const;
 
 /**
- * Approximate sticky booking footer body (rounded lip + blur slab + primary CTA), excluding safe-area inset.
- * Tune when {@link RitualDetailBookingFooter} vertical rhythm changes.
+ * Sticky footer body ( {@link OnboardingFooter} + single price/CTA row), excluding safe-area inset.
  */
-export const RITUAL_DETAIL_BOOKING_FOOTER_BODY = 158;
+export const RITUAL_DETAIL_BOOKING_FOOTER_BODY = 56;

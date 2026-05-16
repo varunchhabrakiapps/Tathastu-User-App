@@ -1,93 +1,42 @@
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { BlurView } from '@react-native-community/blur';
-import { useColorScheme } from 'nativewind';
+import { Text, View } from 'react-native';
 
 import { RitualPrimaryButton } from '@/components/atoms/RitualPrimaryButton';
+import { OnboardingFooter } from '@/components/molecules/OnboardingFooter';
 
 import type { RitualDetailBookingVM } from '@/domain/ritualDetail';
-import { paletteHex } from '@/theme/palette';
-import { cn } from '@/utils/cn';
 
 type Props = {
   booking: RitualDetailBookingVM;
-  bottomInset: number;
   onBookPress: () => void;
 };
 
-const footerShellShadow = StyleSheet.create({
-  light: {
-    shadowColor: paletteHex.ritual.primary.light,
-    shadowOffset: { width: 0, height: -8 },
-    shadowOpacity: 0.09,
-    shadowRadius: 36,
-    elevation: 14,
-  },
-  dark: {
-    shadowColor: paletteHex.ritual.canvas.dark,
-    shadowOffset: { width: 0, height: -10 },
-    shadowOpacity: 0.42,
-    shadowRadius: 40,
-    elevation: 18,
-  },
-});
-
 /**
- * Floating booking sheet — same blur language as onboarding/login footers,
- * reads premium over the scrolling editorial body.
+ * Compact booking strip — price left, intrinsic-width CTA right (onboarding footer shell).
  */
-export function RitualDetailBookingFooter({
-  booking,
-  bottomInset,
-  onBookPress,
-}: Props) {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  const shellShadow = isDark ? footerShellShadow.dark : footerShellShadow.light;
-  const padBottom = Math.max(bottomInset, 12);
-
+export function RitualDetailBookingFooter({ booking, onBookPress }: Props) {
   return (
-    <View className="overflow-hidden rounded-t-[32px]" style={shellShadow}>
-      {Platform.OS === 'ios' ? (
-        <BlurView
-          blurType={isDark ? 'dark' : 'light'}
-          blurAmount={34}
-          reducedTransparencyFallbackColor={
-            isDark ? paletteHex.ritual.surface.dark : paletteHex.ritual.surface.light
-          }
-          style={StyleSheet.absoluteFill}
-        />
-      ) : null}
-      <View
-        className={cn(
-          'px-5 pt-4',
-          Platform.OS === 'ios'
-            ? 'bg-ritual-surface/66 dark:bg-ritual-surface-dark/64'
-            : 'bg-ritual-surface/95 dark:bg-ritual-surface-dark/95',
-        )}
-        style={{ paddingBottom: padBottom }}
-      >
-        <View className="gap-3">
-          <View className="gap-1">
-            <Text className="text-[13px] font-semibold leading-[18px] tracking-[-0.01em] text-ritual-primary dark:text-ritual-primary-dark">
-              {booking.priceEyebrow}
-            </Text>
-            <Text className="font-semibold text-[23px] leading-[28px] tracking-[-0.02em] text-ritual-ink dark:text-ritual-ink-dark">
-              {booking.priceAmount}
-            </Text>
-            <Text className="text-[13px] leading-[19px] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-              {booking.priceNote}
-            </Text>
-          </View>
-
-          <RitualPrimaryButton
-            label={booking.bookCtaLabel}
-            onPress={onBookPress}
-            accessibilityLabel={booking.bookCtaLabel}
-            accessibilityHint={booking.bookAccessibilityHint}
-            className="w-full"
-          />
+    <OnboardingFooter>
+      <View className="flex-row items-end justify-between gap-3">
+        <View className="min-w-0 flex-1 gap-0.5 pr-1">
+          <Text className="font-semibold text-login-body tracking-[-0.01em] text-ritual-ink dark:text-ritual-ink-dark">
+            {booking.priceAmount}
+          </Text>
+          <Text
+            numberOfLines={2}
+            className="text-[12px] leading-[17px] text-ritual-inkMuted dark:text-ritual-inkMuted-dark"
+          >
+            {booking.priceNote}
+          </Text>
         </View>
+
+        <RitualPrimaryButton
+          label={booking.bookCtaLabel}
+          onPress={onBookPress}
+          fullWidth={false}
+          accessibilityLabel={booking.bookCtaLabel}
+          accessibilityHint={booking.bookAccessibilityHint}
+        />
       </View>
-    </View>
+    </OnboardingFooter>
   );
 }

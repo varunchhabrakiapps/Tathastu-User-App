@@ -28,6 +28,8 @@ type Props = {
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
+  /** When false, intrinsic width — e.g. ritual detail footer CTA aligned end. */
+  fullWidth?: boolean;
   accessibilityLabel?: string;
   accessibilityHint?: string;
   className?: string;
@@ -41,6 +43,7 @@ export function RitualPrimaryButton({
   onPress,
   loading = false,
   disabled = false,
+  fullWidth = true,
   accessibilityLabel,
   accessibilityHint,
   className,
@@ -102,7 +105,12 @@ export function RitualPrimaryButton({
               shadowColor: paletteHex.ritual.primary.light,
             },
       ]}
-      className={cn('overflow-hidden', disabled && !loading && 'opacity-45', className)}
+      className={cn(
+        'overflow-hidden',
+        fullWidth ? 'w-full' : 'self-end',
+        disabled && !loading && 'opacity-45',
+        className,
+      )}
     >
       <LinearGradient
         colors={gradientColors}
@@ -135,7 +143,9 @@ export function RitualPrimaryButton({
           end={{ x: 0.5, y: 1 }}
           style={styles.warmDepth}
         />
-        <View style={styles.labelPad}>{labelContent}</View>
+        <View style={fullWidth ? styles.labelPad : styles.labelPadCompact}>
+          {labelContent}
+        </View>
       </LinearGradient>
     </AnimatedPressable>
   );
@@ -197,6 +207,12 @@ const styles = StyleSheet.create({
   },
   labelPad: {
     paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  labelPadCompact: {
+    paddingVertical: 12,
+    paddingHorizontal: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },

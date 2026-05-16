@@ -16,20 +16,17 @@ type Props = {
   videoThumbnailSource: ImageSourcePropType;
 };
 
-/**
- * Editorial column — rhythm matches home insets (`authScreen.insetX`); slight lift into hero
- * curve for magazine-style flow.
- */
+/** Editorial column — home horizontal inset, tight vertical rhythm. */
 export function RitualDetailSections({
   narrative,
   booking,
   videoThumbnailSource,
 }: Props) {
   return (
-    <View className="-mt-2 gap-11 pb-10 pt-4" style={styles.inset}>
+    <View className="-mt-1 gap-8 pb-4 pt-2" style={styles.inset}>
       <RitualDetailSectionHeader eyebrow={narrative.overviewEyebrow}>
-        <RitualDetailCard className="gap-4 px-5 py-5">
-          <Text className="text-[16px] font-medium leading-[24px] text-ritual-ink dark:text-ritual-ink-dark">
+        <RitualDetailCard className="gap-3">
+          <Text className="text-login-body font-medium leading-relaxed text-ritual-ink dark:text-ritual-ink-dark">
             {narrative.description}
           </Text>
           <Text className="text-login-body leading-relaxed text-ritual-inkMuted dark:text-ritual-inkMuted-dark">

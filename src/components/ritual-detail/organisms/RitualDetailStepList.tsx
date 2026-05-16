@@ -17,12 +17,12 @@ export function RitualDetailStepList({ steps }: Props) {
   const { t } = useTranslation();
 
   return (
-    <RitualDetailCard className="gap-0 overflow-hidden px-0 py-0">
+    <RitualDetailCard contentClassName="none" className="overflow-hidden">
       {steps.map((step, index) => (
         <View
           key={step.stepNumber}
           className={cn(
-            'flex-row gap-3 px-4 py-4',
+            'flex-row gap-3 px-4 py-3.5',
             index < steps.length - 1 &&
               'border-b border-ritual-borderSoft/35 dark:border-ritual-borderSoft-dark/30',
           )}
