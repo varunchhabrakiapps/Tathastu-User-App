@@ -15,3 +15,7 @@ export type TrendingRitualPreview = {
   /** Varied reel overlay tint rotation (covers are keyed separately by ritual id). */
   artworkPreset: number;
 };
+
+export function isTrendingRitualId(value: string): value is TrendingRitualId {
+  return (TRENDING_RITUAL_IDS as readonly string[]).includes(value);
+}

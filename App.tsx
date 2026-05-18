@@ -13,6 +13,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { ProductProvider } from '@/context/ProductContext';
+import { WishlistProvider } from '@/context/WishlistContext';
 import { ThemePreferenceProvider, useThemePreference } from '@/hooks/useThemePreference';
 import { RootNavigator } from '@/navigation';
 
@@ -25,12 +26,14 @@ function AppShell() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <ProductProvider>
-          <NavigationContainer>
-            <StatusBar barStyle={semantic.statusBarStyle} />
-            <RootNavigator />
-          </NavigationContainer>
-        </ProductProvider>
+        <WishlistProvider>
+          <ProductProvider>
+            <NavigationContainer>
+              <StatusBar barStyle={semantic.statusBarStyle} />
+              <RootNavigator />
+            </NavigationContainer>
+          </ProductProvider>
+        </WishlistProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

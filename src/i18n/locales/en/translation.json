@@ -364,8 +364,31 @@
     },
     "explore": {
       "title": "Explore",
+      "catalogTitle": "All rituals",
       "subtitle": "Rituals, auspicious rhythms, and quiet guidance — discovered with care, not noise.",
-      "subtitleWithMoment": "Starting from {{moment}} — explore the full catalog while we make this space smarter."
+      "subtitleWithMoment": "Curated for {{moment}} — every blessing here meets that energy without the noise.",
+      "sectionLeadingA11y": "Ritual catalog compass",
+      "wishlistGlance": "{{count}} saved for later — hearts stay on your device until you book.",
+      "search": {
+        "placeholder": "Search rituals, blessings, moods…",
+        "accessibilityLabel": "Search ritual catalog",
+        "accessibilityHint": "Filters rituals in this list as you type"
+      },
+      "filters": {
+        "all": "All",
+        "stripA11y": "Filter rituals by life moment"
+      },
+      "empty": {
+        "title": "No rituals here yet",
+        "body": "We’re expanding the catalog — check back soon for more ceremonies.",
+        "filteredTitle": "Nothing matched",
+        "filteredBody": "Try another mood filter or soften your search — the right ritual might hide under a different word."
+      }
+    },
+    "wishlist": {
+      "addA11y": "Save {{ritual}} to wishlist",
+      "removeA11y": "Remove {{ritual}} from wishlist",
+      "toggleHint": "Saves this ritual on your device for later"
     },
     "search": {
       "title": "Search",
