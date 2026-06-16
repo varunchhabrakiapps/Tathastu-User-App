@@ -94,6 +94,7 @@ export function RootNavigator() {
             component={SearchScreen}
             options={{ headerShown: true }}
           />
+          <Stack.Screen name="ManualLocation" component={ManualLocationScreen} />
         </>
       )}
     </Stack.Navigator>

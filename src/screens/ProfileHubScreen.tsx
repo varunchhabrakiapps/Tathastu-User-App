@@ -5,6 +5,7 @@ import { ProfileIdentityHero } from '@/components/molecules/ProfileIdentityHero'
 import { ProfileNavRow } from '@/components/molecules/ProfileNavRow';
 import { ProfileSectionCard } from '@/components/molecules/ProfileSectionCard';
 import { ProfileHubScrollLayout } from '@/components/templates/ProfileHubScrollLayout';
+import { useLocationRoutes } from '@/hooks/useLocationRoutes';
 import { useProfileHubModel } from '@/hooks/useProfileHubModel';
 
 /**
@@ -14,12 +15,17 @@ import { useProfileHubModel } from '@/hooks/useProfileHubModel';
  */
 export function ProfileHubScreen() {
   const { identity, sections } = useProfileHubModel();
+  const { openManualLocation } = useLocationRoutes();
 
   return (
     <ProfileHubScrollLayout>
       <View className="flex-1 px-5 pt-4">
         <View className="mb-4">
-          <LocationHeaderChip accessibilityLabelKey="screens.profile.locationA11y" />
+          <LocationHeaderChip
+            accessibilityLabelKey="screens.profile.locationA11y"
+            accessibilityHintKey="screens.profile.locationOpenHint"
+            onPress={openManualLocation}
+          />
         </View>
         <View className="mb-7">
           <ProfileIdentityHero {...identity} />

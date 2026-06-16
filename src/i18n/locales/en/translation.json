@@ -2,6 +2,7 @@
   "common": {
     "cancel": "Cancel",
     "done": "Done",
+    "locationChipLabel": "Location",
     "locationFallback": "Sector 23, Gurgaon"
   },
   "product": {
@@ -40,6 +41,7 @@
       "supportingLine": "Calm guidance for meaningful moments.",
       "profileActionA11y": "Profile and settings",
       "locationA11y": "Your service area, {{location}}",
+      "locationOpenHint": "Opens service area picker",
       "searchBar": {
         "placeholder": "Search rituals, blessings, pandits…",
         "accessibilityLabel": "Search rituals",
@@ -501,6 +503,7 @@
       "editAction": "Edit",
       "editA11y": "Edit your profile",
       "locationA11y": "Your service area, {{location}}",
+      "locationOpenHint": "Opens service area picker",
       "editHint": "Opens your profile details to edit",
       "stackBackA11y": "Go back to profile",
       "sections": {
@@ -702,9 +705,37 @@
       "errorCheckFailed": "Could not verify availability. Please try again."
     },
     "manualLocation": {
-      "backA11y": "Go back to location options",
-      "title": "Enter your city",
-      "subtitle": "City and area picker coming soon."
+      "backA11y": "Go back",
+      "title": "Choose location",
+      "subtitle": "Search for your city or pick one we serve nearby.",
+      "search": {
+        "placeholder": "Search city or neighbourhood",
+        "accessibilityLabel": "Search for a location",
+        "accessibilityHint": "Type to filter supported cities and neighbourhoods",
+        "clearA11y": "Clear search"
+      },
+      "useCurrentLocation": "Use my current location",
+      "useCurrentLocationA11y": "Use my current location",
+      "selectedHeading": "Selected location",
+      "selectedA11y": "Currently selected location: {{location}}",
+      "popularCitiesTitle": "Popular cities",
+      "popularCitiesCaption": "Tap a city to set your service area — more metros coming soon.",
+      "searchResultsTitle": "Matching areas",
+      "noResults": "No cities match your search. Try Gurgaon, Bengaluru, Mumbai, or Pune.",
+      "selectAreaA11y": "Select {{area}} as your service area",
+      "footnote": "We only use your area to match rituals and pandits — never to track you in the background.",
+      "popularCities": {
+        "delhi-ncr": "Gurgaon",
+        "bengaluru": "Bengaluru",
+        "mumbai": "Mumbai",
+        "pune": "Pune"
+      },
+      "areas": {
+        "delhi-ncr": "Sector 23, Gurgaon",
+        "mumbai": "Bandra West, Mumbai",
+        "pune": "Koregaon Park, Pune",
+        "bengaluru": "Indiranagar, Bengaluru"
+      }
     }
   }
 }

@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type PropsWithChildren,
 } from 'react';
@@ -51,8 +52,8 @@ type AuthContextValue = {
   user: AuthUser | null;
   login: (mobileNumber: string) => Promise<void>;
   logout: () => Promise<void>;
-  /** Persist the user's service area (no-op when signed out). */
-  setLocation: (location: UserLocation) => Promise<void>;
+  /** Persist the user's service area — returns false when signed out. */
+  setLocation: (location: UserLocation) => Promise<boolean>;
   /** Patch + persist the signed-in profile (no-op when signed out). */
   updateProfile: (patch: AuthProfilePatch) => Promise<void>;
 };
@@ -91,6 +92,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
+  const userRef = useRef<AuthUser | null>(null);
+
+  userRef.current = user;
 
   useEffect(() => {
     let cancelled = false;
@@ -131,18 +135,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsLoggedIn(true);
   }, []);
 
-  const setLocation = useCallback(
-    async (location: UserLocation) => {
-      if (!user) {
-        return;
-      }
-      await persistUserLocation(location);
-      const nextUser: AuthUser = { ...user, location };
-      await writeSession({ isLoggedIn: true, user: nextUser });
-      setUser(nextUser);
-    },
-    [user],
-  );
+  const setLocation = useCallback(async (location: UserLocation): Promise<boolean> => {
+    const prev = userRef.current;
+    if (!prev) {
+      return false;
+    }
+
+    const nextUser: AuthUser = { ...prev, location };
+    await persistUserLocation(location);
+    await writeSession({ isLoggedIn: true, user: nextUser });
+    setUser(nextUser);
+    return true;
+  }, []);
 
   const logout = useCallback(async () => {
     await clearUserLocation();

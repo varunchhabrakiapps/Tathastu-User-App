@@ -1,19 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import { useColorScheme } from 'nativewind';
+import { View } from 'react-native';
 
+import { ManualLocationScrollBody } from '@/components/organisms/ManualLocationScrollBody';
 import { AuthScreen } from '@/components/templates/AuthScreen';
 import { useManualLocationScreen } from '@/hooks/useManualLocationScreen';
-import { paletteHex } from '@/theme/palette';
 
-/** Placeholder until city / area picker ships. */
+/** Service-area picker — search, GPS refresh, or choose a supported neighbourhood. */
 export function ManualLocationScreen() {
   const { t } = useTranslation();
   const vm = useManualLocationScreen();
-  const { colorScheme } = useColorScheme();
-  const key = colorScheme === 'dark' ? 'dark' : 'light';
-  const ink = paletteHex.ritual.ink[key];
-  const muted = paletteHex.ritual.inkMuted[key];
 
   return (
     <AuthScreen
@@ -21,17 +16,22 @@ export function ManualLocationScreen() {
       onBackPress={vm.onBackPress}
       backAccessibilityLabel={t('screens.manualLocation.backA11y')}
     >
-      <View className="flex-1 px-5 pt-4">
-        <Text
-          accessibilityRole="header"
-          style={{ color: ink }}
-          className="text-login-display font-medium"
-        >
-          {t('screens.manualLocation.title')}
-        </Text>
-        <Text style={{ color: muted }} className="mt-2 text-login-body">
-          {t('screens.manualLocation.subtitle')}
-        </Text>
+      <View className="px-5 pt-2">
+        <ManualLocationScrollBody
+          filteredAreas={vm.filteredAreas}
+          popularCities={vm.popularCities}
+          currentAreaId={vm.currentAreaId}
+          currentLabel={vm.currentLabel}
+          selectedMetroLabel={vm.selectedMetroLabel}
+          searchQuery={vm.searchQuery}
+          isSearching={vm.isSearching}
+          isBusy={vm.isBusy}
+          statusText={vm.statusText}
+          error={vm.error}
+          onSearchChange={vm.onSearchChange}
+          onUseCurrentLocation={vm.onUseCurrentLocation}
+          onSelectArea={vm.onSelectArea}
+        />
       </View>
     </AuthScreen>
   );

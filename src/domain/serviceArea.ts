@@ -56,6 +56,22 @@ export const SUPPORTED_SERVICE_AREAS: readonly SupportedServiceArea[] = [
   },
 ] as const;
 
+/** City nicknames and neighbourhood tokens for manual location search. */
+export const SERVICE_AREA_SEARCH_ALIASES: Record<string, readonly string[]> = {
+  'delhi-ncr': ['gurgaon', 'gurugram', 'ncr', 'delhi', 'noida', 'sector'],
+  bengaluru: ['bangalore', 'bengaluru', 'indiranagar', 'blr'],
+  mumbai: ['mumbai', 'bandra', 'bombay'],
+  pune: ['pune', 'koregaon'],
+};
+
+/** Featured metros on the manual picker — order controls chip layout. */
+export const POPULAR_SERVICE_AREA_IDS = [
+  'delhi-ncr',
+  'bengaluru',
+  'mumbai',
+  'pune',
+] as const satisfies readonly string[];
+
 export type ServiceAreaCheckRequest = {
   latitude: number;
   longitude: number;
@@ -91,4 +107,59 @@ export function matchSupportedServiceArea(
       isInsideBounds(latitude, longitude, area.bounds),
     ) ?? null
   );
+}
+
+/** Representative coordinates for a manual area pick (centroid of launch bounds). */
+export function serviceAreaCenter(area: SupportedServiceArea): {
+  latitude: number;
+  longitude: number;
+} {
+  return {
+    latitude: (area.bounds.latitudeMin + area.bounds.latitudeMax) / 2,
+    longitude: (area.bounds.longitudeMin + area.bounds.longitudeMax) / 2,
+  };
+}
+
+/** Best-effort id for highlighting the user's current service area in pickers. */
+export function resolveServiceAreaId(
+  latitude: number | undefined,
+  longitude: number | undefined,
+  serviceAreaName: string | null | undefined,
+): string | null {
+  if (latitude !== undefined && longitude !== undefined) {
+    return matchSupportedServiceArea(latitude, longitude)?.id ?? null;
+  }
+  if (serviceAreaName) {
+    return (
+      SUPPORTED_SERVICE_AREAS.find((area) => area.name === serviceAreaName)?.id ?? null
+    );
+  }
+  return null;
+}
+
+type SearchableArea = {
+  area: SupportedServiceArea;
+  label: string;
+  metroLabel: string;
+};
+
+/** Case-insensitive filter for manual location search (label, metro, aliases). */
+export function filterServiceAreasByQuery<T extends SearchableArea>(
+  areas: readonly T[],
+  query: string,
+): T[] {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) {
+    return [...areas];
+  }
+
+  return areas.filter((option) => {
+    const tokens = [
+      option.label,
+      option.metroLabel,
+      option.area.name,
+      ...(SERVICE_AREA_SEARCH_ALIASES[option.area.id] ?? []),
+    ];
+    return tokens.some((token) => token.toLowerCase().includes(normalized));
+  });
 }
