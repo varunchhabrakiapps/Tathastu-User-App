@@ -13,6 +13,13 @@ import {
   isValidLoginMobileNumber,
   normalizeMobileDigits,
 } from '@/utils/mobile';
+import type { UserLocation } from '@/domain/location';
+import { hasUserLocation } from '@/domain/location';
+import {
+  clearUserLocation,
+  loadUserLocation,
+  persistUserLocation,
+} from '@/services/location/userLocationStorage';
 
 const STORAGE_KEY = '@tathastu/auth-session';
 
@@ -20,6 +27,8 @@ export type AuthUser = {
   mobileNumber: string;
   /** Optional display name once profile/API provides it — persisted separately later. */
   displayName?: string;
+  /** Service area captured during sign-in. */
+  location?: UserLocation;
 };
 
 type PersistedSession = {
@@ -27,13 +36,25 @@ type PersistedSession = {
   user: AuthUser | null;
 };
 
+/** Editable subset of the profile — extend as richer fields (birth details, etc.) ship. */
+export type AuthProfilePatch = {
+  /** Trimmed display name; empty/blank clears it so greetings fall back gracefully. */
+  displayName?: string;
+};
+
 type AuthContextValue = {
   /** Hydration finished — safe to render gated UI. */
   isReady: boolean;
   isLoggedIn: boolean;
+  /** True once the signed-in user has chosen a service area. */
+  hasLocation: boolean;
   user: AuthUser | null;
   login: (mobileNumber: string) => Promise<void>;
   logout: () => Promise<void>;
+  /** Persist the user's service area (no-op when signed out). */
+  setLocation: (location: UserLocation) => Promise<void>;
+  /** Patch + persist the signed-in profile (no-op when signed out). */
+  updateProfile: (patch: AuthProfilePatch) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -75,9 +96,21 @@ export function AuthProvider({ children }: PropsWithChildren) {
     let cancelled = false;
     (async () => {
       const session = await readSession();
+      const storedLocation = await loadUserLocation();
+
       if (!cancelled && session?.isLoggedIn && session.user) {
+        const location = storedLocation ?? session.user.location ?? undefined;
+        const nextUser: AuthUser = {
+          ...session.user,
+          ...(location ? { location } : {}),
+        };
+
+        if (location && !storedLocation) {
+          await persistUserLocation(location);
+        }
+
         setIsLoggedIn(true);
-        setUser(session.user);
+        setUser(nextUser);
       }
       if (!cancelled) setIsReady(true);
     })();
@@ -98,21 +131,54 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsLoggedIn(true);
   }, []);
 
+  const setLocation = useCallback(
+    async (location: UserLocation) => {
+      if (!user) {
+        return;
+      }
+      await persistUserLocation(location);
+      const nextUser: AuthUser = { ...user, location };
+      await writeSession({ isLoggedIn: true, user: nextUser });
+      setUser(nextUser);
+    },
+    [user],
+  );
+
   const logout = useCallback(async () => {
+    await clearUserLocation();
     await clearSession();
     setUser(null);
     setIsLoggedIn(false);
   }, []);
 
+  const updateProfile = useCallback(
+    async (patch: AuthProfilePatch) => {
+      if (!user) {
+        return;
+      }
+      const trimmedName = patch.displayName?.trim();
+      const nextUser: AuthUser = {
+        ...user,
+        displayName: trimmedName ? trimmedName : undefined,
+      };
+      await writeSession({ isLoggedIn: true, user: nextUser });
+      setUser(nextUser);
+    },
+    [user],
+  );
+
   const value = useMemo(
     () => ({
       isReady,
       isLoggedIn,
+      hasLocation: hasUserLocation(user?.location),
       user,
       login,
       logout,
+      setLocation,
+      updateProfile,
     }),
-    [isReady, isLoggedIn, user, login, logout],
+    [isReady, isLoggedIn, user, login, logout, setLocation, updateProfile],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

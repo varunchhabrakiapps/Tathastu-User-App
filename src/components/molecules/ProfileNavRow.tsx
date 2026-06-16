@@ -1,27 +1,79 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
-import { useColorScheme } from 'nativewind';
 
-import { hexToRgba } from '@/theme/colorUtils';
-import { paletteHex } from '@/theme/palette';
-
+import {
+  ProfileRowIcon,
+  type ProfileRowIconGlyph,
+  type ProfileRowIconTone,
+} from '@/components/atoms/ProfileRowIcon';
+import { useRitualSemanticColors } from '@/hooks/useRitualSemanticColors';
 import { cn } from '@/utils/cn';
 
 type Props = {
   label: string;
-  onPress: () => void;
+  /** Omit to render a static (non-pressable) info row — chevron hides automatically. */
+  onPress?: () => void;
+  /** Leading glyph tile. Omit for a plain text row. */
+  icon?: ProfileRowIconGlyph;
+  /** Right-aligned secondary value (e.g. current theme, saved count). */
+  value?: string;
   isLast?: boolean;
   accessibilityHint?: string;
+  /** `destructive` tints the label + icon warm (sign-out). */
+  tone?: ProfileRowIconTone;
+  /** Force-show/hide the trailing chevron; defaults to visible when pressable. */
+  showChevron?: boolean;
 };
 
-/** Ritual-profile nav row — chevron tint matches home/header chrome. */
-export function ProfileNavRow({ label, onPress, isLast, accessibilityHint }: Props) {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  const glyph = hexToRgba(
-    paletteHex.ritual.inkMuted[isDark ? 'dark' : 'light'],
-    isDark ? 0.72 : 0.65,
+/**
+ * Ritual-profile row — optional leading glyph, label, secondary value, and chevron.
+ * Renders as a button when `onPress` is supplied, otherwise a calm static info row.
+ */
+export function ProfileNavRow({
+  label,
+  onPress,
+  icon,
+  value,
+  isLast,
+  accessibilityHint,
+  tone = 'default',
+  showChevron,
+}: Props) {
+  const { ink, inkMuted, chevron, rowDivider, rowPressHighlight, warmAccent } =
+    useRitualSemanticColors();
+
+  const isDestructive = tone === 'destructive';
+  const chevronVisible = showChevron ?? Boolean(onPress);
+  const labelColor = isDestructive ? warmAccent : ink;
+
+  const content = (
+    <>
+      {icon ? <ProfileRowIcon name={icon} tone={tone} /> : null}
+      <Text numberOfLines={1} style={{ color: labelColor }} className="min-w-0 flex-1 text-login-body">
+        {label}
+      </Text>
+      {value ? (
+        <Text
+          numberOfLines={1}
+          style={{ color: inkMuted }}
+          className="max-w-[48%] text-login-body"
+        >
+          {value}
+        </Text>
+      ) : null}
+      {chevronVisible ? <FontAwesome name="chevron-right" size={13} color={chevron} /> : null}
+    </>
   );
+
+  const rowStyle = !isLast ? { borderBottomWidth: 1, borderBottomColor: rowDivider } : undefined;
+
+  if (!onPress) {
+    return (
+      <View className="flex-row items-center gap-3 px-4 py-3.5" style={rowStyle} accessibilityRole="text">
+        {content}
+      </View>
+    );
+  }
 
   return (
     <Pressable
@@ -29,13 +81,13 @@ export function ProfileNavRow({ label, onPress, isLast, accessibilityHint }: Pro
       accessibilityLabel={label}
       accessibilityHint={accessibilityHint}
       onPress={onPress}
-      className={cn(
-        'flex-row items-center justify-between px-4 py-3.5 active:bg-ritual-surfaceSecondary/70 dark:active:bg-ritual-surfaceSecondary-dark/55',
-        !isLast && 'border-b border-ritual-borderSoft dark:border-ritual-borderSoft-dark',
-      )}
+      style={({ pressed }) => [
+        rowStyle,
+        pressed ? { backgroundColor: rowPressHighlight } : undefined,
+      ]}
+      className="flex-row items-center gap-3 px-4 py-3.5"
     >
-      <Text className="text-login-body text-ritual-ink dark:text-ritual-ink-dark">{label}</Text>
-      <FontAwesome name="chevron-right" size={13} color={glyph} />
+      {content}
     </Pressable>
   );
 }

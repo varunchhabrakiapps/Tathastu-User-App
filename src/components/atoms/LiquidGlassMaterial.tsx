@@ -15,6 +15,8 @@ type Props = {
   preset: LiquidGlassMaterialPreset;
   /** Border radius in px (defaults to shared ritual chrome). */
   borderRadius?: number;
+  /** Stronger frost for Modal sheets where blur sources are weak (e.g. quick preview). */
+  elevated?: boolean;
   className?: string;
   children: ReactNode;
 };
@@ -24,8 +26,8 @@ type Resolved = {
   blurType: 'light' | 'dark' | 'xlight' | 'prominent';
   iosFallback: string;
   /**
-   * iOS **BlurView** path only: frost layer on top of blur (LiquidGlass path does not use this).
-   * Keep α moderate so the backdrop still reads through — unlike a flat `bg-ritual-surface` slab.
+   * Frost layer on top of blur / liquid glass. Keep α moderate inline so the backdrop still
+   * reads through — unlike a flat `bg-ritual-surface` slab. Use {@link Props.elevated} for sheets.
    */
   blurVeilIos: string;
   /**
@@ -159,6 +161,7 @@ function resolvePreset(preset: LiquidGlassMaterialPreset, mode: 'light' | 'dark'
 export function LiquidGlassMaterial({
   preset,
   borderRadius = RITUAL_CORNER_RADIUS,
+  elevated = false,
   className,
   children,
 }: Props) {
@@ -175,6 +178,17 @@ export function LiquidGlassMaterial({
     solidDarkClass,
   } = resolvePreset(preset, mode);
 
+  const frostVeil =
+    elevated && preset === 'chrome'
+      ? hexToRgba(iosFallback, mode === 'dark' ? 0.88 : 0.96)
+      : blurVeilIos;
+  const androidOverlay =
+    elevated && preset === 'chrome'
+      ? hexToRgba(iosFallback, mode === 'dark' ? 0.78 : 0.88)
+      : androidBlurOverlay;
+  const androidVeil =
+    elevated && preset === 'chrome' ? frostVeil : androidSecondVeil;
+
   const radiusStyle = { borderRadius };
 
   if (isLiquidGlassSupported) {
@@ -187,7 +201,17 @@ export function LiquidGlassMaterial({
           interactive
           style={[styles.materialFill, radiusStyle]}
         >
-          {children}
+          {/*
+           * Match the BlurView stack: `effect="clear"` alone is invisible in light mode when
+           * there is nothing meaningful to refract (e.g. quick-preview Modal over a scrim).
+           */}
+          <View
+            pointerEvents="none"
+            style={[StyleSheet.absoluteFill, { backgroundColor: frostVeil }, radiusStyle]}
+          />
+          <View pointerEvents="box-none" className="relative z-10" style={[styles.blurStack, radiusStyle]}>
+            {children}
+          </View>
         </LiquidGlassView>
       </View>
     );
@@ -202,7 +226,7 @@ export function LiquidGlassMaterial({
           blurAmount={blurAmount}
           {...(Platform.OS === 'ios'
             ? { reducedTransparencyFallbackColor: iosFallback }
-            : { overlayColor: androidBlurOverlay })}
+            : { overlayColor: androidOverlay })}
           style={[StyleSheet.absoluteFill, radiusStyle]}
         />
         <View
@@ -210,8 +234,7 @@ export function LiquidGlassMaterial({
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor:
-                Platform.OS === 'android' ? androidSecondVeil : blurVeilIos,
+              backgroundColor: Platform.OS === 'android' ? androidVeil : frostVeil,
             },
             radiusStyle,
           ]}

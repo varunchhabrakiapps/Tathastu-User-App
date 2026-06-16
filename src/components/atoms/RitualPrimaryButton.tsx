@@ -13,6 +13,8 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { useColorScheme } from 'nativewind';
+import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
+import type { ComponentProps } from 'react';
 
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import { paletteHex } from '@/theme/palette';
@@ -30,6 +32,9 @@ type Props = {
   disabled?: boolean;
   /** When false, intrinsic width — e.g. ritual detail footer CTA aligned end. */
   fullWidth?: boolean;
+  /** `gradient` — default marketing sheen; `solid` — flat ritual orange (compact surfaces). */
+  variant?: 'gradient' | 'solid';
+  iconName?: ComponentProps<typeof FontAwesome>['name'];
   accessibilityLabel?: string;
   accessibilityHint?: string;
   className?: string;
@@ -44,6 +49,8 @@ export function RitualPrimaryButton({
   loading = false,
   disabled = false,
   fullWidth = true,
+  variant = 'gradient',
+  iconName,
   accessibilityLabel,
   accessibilityHint,
   className,
@@ -53,8 +60,10 @@ export function RitualPrimaryButton({
   const scale = useSharedValue(1);
   const press = useSharedValue(1);
   const isBusy = loading || disabled;
+  const isSolid = variant === 'solid';
 
   const cta = paletteHex.ritual.cta;
+  const solidFill = paletteHex.ritual.primary[isDark ? 'dark' : 'light'];
   const gradientColors = isDark
     ? [hexToRgba(cta.dark.top, 1), hexToRgba(cta.dark.bottom, 1)]
     : [
@@ -72,12 +81,22 @@ export function RitualPrimaryButton({
       color={isDark ? paletteHex.ritual.ink.light : paletteHex.ritual.surface.light}
     />
   ) : (
-    <Text
-      accessibilityRole="text"
-      style={[styles.ctaLabel, isDark ? styles.ctaLabelDarkWarm : null]}
-    >
-      {label}
-    </Text>
+    <View style={styles.labelRow}>
+      {iconName ? (
+        <FontAwesome
+          name={iconName}
+          size={16}
+          color={isDark ? paletteHex.ritual.ink.light : paletteHex.ritual.surface.light}
+          importantForAccessibility="no"
+        />
+      ) : null}
+      <Text
+        accessibilityRole="text"
+        style={[styles.ctaLabel, isDark ? styles.ctaLabelDarkWarm : null]}
+      >
+        {label}
+      </Text>
+    </View>
   );
 
   return (
@@ -98,12 +117,16 @@ export function RitualPrimaryButton({
       }}
       style={[
         scaleStyle,
-        isDark
-          ? styles.outerShadowDark
-          : {
-              ...styles.outerShadowLight,
-              shadowColor: paletteHex.ritual.primary.light,
-            },
+        isSolid
+          ? isDark
+            ? styles.outerShadowSolidDark
+            : { ...styles.outerShadowSolidLight, shadowColor: solidFill }
+          : isDark
+            ? styles.outerShadowDark
+            : {
+                ...styles.outerShadowLight,
+                shadowColor: paletteHex.ritual.primary.light,
+              },
       ]}
       className={cn(
         'overflow-hidden',
@@ -112,41 +135,42 @@ export function RitualPrimaryButton({
         className,
       )}
     >
-      <LinearGradient
-        colors={gradientColors}
-        locations={isDark ? undefined : [0, 0.42, 1]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={styles.gradientFill}
-      >
-        <LinearGradient
-          colors={[
-            hexToRgba(paletteHex.ritual.surface.light, 0.1),
-            'transparent',
-            hexToRgba(
-              isDark ? paletteHex.ritual.primary.dark : paletteHex.ritual.primary.light,
-              isDark ? 0.11 : 0.09,
-            ),
-          ]}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
-          locations={[0, 0.38, 1]}
-          style={styles.highlight}
-        />
-        <LinearGradient
-          colors={[
-            'transparent',
-            hexToRgba(paletteHex.warm.deep, isDark ? 0.12 : 0.09),
-          ]}
-          locations={[0.55, 1]}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
-          style={styles.warmDepth}
-        />
-        <View style={fullWidth ? styles.labelPad : styles.labelPadCompact}>
-          {labelContent}
+      {isSolid ? (
+        <View style={[styles.gradientFill, { backgroundColor: solidFill }]}>
+          <View style={fullWidth ? styles.labelPad : styles.labelPadCompact}>{labelContent}</View>
         </View>
-      </LinearGradient>
+      ) : (
+        <LinearGradient
+          colors={gradientColors}
+          locations={isDark ? undefined : [0, 0.42, 1]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={styles.gradientFill}
+        >
+          <LinearGradient
+            colors={[
+              hexToRgba(paletteHex.ritual.surface.light, 0.1),
+              'transparent',
+              hexToRgba(
+                isDark ? paletteHex.ritual.primary.dark : paletteHex.ritual.primary.light,
+                isDark ? 0.11 : 0.09,
+              ),
+            ]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            locations={[0, 0.38, 1]}
+            style={styles.highlight}
+          />
+          <LinearGradient
+            colors={['transparent', hexToRgba(paletteHex.warm.deep, isDark ? 0.12 : 0.09)]}
+            locations={[0.55, 1]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={styles.warmDepth}
+          />
+          <View style={fullWidth ? styles.labelPad : styles.labelPadCompact}>{labelContent}</View>
+        </LinearGradient>
+      )}
     </AnimatedPressable>
   );
 }
@@ -159,6 +183,13 @@ const styles = StyleSheet.create({
     shadowRadius: 30,
     elevation: 10,
   },
+  outerShadowSolidLight: {
+    borderRadius: RADIUS,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.28,
+    shadowRadius: 18,
+    elevation: 6,
+  },
   outerShadowDark: {
     borderRadius: RADIUS,
     shadowColor: paletteHex.ritual.primary.dark,
@@ -166,6 +197,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.42,
     shadowRadius: 26,
     elevation: 12,
+  },
+  outerShadowSolidDark: {
+    borderRadius: RADIUS,
+    shadowColor: paletteHex.ritual.primary.dark,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.32,
+    shadowRadius: 16,
+    elevation: 8,
   },
   gradientFill: {
     borderRadius: RADIUS,
@@ -215,5 +254,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
   },
 });

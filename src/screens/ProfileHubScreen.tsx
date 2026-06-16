@@ -1,89 +1,46 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { LoginAuthSurface } from '@/components/molecules/LoginAuthSurface';
+import { LocationHeaderChip } from '@/components/molecules/LocationHeaderChip';
 import { ProfileIdentityHero } from '@/components/molecules/ProfileIdentityHero';
 import { ProfileNavRow } from '@/components/molecules/ProfileNavRow';
+import { ProfileSectionCard } from '@/components/molecules/ProfileSectionCard';
 import { ProfileHubScrollLayout } from '@/components/templates/ProfileHubScrollLayout';
-import { useProfileHubRoutes } from '@/hooks/useProfileHubRoutes';
-import { useProfileHubSummary } from '@/hooks/useProfileHubSummary';
-
-type HubMenuRow = {
-  key: string;
-  label: string;
-  onPress: () => void;
-  accessibilityHint?: string;
-};
+import { useProfileHubModel } from '@/hooks/useProfileHubModel';
 
 /**
- * Primary destination for Profile tab — ritual backdrop + auth-style slab; utilities only (no tab duplicates).
+ * Primary destination for the Profile tab — ritual backdrop, premium identity slab, then calm
+ * grouped sections (journey · preferences · support · account). Composition only; the view-model
+ * lives in {@link useProfileHubModel}.
  */
 export function ProfileHubScreen() {
-  const { t } = useTranslation();
-  const summary = useProfileHubSummary();
-  const routes = useProfileHubRoutes();
-
-  const mobileLine =
-    summary.mobileDisplayLine || t('screens.profile.mobilePlaceholder');
-
-  const menuRows: HubMenuRow[] = useMemo(
-    () => [
-      { key: 'settings', label: t('screens.profile.openSettings'), onPress: routes.openSettings },
-      {
-        key: 'notifications',
-        label: t('screens.profile.openNotifications'),
-        onPress: routes.openNotifications,
-      },
-      { key: 'help', label: t('screens.profile.openHelp'), onPress: routes.openHelp },
-      {
-        key: 'contact',
-        label: t('screens.profile.contactSupport'),
-        onPress: routes.openContactSupport,
-        accessibilityHint: t('screens.profile.contactSupportA11yHint'),
-      },
-      { key: 'legal', label: t('screens.profile.openLegal'), onPress: routes.openLegalInfo },
-      { key: 'about', label: t('screens.profile.openAbout'), onPress: routes.openAbout },
-    ],
-    [routes, t],
-  );
+  const { identity, sections } = useProfileHubModel();
 
   return (
     <ProfileHubScrollLayout>
-      <View className="flex-1 px-5 pb-6 pt-4">
-        <View className="mb-7 gap-2">
-          <Text className="font-medium leading-snug text-login-display text-ritual-ink dark:text-ritual-ink-dark">
-            {t('screens.profile.title')}
-          </Text>
-          <Text className="text-login-body leading-relaxed text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-            {t('screens.profile.subtitle')}
-          </Text>
+      <View className="flex-1 px-5 pt-4">
+        <View className="mb-4">
+          <LocationHeaderChip accessibilityLabelKey="screens.profile.locationA11y" />
+        </View>
+        <View className="mb-7">
+          <ProfileIdentityHero {...identity} />
         </View>
 
-        <LoginAuthSurface>
-          <View className="gap-5 px-4">
-            <ProfileIdentityHero
-              greetingName={summary.greetingName}
-              avatarInitials={summary.avatarInitials}
-              mobileLine={mobileLine}
-              supportingLine={t('screens.profile.identitySupportingLine')}
-            />
-
-            <View className="h-px bg-ritual-borderSoft/75 dark:bg-ritual-borderSoft-dark/75" />
-
-            <View className="-mx-4">
-              {menuRows.map((row, index) => (
-                <ProfileNavRow
-                  key={row.key}
-                  label={row.label}
-                  onPress={row.onPress}
-                  isLast={index === menuRows.length - 1}
-                  accessibilityHint={row.accessibilityHint}
-                />
-              ))}
-            </View>
-          </View>
-        </LoginAuthSurface>
+        {sections.map((section) => (
+          <ProfileSectionCard key={section.key} title={section.title} caption={section.caption}>
+            {section.rows.map((row, index) => (
+              <ProfileNavRow
+                key={row.key}
+                icon={row.icon}
+                label={row.label}
+                value={row.value}
+                onPress={row.onPress}
+                accessibilityHint={row.accessibilityHint}
+                tone={row.tone}
+                isLast={index === section.rows.length - 1}
+              />
+            ))}
+          </ProfileSectionCard>
+        ))}
       </View>
     </ProfileHubScrollLayout>
   );

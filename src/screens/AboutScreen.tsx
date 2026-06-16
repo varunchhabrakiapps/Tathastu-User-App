@@ -1,38 +1,49 @@
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
-import { LoginAuthSurface } from '@/components/molecules/LoginAuthSurface';
-import { OnboardingScreenBackdrop } from '@/components/molecules/OnboardingScreenBackdrop';
+import { RitualText } from '@/components/atoms/RitualText';
+import { ProfileNavRow } from '@/components/molecules/ProfileNavRow';
+import { ProfileSectionCard } from '@/components/molecules/ProfileSectionCard';
+import { ProfileStackScrollLayout } from '@/components/templates/ProfileStackScrollLayout';
+import { TathastuMark } from '@/components/atoms/TathastuMark';
 
 import { APP_MARKETING_VERSION } from '@/constants/appVersion';
 
-/** Trust + version — ritual brand tone, no heavy marketing. */
+/** Trust + story + version — ritual brand tone, calm rather than heavy marketing. */
 export function AboutScreen() {
   const { t } = useTranslation();
 
   return (
-    <OnboardingScreenBackdrop>
-      <SafeAreaView edges={['bottom']} className="flex-1">
-        <ScrollView className="flex-1 bg-transparent" keyboardShouldPersistTaps="handled">
-          <View className="px-5 pb-10 pt-4">
-            <Text className="mb-7 text-login-body leading-relaxed text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-              {t('screens.about.lead')}
-            </Text>
+    <ProfileStackScrollLayout
+      title={t('screens.about.title')}
+      backAccessibilityLabel={t('screens.profile.stackBackA11y')}
+    >
+      <View className="mb-7 items-center gap-4">
+        <TathastuMark accessibilityLabel={t('screens.login.brandMarkA11y')} />
+        <RitualText variant="inkMuted" className="text-center text-login-body leading-relaxed">
+          {t('screens.about.lead')}
+        </RitualText>
+      </View>
 
-            <LoginAuthSurface>
-              <View className="px-4">
-                <Text className="text-login-label font-semibold uppercase tracking-[0.12em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-                  {t('screens.about.versionCaption')}
-                </Text>
-                <Text className="mt-2 text-login-display font-medium text-ritual-ink dark:text-ritual-ink-dark">
-                  {APP_MARKETING_VERSION}
-                </Text>
-              </View>
-            </LoginAuthSurface>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </OnboardingScreenBackdrop>
+      <ProfileSectionCard title={t('screens.about.missionTitle')}>
+        <View className="gap-3 px-4 py-5">
+          <RitualText className="text-login-body font-medium leading-snug">
+            {t('product.positioning')}
+          </RitualText>
+          <RitualText variant="inkMuted" className="text-login-body leading-relaxed">
+            {t('product.mission')}
+          </RitualText>
+        </View>
+      </ProfileSectionCard>
+
+      <ProfileSectionCard caption={t('screens.about.madeWith')}>
+        <ProfileNavRow
+          icon="info-circle"
+          label={t('screens.about.versionCaption')}
+          value={APP_MARKETING_VERSION}
+          isLast
+        />
+      </ProfileSectionCard>
+    </ProfileStackScrollLayout>
   );
 }

@@ -15,9 +15,9 @@ import {
   getOnboardingBackdrop,
   type PaletteMode,
 } from '@/theme/heroGradients';
-import { paletteHex } from '@/theme/palette';
+import { useRitualSemanticColors } from '@/hooks/useRitualSemanticColors';
 import { hexToRgba } from '@/theme/colorUtils';
-import { cn } from '@/utils/cn';
+import { paletteHex } from '@/theme/palette';
 
 /**
  * Onboarding / auth backdrop — ritual wash + imperceptible “breathing” light (premium calm).
@@ -26,6 +26,7 @@ import { cn } from '@/utils/cn';
 export function OnboardingScreenBackdrop({ children }: PropsWithChildren) {
   const { colorScheme } = useColorScheme();
   const mode: PaletteMode = colorScheme === 'dark' ? 'dark' : 'light';
+  const { canvas } = useRitualSemanticColors();
   const { colors: gradientColors, locations: gradientLocations } =
     getOnboardingBackdrop(mode);
   const breath = useSharedValue(1);
@@ -52,12 +53,7 @@ export function OnboardingScreenBackdrop({ children }: PropsWithChildren) {
       : hexToRgba(r.primary.dark, 0.034);
 
   return (
-    <View
-      className={cn(
-        'flex-1',
-        mode === 'light' ? 'bg-ritual-canvas' : 'bg-ritual-surface-dark',
-      )}
-    >
+    <View className="flex-1" style={{ backgroundColor: canvas }}>
       <Animated.View
         pointerEvents="none"
         style={[StyleSheet.absoluteFill, breathStyle]}

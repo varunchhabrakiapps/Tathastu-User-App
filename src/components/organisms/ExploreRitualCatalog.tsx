@@ -1,42 +1,71 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  type ListRenderItem,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { type SharedValue } from 'react-native-reanimated';
 import { useColorScheme } from 'nativewind';
 
 import { FontAwesomeCircleIcon } from '@/components/atoms/FontAwesomeCircleIcon';
-import { ExploreMomentFilterStrip } from '@/components/molecules/ExploreMomentFilterStrip';
+import { ExploreCatalogIntro } from '@/components/molecules/ExploreCatalogIntro';
 import { ExploreRitualListRow } from '@/components/molecules/ExploreRitualListRow';
+import { ExploreRitualRowSkeleton } from '@/components/molecules/ExploreRitualRowSkeleton';
+import { PaginationFooter } from '@/components/molecules/PaginationFooter';
 import {
-  SECTION_GHOST_HEADER_LEADING_SIZE,
-  SectionGhostHeader,
-} from '@/components/molecules/SectionGhostHeader';
-import { EXPLORE_RITUAL_ROW_GAP } from '@/constants/exploreLayout';
-import type { ExploreRitualCatalogItem, ExploreMomentFilter } from '@/hooks/useExploreRitualCatalog';
+  EXPLORE_RITUAL_ROW_GAP,
+  EXPLORE_SKELETON_ROW_COUNT,
+} from '@/constants/exploreLayout';
+import type { ExploreRitualCatalogItem } from '@/hooks/useExploreRitualCatalog';
 import { paletteHex } from '@/theme/palette';
 import { authScreen } from '@/theme/tokens';
 
 type Props = {
-  headerDescription: string;
+  introTitle: string;
+  introDescription: string;
+  resultLabel: string;
   rituals: ExploreRitualCatalogItem[];
-  momentFilter: ExploreMomentFilter;
-  onSelectMomentFilter: (filter: ExploreMomentFilter) => void;
   isEmpty: boolean;
+  isInitialLoading: boolean;
+  isLoadingMore: boolean;
+  isRefreshing: boolean;
+  hasMore: boolean;
+  hasError: boolean;
   hasActiveFilters: boolean;
-  wishlistCount: number;
   listBottomInset: number;
+  scrollY: SharedValue<number>;
+  onEndReached: () => void;
+  onRefresh: () => void;
+  onRetry: () => void;
   onOpenRitualDetail: (ritualId: string) => void;
+  onPreviewRitual: (item: ExploreRitualCatalogItem) => void;
 };
 
 export const ExploreRitualCatalog = memo(function ExploreRitualCatalog({
-  headerDescription,
+  introTitle,
+  introDescription,
+  resultLabel,
   rituals,
-  momentFilter,
-  onSelectMomentFilter,
   isEmpty,
+  isInitialLoading,
+  isLoadingMore,
+  isRefreshing,
+  hasMore,
+  hasError,
   hasActiveFilters,
-  wishlistCount,
   listBottomInset,
+  scrollY,
+  onEndReached,
+  onRefresh,
+  onRetry,
   onOpenRitualDetail,
+  onPreviewRitual,
 }: Props) {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
@@ -44,62 +73,80 @@ export const ExploreRitualCatalog = memo(function ExploreRitualCatalog({
 
   const renderItem = useCallback<ListRenderItem<ExploreRitualCatalogItem>>(
     ({ item }) => (
-      <ExploreRitualListRow item={item} onPress={() => onOpenRitualDetail(item.id)} />
+      <ExploreRitualListRow
+        item={item}
+        onPress={() => onOpenRitualDetail(item.id)}
+        onLongPress={() => onPreviewRitual(item)}
+      />
     ),
-    [onOpenRitualDetail],
+    [onOpenRitualDetail, onPreviewRitual],
+  );
+
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      scrollY.value = event.nativeEvent.contentOffset.y;
+    },
+    [scrollY],
   );
 
   const ListHeader = useCallback(
     () => (
-      <View style={styles.headerBlock}>
-        <SectionGhostHeader
-          leading={
-            <FontAwesomeCircleIcon
-              name="compass"
-              circleSize={SECTION_GHOST_HEADER_LEADING_SIZE}
-              accessibilityLabel={t('screens.explore.sectionLeadingA11y')}
-            />
-          }
-          title={t('screens.explore.catalogTitle')}
-          description={headerDescription}
-          className="mb-3"
-        />
-        {wishlistCount > 0 ? (
-          <Text
-            accessibilityRole="text"
-            style={{ color: paletteHex.ritual.inkMuted[k] }}
-            className="mb-3 font-normal text-[12px] leading-[17px]"
-          >
-            {t('screens.explore.wishlistGlance', { count: wishlistCount })}
-          </Text>
-        ) : null}
-        <ExploreMomentFilterStrip activeFilter={momentFilter} onSelectFilter={onSelectMomentFilter} />
-        <View className="mt-4" />
-      </View>
+      <ExploreCatalogIntro
+        title={introTitle}
+        description={introDescription}
+        resultLabel={resultLabel}
+      />
     ),
-    [headerDescription, k, momentFilter, onSelectMomentFilter, t, wishlistCount],
+    [introDescription, introTitle, resultLabel],
   );
 
-  const ListEmpty = useCallback(
-    () => (
+  const ListEmpty = useCallback(() => {
+    if (isInitialLoading) {
+      return (
+        <View style={styles.skeletonStack}>
+          {Array.from({ length: EXPLORE_SKELETON_ROW_COUNT }).map((_, index) => (
+            <ExploreRitualRowSkeleton key={index} />
+          ))}
+        </View>
+      );
+    }
+
+    return (
       <View style={styles.emptyWrap} accessibilityRole="text">
+        <FontAwesomeCircleIcon
+          name="compass"
+          circleSize={56}
+          accessibilityLabel={t('screens.explore.sectionLeadingA11y')}
+        />
         <Text
           style={{ color: paletteHex.ritual.ink[k] }}
-          className="text-center font-semibold text-login-body"
+          className="mt-4 text-center font-semibold text-[16px] leading-[21px]"
         >
           {hasActiveFilters ? t('screens.explore.empty.filteredTitle') : t('screens.explore.empty.title')}
         </Text>
         <Text
           style={{ color: paletteHex.ritual.inkMuted[k] }}
-          className="mt-2 text-center font-normal text-[13px] leading-[19px]"
+          className="mt-2 max-w-[300px] text-center font-normal text-[13px] leading-[19px]"
         >
-          {hasActiveFilters
-            ? t('screens.explore.empty.filteredBody')
-            : t('screens.explore.empty.body')}
+          {hasActiveFilters ? t('screens.explore.empty.filteredBody') : t('screens.explore.empty.body')}
         </Text>
       </View>
+    );
+  }, [hasActiveFilters, isInitialLoading, k, t]);
+
+  const ListFooter = useCallback(
+    () => (
+      <PaginationFooter
+        isLoadingMore={isLoadingMore}
+        hasError={hasError}
+        showEnd={!hasMore && rituals.length > 0}
+        loadingLabel={t('screens.explore.feed.loadingMore')}
+        endLabel={t('screens.explore.feed.endReached')}
+        errorLabel={t('screens.explore.feed.error')}
+        onRetry={onRetry}
+      />
     ),
-    [hasActiveFilters, k, t],
+    [hasError, hasMore, isLoadingMore, onRetry, rituals.length, t],
   );
 
   return (
@@ -108,16 +155,33 @@ export const ExploreRitualCatalog = memo(function ExploreRitualCatalog({
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
       ListHeaderComponent={ListHeader}
-      ListEmptyComponent={isEmpty ? ListEmpty : null}
+      onScroll={onScroll}
+      scrollEventThrottle={16}
+      ListEmptyComponent={ListEmpty}
+      ListFooterComponent={ListFooter}
+      ItemSeparatorComponent={RowSeparator}
       contentContainerStyle={[
         styles.listContent,
         { paddingBottom: listBottomInset },
-        isEmpty && styles.listContentEmpty,
+        isEmpty && styles.listContentCentered,
       ]}
-      ItemSeparatorComponent={RowSeparator}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          tintColor={paletteHex.ritual.primary[k]}
+          colors={[paletteHex.ritual.primary[k]]}
+        />
+      }
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       showsVerticalScrollIndicator={false}
+      initialNumToRender={6}
+      maxToRenderPerBatch={6}
+      windowSize={9}
+      removeClippedSubviews
     />
   );
 });
@@ -127,23 +191,24 @@ function RowSeparator() {
 }
 
 const styles = StyleSheet.create({
-  headerBlock: {
-    paddingHorizontal: authScreen.insetX,
-  },
   listContent: {
     flexGrow: 1,
-    paddingTop: 4,
+    paddingTop: 2,
     paddingHorizontal: authScreen.insetX,
   },
-  listContentEmpty: {
-    flexGrow: 1,
+  listContentCentered: {
+    justifyContent: 'center',
   },
   rowGap: {
     height: EXPLORE_RITUAL_ROW_GAP,
   },
+  skeletonStack: {
+    gap: EXPLORE_RITUAL_ROW_GAP,
+    paddingTop: 2,
+  },
   emptyWrap: {
-    paddingHorizontal: authScreen.insetX + 8,
-    paddingTop: 32,
-    paddingBottom: 24,
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 40,
   },
 });

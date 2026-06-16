@@ -12,6 +12,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider } from '@/context/AuthContext';
+import { ServiceAreaProvider } from '@/context/ServiceAreaContext';
 import { ProductProvider } from '@/context/ProductContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import { ThemePreferenceProvider, useThemePreference } from '@/hooks/useThemePreference';
@@ -26,14 +27,16 @@ function AppShell() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <WishlistProvider>
-          <ProductProvider>
-            <NavigationContainer>
-              <StatusBar barStyle={semantic.statusBarStyle} />
-              <RootNavigator />
-            </NavigationContainer>
-          </ProductProvider>
-        </WishlistProvider>
+        <ServiceAreaProvider>
+          <WishlistProvider>
+            <ProductProvider>
+              <NavigationContainer>
+                <StatusBar barStyle={semantic.statusBarStyle} />
+                <RootNavigator />
+              </NavigationContainer>
+            </ProductProvider>
+          </WishlistProvider>
+        </ServiceAreaProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

@@ -1,8 +1,11 @@
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 
-import { OnboardingScreenBackdrop } from '@/components/molecules/OnboardingScreenBackdrop';
+import { RitualText } from '@/components/atoms/RitualText';
+import { ProfileNavRow } from '@/components/molecules/ProfileNavRow';
+import { ProfileSectionCard } from '@/components/molecules/ProfileSectionCard';
+import { ProfileStackScrollLayout } from '@/components/templates/ProfileStackScrollLayout';
 import { useSettingsScreen } from '@/hooks/useSettingsScreen';
+import { useRitualSemanticColors } from '@/hooks/useRitualSemanticColors';
 import type { ThemePreference } from '@/hooks/useThemePreference';
 
 const THEME_CHOICES: { value: ThemePreference; labelKey: string }[] = [
@@ -11,121 +14,96 @@ const THEME_CHOICES: { value: ThemePreference; labelKey: string }[] = [
   { value: 'system', labelKey: 'screens.settings.themeSystem' },
 ];
 
-/** Account + appearance — ritual backdrop/cards consistent with profile hub. */
+/** Account + appearance — ritual cards consistent with the Profile hub. */
 export function SettingsScreen() {
-  const {
-    t,
-    signedInMobileDisplay,
-    requestSignOut,
-    preference,
-    setPreference,
-    isReady,
-  } = useSettingsScreen();
-
-  const sectionSurface =
-    'overflow-hidden rounded-[18px] border border-ritual-borderSoft bg-ritual-surface/95 dark:border-ritual-borderSoft-dark dark:bg-ritual-surface-dark/95';
-
-  const rowActive =
-    'active:bg-ritual-surfaceSecondary/65 dark:active:bg-ritual-surfaceSecondary-dark/55';
+  const { t, signedInMobileDisplay, requestSignOut, preference, setPreference, isReady } =
+    useSettingsScreen();
+  const { primary, borderSoft, rowDivider, rowPressHighlight } = useRitualSemanticColors();
 
   return (
-    <OnboardingScreenBackdrop>
-      <SafeAreaView edges={['bottom']} className="flex-1">
-        <ScrollView className="flex-1 bg-transparent" keyboardShouldPersistTaps="handled">
-          <View className="px-5 pb-10 pt-4">
-            <View className="mb-8 gap-2">
-              <Text className="font-medium leading-snug text-login-display text-ritual-ink dark:text-ritual-ink-dark">
-                {t('screens.settings.title')}
-              </Text>
-              <Text className="text-login-body leading-relaxed text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-                {t('screens.settings.subtitle')}
-              </Text>
-            </View>
+    <ProfileStackScrollLayout
+      title={t('screens.settings.title')}
+      backAccessibilityLabel={t('screens.profile.stackBackA11y')}
+    >
+      <RitualText variant="inkMuted" className="mb-7 text-login-body leading-relaxed">
+        {t('screens.settings.subtitle')}
+      </RitualText>
 
-            <Text className="mb-2 text-login-label font-semibold uppercase tracking-[0.12em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-              {t('screens.settings.sectionAccount')}
-            </Text>
-            <View className={`mb-8 ${sectionSurface}`}>
-              <Text className="border-b border-ritual-borderSoft px-4 py-3.5 text-login-body text-ritual-ink dark:border-ritual-borderSoft-dark dark:text-ritual-ink-dark">
-                {t('screens.settings.signedInAs', {
-                  mobile: signedInMobileDisplay,
-                })}
-              </Text>
-              <Pressable
-                onPress={requestSignOut}
-                accessibilityRole="button"
-                accessibilityLabel={t('screens.settings.signOut')}
-                className={`px-4 py-3.5 ${rowActive}`}
-              >
-                <Text className="text-login-body font-medium text-warm-deep dark:text-warm-dark">
-                  {t('screens.settings.signOut')}
-                </Text>
-              </Pressable>
-            </View>
+      <ProfileSectionCard title={t('screens.settings.sectionAccount')}>
+        <ProfileNavRow
+          icon="mobile"
+          label={t('screens.settings.signedInAs', { mobile: signedInMobileDisplay })}
+        />
+        <ProfileNavRow
+          icon="sign-out"
+          label={t('screens.settings.signOut')}
+          onPress={requestSignOut}
+          accessibilityHint={t('screens.profile.account.signOutHint')}
+          tone="destructive"
+          isLast
+        />
+      </ProfileSectionCard>
 
-            <Text className="mb-2 text-login-label font-semibold uppercase tracking-[0.12em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-              {t('screens.settings.sectionAppearance')}
-            </Text>
-            <View className={`mb-8 ${sectionSurface}`}>
-              <Text className="border-b border-ritual-borderSoft px-4 py-3.5 text-login-body font-medium text-ritual-ink dark:border-ritual-borderSoft-dark dark:text-ritual-ink-dark">
-                {t('screens.settings.theme')}
-              </Text>
-              {!isReady ? (
-                <View className="items-center px-4 py-8">
-                  <ActivityIndicator />
-                </View>
-              ) : (
-                <View
-                  accessibilityRole="radiogroup"
-                  accessibilityLabel={t('screens.settings.themeOptionsA11y')}
-                >
-                  {THEME_CHOICES.map(({ value, labelKey }, index) => {
-                    const selected = preference === value;
-                    const isLast = index === THEME_CHOICES.length - 1;
-                    return (
-                      <Pressable
-                        key={value}
-                        accessibilityRole="radio"
-                        accessibilityState={{ selected }}
-                        onPress={() => {
-                          setPreference(value);
-                        }}
-                        className={`flex-row items-center justify-between px-4 py-3.5 ${rowActive} ${
-                          !isLast ? 'border-b border-ritual-borderSoft dark:border-ritual-borderSoft-dark' : ''
-                        }`}
-                      >
-                        <Text className="text-login-body text-ritual-ink dark:text-ritual-ink-dark">
-                          {t(labelKey)}
-                        </Text>
-                        <View
-                          className={`h-5 w-5 rounded-full border-2 ${
-                            selected
-                              ? 'border-ritual-primary dark:border-ritual-primary-dark'
-                              : 'border-ritual-borderSoft dark:border-ritual-borderSoft-dark'
-                          } items-center justify-center`}
-                        >
-                          {selected ? (
-                            <View className="h-2.5 w-2.5 rounded-full bg-ritual-primary dark:bg-ritual-primary-dark" />
-                          ) : null}
-                        </View>
-                      </Pressable>
-                    );
-                  })}
-                </View>
-              )}
-            </View>
-
-            <Text className="mb-2 text-login-label font-semibold uppercase tracking-[0.12em] text-ritual-inkMuted dark:text-ritual-inkMuted-dark">
-              {t('screens.settings.sectionGeneral')}
-            </Text>
-            <View className={sectionSurface}>
-              <Text className="px-4 py-3.5 text-login-body text-ritual-ink dark:text-ritual-ink-dark">
-                {t('screens.settings.placeholderRow')}
-              </Text>
-            </View>
+      <ProfileSectionCard title={t('screens.settings.sectionAppearance')}>
+        {!isReady ? (
+          <View className="items-center px-4 py-8">
+            <ActivityIndicator color={primary} />
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </OnboardingScreenBackdrop>
+        ) : (
+          <View
+            accessibilityRole="radiogroup"
+            accessibilityLabel={t('screens.settings.themeOptionsA11y')}
+          >
+            {THEME_CHOICES.map(({ value, labelKey }, index) => {
+              const selected = preference === value;
+              const isLast = index === THEME_CHOICES.length - 1;
+              return (
+                <Pressable
+                  key={value}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected }}
+                  onPress={() => {
+                    setPreference(value);
+                  }}
+                  style={({ pressed }) => [
+                    !isLast ? { borderBottomWidth: 1, borderBottomColor: rowDivider } : undefined,
+                    pressed ? { backgroundColor: rowPressHighlight } : undefined,
+                  ]}
+                  className="flex-row items-center justify-between px-4 py-3.5"
+                >
+                  <RitualText className="text-login-body">{t(labelKey)}</RitualText>
+                  <View
+                    style={{
+                      height: 20,
+                      width: 20,
+                      borderRadius: 9999,
+                      borderWidth: 2,
+                      borderColor: selected ? primary : borderSoft,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {selected ? (
+                      <View
+                        style={{
+                          height: 10,
+                          width: 10,
+                          borderRadius: 9999,
+                          backgroundColor: primary,
+                        }}
+                      />
+                    ) : null}
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        )}
+      </ProfileSectionCard>
+
+      <ProfileSectionCard title={t('screens.settings.sectionGeneral')}>
+        <ProfileNavRow icon="ellipsis-h" label={t('screens.settings.placeholderRow')} isLast />
+      </ProfileSectionCard>
+    </ProfileStackScrollLayout>
   );
 }

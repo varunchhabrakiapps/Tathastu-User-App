@@ -10,13 +10,17 @@ import { paletteHex } from '@/theme/palette';
 
 type Props = {
   onBackPress: () => void;
+  backAccessibilityLabel?: string;
 };
 
 /**
  * `angle-left` reads lighter than solid `chevron-left` (same FA glyph weight; open angle = thinner look).
  * Stroke width isn’t configurable for font-based icons — use a different glyph or a custom SVG if you need a true hairline.
  */
-export const AuthFlowHeader = memo(function AuthFlowHeader({ onBackPress }: Props) {
+export const AuthFlowHeader = memo(function AuthFlowHeader({
+  onBackPress,
+  backAccessibilityLabel,
+}: Props) {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -30,7 +34,7 @@ export const AuthFlowHeader = memo(function AuthFlowHeader({ onBackPress }: Prop
     <View className="flex-row items-center px-5 pb-2 mb-4">
       <IconButton
         onPress={onBackPress}
-        accessibilityLabel={t('screens.otp.backA11y')}
+        accessibilityLabel={backAccessibilityLabel ?? t('screens.otp.backA11y')}
       >
         <FontAwesome
           name="angle-left"

@@ -11,6 +11,8 @@ import { SearchScreen } from '@/screens/SearchScreen';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { OnboardingScreen } from '@/screens/OnboardingScreen';
 import { OtpVerificationScreen } from '@/screens/OtpVerificationScreen';
+import { LocationSetupScreen } from '@/screens/LocationSetupScreen';
+import { ManualLocationScreen } from '@/screens/ManualLocationScreen';
 import { paletteHex } from '@/theme/palette';
 
 import { MainTabNavigator } from './MainTabNavigator';
@@ -19,7 +21,7 @@ import type { RootStackParamList } from './types';
 const Stack = createStackNavigator<RootStackParamList>();
 
 export function RootNavigator() {
-  const { isReady: authReady, isLoggedIn } = useAuth();
+  const { isReady: authReady, isLoggedIn, hasLocation } = useAuth();
   const { isReady: onboardingReady, hasCompletedOnboarding } =
     useOnboardingHydration();
   const { colorScheme } = useColorScheme();
@@ -38,13 +40,38 @@ export function RootNavigator() {
 
   const authInitialRoute = hasCompletedOnboarding ? 'Login' : 'Onboarding';
 
+  const navKey = !isLoggedIn ? 'auth' : !hasLocation ? 'location' : 'app';
+  const initialRouteName: keyof RootStackParamList = !isLoggedIn
+    ? authInitialRoute
+    : !hasLocation
+      ? 'LocationSetup'
+      : 'Main';
+
   return (
     <Stack.Navigator
-      key={isLoggedIn ? 'app' : 'auth'}
-      initialRouteName={isLoggedIn ? 'Main' : authInitialRoute}
+      key={navKey}
+      initialRouteName={initialRouteName}
       screenOptions={{ headerShown: false }}
     >
-      {isLoggedIn ? (
+      {!isLoggedIn ? (
+        <>
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen
+            name="OtpVerification"
+            component={OtpVerificationScreen}
+          />
+        </>
+      ) : !hasLocation ? (
+        <>
+          <Stack.Screen
+            name="LocationSetup"
+            component={LocationSetupScreen}
+            options={{ gestureEnabled: false }}
+          />
+          <Stack.Screen name="ManualLocation" component={ManualLocationScreen} />
+        </>
+      ) : (
         <>
           <Stack.Screen name="Main" component={MainTabNavigator} />
           <Stack.Screen
@@ -66,15 +93,6 @@ export function RootNavigator() {
             name="Search"
             component={SearchScreen}
             options={{ headerShown: true }}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen
-            name="OtpVerification"
-            component={OtpVerificationScreen}
           />
         </>
       )}

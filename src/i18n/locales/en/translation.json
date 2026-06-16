@@ -1,11 +1,12 @@
 {
   "common": {
     "cancel": "Cancel",
-    "done": "Done"
+    "done": "Done",
+    "locationFallback": "Sector 23, Gurgaon"
   },
   "product": {
     "brandName": "Tathastu",
-    "positioning": "Vedic rituals & guidance, wherever you are.",
+    "positioning": "Tradition, on-demand",
     "mission": "Book trusted pandits for nazar-utaro on video, griha pravesh at your doorstep, and sacred poojas that fit your home and your schedule — rooted in tradition, designed for today.",
     "modalityLiveVideo": "Live video",
     "modalityHomeVisit": "Home visit",
@@ -38,6 +39,7 @@
       "greetingFallbackName": "Friend",
       "supportingLine": "Calm guidance for meaningful moments.",
       "profileActionA11y": "Profile and settings",
+      "locationA11y": "Your service area, {{location}}",
       "searchBar": {
         "placeholder": "Search rituals, blessings, pandits…",
         "accessibilityLabel": "Search rituals",
@@ -360,7 +362,65 @@
     },
     "bookings": {
       "title": "Bookings",
-      "subtitle": "Video poojas, home visits, and scheduled ceremonies in one place."
+      "subtitle": "Video poojas, home visits, and scheduled ceremonies in one place.",
+      "sectionLeadingA11y": "Your bookings calendar",
+      "headerAction": "Explore",
+      "headerActionA11y": "Open Explore to book a new ritual",
+      "filters": {
+        "upcoming": "Upcoming",
+        "past": "Past",
+        "tablistA11y": "Switch between upcoming and past bookings"
+      },
+      "sections": {
+        "today": "Today",
+        "tomorrow": "Tomorrow",
+        "upcoming": "Later",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "mode": {
+        "video": "Video pooja",
+        "homeVisit": "Home visit",
+        "videoA11y": "Video pooja booking",
+        "homeVisitA11y": "Home visit booking"
+      },
+      "status": {
+        "confirmed": "Confirmed",
+        "scheduled": "Scheduled",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "card": {
+        "withPandit": "with {{name}}",
+        "openDetailHint": "Opens timings, preparation, and notes for this booking",
+        "a11yLabel": "{{ritual}}, {{mode}}, {{status}}. {{when}}. With {{pandit}}.",
+        "relative": {
+          "today": "Today",
+          "tomorrow": "Tomorrow",
+          "yesterday": "Yesterday"
+        }
+      },
+      "empty": {
+        "leadingA11y": "Calendar awaiting your first booking",
+        "upcoming": {
+          "title": "Nothing booked yet",
+          "body": "Your upcoming poojas, home visits, and ceremonies will appear here — each with timings and pandit details.",
+          "cta": "Explore rituals",
+          "ctaA11y": "Open Explore to browse rituals you can book"
+        },
+        "past": {
+          "title": "No past bookings",
+          "body": "Once you’ve attended a pooja or ceremony, it will be kept here for easy reference."
+        }
+      },
+      "stub": {
+        "panditMishra": "Acharya Vivek Mishra",
+        "panditSharma": "Pandit Devdatt Sharma",
+        "panditIyer": "Acharya Lakshmi Iyer",
+        "locationPune": "Koregaon Park, Pune",
+        "locationMumbai": "Bandra West, Mumbai",
+        "locationBengaluru": "Indiranagar, Bengaluru"
+      }
     },
     "explore": {
       "title": "Explore",
@@ -369,14 +429,50 @@
       "subtitleWithMoment": "Curated for {{moment}} — every blessing here meets that energy without the noise.",
       "sectionLeadingA11y": "Ritual catalog compass",
       "wishlistGlance": "{{count}} saved for later — hearts stay on your device until you book.",
+      "resultCount_one": "{{count}} ritual",
+      "resultCount_other": "{{count}} rituals",
+      "longPressHint": "Press & hold any ritual for a quick look",
+      "clearFilters": "Clear",
+      "clearFiltersA11y": "Clear all filters and search",
       "search": {
         "placeholder": "Search rituals, blessings, moods…",
         "accessibilityLabel": "Search ritual catalog",
-        "accessibilityHint": "Filters rituals in this list as you type"
+        "accessibilityHint": "Filters rituals in this list as you type",
+        "clearA11y": "Clear search"
       },
       "filters": {
         "all": "All",
         "stripA11y": "Filter rituals by life moment"
+      },
+      "sort": {
+        "button": "Sort",
+        "buttonA11y": "Open sort options",
+        "sheetTitle": "Sort by",
+        "sheetA11y": "Sort rituals",
+        "closeA11y": "Close sort options",
+        "options": {
+          "recommended": "Recommended",
+          "priceAsc": "Price · low to high",
+          "priceDesc": "Price · high to low",
+          "titleAsc": "Name · A to Z"
+        }
+      },
+      "feed": {
+        "loadingMore": "Gathering more rituals…",
+        "endReached": "That’s every ritual for now",
+        "error": "Couldn’t load more — tap to retry"
+      },
+      "row": {
+        "openHint": "Opens details · press & hold for a quick preview",
+        "previewAction": "Quick preview"
+      },
+      "preview": {
+        "sheetA11y": "Quick preview of {{ritual}}",
+        "dragHintA11y": "Close preview",
+        "closeA11y": "Close preview",
+        "highlightsTitle": "What you receive",
+        "viewDetails": "View full details",
+        "viewDetailsA11y": "Open full details for {{ritual}}"
       },
       "empty": {
         "title": "No rituals here yet",
@@ -398,33 +494,117 @@
     "profile": {
       "title": "Profile",
       "subtitle": "Account details and gentle support — kept calm like the rest of your journey.",
-      "identitySupportingLine": "Tune reminders, the look of the app, or reach us — your pace, your journey.",
+      "identitySupportingLine": "Your Tathastu journey, kept calm in one place.",
       "mobilePlaceholder": "Phone number unavailable",
-      "openSettings": "Settings",
-      "openNotifications": "Notifications",
-      "openHelp": "Help & guidance",
-      "openLegal": "Legal & privacy",
-      "openAbout": "About Tathastu",
-      "contactSupport": "Contact us",
-      "contactSupportA11yHint": "Opens your email app to message Tathastu support."
+      "namePrompt": "Add your name",
+      "avatarA11y": "Your profile avatar",
+      "editAction": "Edit",
+      "editA11y": "Edit your profile",
+      "locationA11y": "Your service area, {{location}}",
+      "editHint": "Opens your profile details to edit",
+      "stackBackA11y": "Go back to profile",
+      "sections": {
+        "journey": "Your journey",
+        "preferences": "Preferences",
+        "support": "Support & info",
+        "account": "Account"
+      },
+      "journey": {
+        "saved": "Saved rituals",
+        "savedValue": "{{count}} saved",
+        "savedEmpty": "None saved yet",
+        "savedHint": "Opens Explore to revisit rituals you’ve saved",
+        "bookings": "Your bookings",
+        "bookingsNext": "Next · {{ritual}}",
+        "bookingsEmpty": "Nothing scheduled",
+        "bookingsHint": "Opens your bookings"
+      },
+      "preferences": {
+        "notifications": "Notifications",
+        "notificationsValueOn": "On",
+        "notificationsValueOff": "Muted",
+        "notificationsHint": "Choose which reminders you receive",
+        "appearance": "Appearance",
+        "appearanceHint": "Switch between light, dark, or system theme"
+      },
+      "appearanceValue": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "support": {
+        "help": "Help & guidance",
+        "helpHint": "Answers for bookings, payments, and your rituals",
+        "contact": "Contact us",
+        "contactHint": "Opens your email app to message Tathastu support.",
+        "legal": "Legal & privacy",
+        "legalHint": "Terms of Service and Privacy Policy",
+        "about": "About Tathastu",
+        "aboutHint": "Our story and app version"
+      },
+      "account": {
+        "signedInAs": "Signed in as {{mobile}}",
+        "signOut": "Sign out",
+        "signOutHint": "Signs you out of Tathastu on this device"
+      }
+    },
+    "editProfile": {
+      "title": "Edit profile",
+      "subtitle": "This is how we’ll greet you across Tathastu.",
+      "nameLabel": "Your name",
+      "namePlaceholder": "e.g. Aarav",
+      "nameHelper": "Used for your greeting. Leave blank to keep it simple.",
+      "mobileLabel": "Mobile number",
+      "mobileLockedHint": "Your number is tied to your account and can’t be changed here.",
+      "save": "Save changes",
+      "comingSoonTitle": "Coming soon",
+      "comingSoonBody": "Birth details for muhurat, family members, and saved addresses will live here as Tathastu grows."
     },
     "notifications": {
       "title": "Notifications",
-      "lead": "Quiet updates for the rituals you care about — not a flood of alerts.",
-      "body": "Soon you’ll choose reminders for upcoming bookings, live poojas, and gentle nudges from Tathastu. We’ll never trade peace for noise."
+      "lead": "Quiet updates for the rituals you care about — never a flood of alerts.",
+      "sectionReminders": "Ritual reminders",
+      "sectionFromUs": "From Tathastu",
+      "bookingReminders": "Booking reminders",
+      "bookingRemindersDesc": "A gentle nudge before your ritual begins.",
+      "livePoojaAlerts": "Live pooja alerts",
+      "livePoojaAlertsDesc": "Know when pandit ji is ready on video.",
+      "ritualTips": "Ritual tips & guidance",
+      "ritualTipsDesc": "Occasional notes to help you prepare calmly.",
+      "offers": "Offers & seasonal rituals",
+      "offersDesc": "Auspicious dates and mindful offers — rarely, never noisy.",
+      "footnote": "Change these anytime. We’ll never trade your peace for noise."
     },
     "legalInfo": {
       "title": "Legal & privacy",
-      "lead": "The same terms and privacy promises you see at sign-in — open whenever you need them."
+      "lead": "The same terms and privacy promises you see at sign-in — open whenever you need them.",
+      "privacyNote": "Your saved rituals stay on your device until you choose to book."
     },
     "about": {
       "title": "About Tathastu",
       "lead": "Ancient rituals with a calm, modern shape — built for families who want trusted guidance without the clutter.",
-      "versionCaption": "App version"
+      "missionTitle": "Why we exist",
+      "versionCaption": "App version",
+      "madeWith": "Crafted with care in India."
     },
     "help": {
-      "title": "Help",
-      "subtitle": "Guidance for bookings, payments, and your spiritual journey with us."
+      "title": "Help & guidance",
+      "subtitle": "Guidance for bookings, payments, and your spiritual journey with us.",
+      "lead": "Find your way calmly — or reach a real person whenever you need one.",
+      "faqTitle": "Common questions",
+      "faq": {
+        "bookingsQ": "How do I reschedule or cancel?",
+        "bookingsA": "Open the booking from your Bookings tab — you can adjust the timing, switch between video and home visit, or cancel. We confirm everything before anything changes.",
+        "paymentsQ": "How do payments and refunds work?",
+        "paymentsA": "You always see the offering amount before you confirm. If plans change, refunds follow the timing shared on each ritual — no surprises.",
+        "panditsQ": "How are pandits chosen?",
+        "panditsA": "Every pandit ji is verified for tradition and care. We match you by ritual, language, and the moment you’re marking.",
+        "privacyQ": "What about my privacy?",
+        "privacyA": "We keep only what’s needed to serve your rituals. Saved rituals stay on your device until you book."
+      },
+      "contactTitle": "Still need a hand?",
+      "contactBody": "Our team replies with the same calm you came for.",
+      "contactCta": "Contact us"
     },
     "settings": {
       "title": "Settings",
@@ -447,7 +627,7 @@
       "deckA11yHint": "Swipe sideways to browse each story.",
       "eyebrowMarketing": "Verified • Video & home",
       "brandMarkA11y": "Tathastu ember flame mark",
-      "tagline": "Ancient rituals, modern experience.",
+      "tagline": "Tradition, on-demand",
       "stepOf": "{{current}} of {{total}}",
       "slides": {
         "liveRemote": {
@@ -468,7 +648,7 @@
       "brandMarkA11y": "Tathastu ember flame mark",
       "heroIllustrationA11y": "Warm illustration: video blessing on your phone, Tathastu mark and tagline",
       "authTitle": "Welcome to Tathastu",
-      "trustTagline": "Trusted rituals, wherever you are.",
+      "trustTagline": "Tradition, on-demand",
       "privacyHint": "We only send updates you request.",
       "secureOtpHint": "Secure OTP verification",
       "secureOtpHintA11y": "Secure one-time password verification",
@@ -504,6 +684,27 @@
       "resendLimit": "You’ve reached the resend limit. Please try again later.",
       "ctaVerify": "Verify & continue",
       "helpFooter": "Didn’t get the code? You can resend after the timer, or edit your number above."
+    },
+    "locationSetup": {
+      "title": "Where are you?",
+      "subtitle": "We use your area to show rituals and pandits available near you.",
+      "permissionHint": "We may ask for location access — only to check service availability in your area.",
+      "useCurrentLocation": "Use current location",
+      "useCurrentLocationA11y": "Use current location",
+      "enterManually": "Enter city manually",
+      "enterManuallyA11y": "Enter city manually",
+      "orDivider": "or",
+      "gpsLocationLabel": "Current location",
+      "statusFetching": "Finding your location…",
+      "statusChecking": "Checking availability in your area…",
+      "errorPermissionDenied": "Location access was denied. Try entering your city manually.",
+      "errorFetchFailed": "Could not detect your location. Try entering your city manually.",
+      "errorCheckFailed": "Could not verify availability. Please try again."
+    },
+    "manualLocation": {
+      "backA11y": "Go back to location options",
+      "title": "Enter your city",
+      "subtitle": "City and area picker coming soon."
     }
   }
 }

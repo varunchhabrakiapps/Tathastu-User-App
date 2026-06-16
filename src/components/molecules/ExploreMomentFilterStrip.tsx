@@ -16,11 +16,14 @@ type FilterChip = { id: ExploreMomentFilter; label: string };
 type Props = {
   activeFilter: ExploreMomentFilter;
   onSelectFilter: (filter: ExploreMomentFilter) => void;
+  /** When true, horizontal inset is owned by the parent toolbar. */
+  embedded?: boolean;
 };
 
 export const ExploreMomentFilterStrip = memo(function ExploreMomentFilterStrip({
   activeFilter,
   onSelectFilter,
+  embedded = false,
 }: Props) {
   const { t } = useTranslation();
   const moments = useMomentCategories();
@@ -52,7 +55,7 @@ export const ExploreMomentFilterStrip = memo(function ExploreMomentFilterStrip({
       renderItem={renderItem}
       showsHorizontalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, embedded && styles.contentEmbedded]}
       ItemSeparatorComponent={Separator}
       accessibilityRole="list"
       accessibilityLabel={t('screens.explore.filters.stripA11y')}
@@ -103,6 +106,10 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: authScreen.insetX,
     paddingBottom: 4,
+  },
+  contentEmbedded: {
+    paddingLeft: authScreen.insetX,
+    paddingRight: 0,
   },
   separator: {
     width: EXPLORE_MOMENT_FILTER_CHIP_GAP,

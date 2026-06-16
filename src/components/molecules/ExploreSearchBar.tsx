@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
 import { useColorScheme } from 'nativewind';
 
@@ -12,12 +12,18 @@ import { radii } from '@/theme/tokens';
 type Props = {
   value: string;
   onChangeText: (text: string) => void;
+  onSubmitEditing?: () => void;
 };
 
 /**
- * Explore bottom search — real input pinned for thumb reach (contrast with home’s navigational fake field).
+ * Explore search — real input that filters the catalog as you type, with an inline clear
+ * affordance (consistent across iOS/Android).
  */
-export const ExploreSearchBar = memo(function ExploreSearchBar({ value, onChangeText }: Props) {
+export const ExploreSearchBar = memo(function ExploreSearchBar({
+  value,
+  onChangeText,
+  onSubmitEditing,
+}: Props) {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -26,6 +32,7 @@ export const ExploreSearchBar = memo(function ExploreSearchBar({ value, onChange
   const iconMuted = hexToRgba(paletteHex.ritual.inkMuted[k], isDark ? 0.82 : 0.62);
   const textColor = paletteHex.ritual.ink[k];
   const placeholderColor = hexToRgba(paletteHex.ritual.inkMuted[k], isDark ? 0.72 : 0.58);
+  const hasValue = value.length > 0;
 
   const iosShadow = isDark ? styles.searchShadowIosDark : styles.searchShadowIosLight;
 
@@ -47,15 +54,26 @@ export const ExploreSearchBar = memo(function ExploreSearchBar({ value, onChange
             accessibilityHint={t('screens.explore.search.accessibilityHint')}
             value={value}
             onChangeText={onChangeText}
+            onSubmitEditing={onSubmitEditing}
             placeholder={t('screens.explore.search.placeholder')}
             placeholderTextColor={placeholderColor}
             returnKeyType="search"
-            clearButtonMode="while-editing"
             autoCorrect={false}
             autoCapitalize="none"
             style={[styles.input, { color: textColor }]}
             className="flex-1 font-normal text-[15px] leading-[20px]"
           />
+          {hasValue ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('screens.explore.search.clearA11y')}
+              hitSlop={10}
+              onPress={() => onChangeText('')}
+              className="active:opacity-70"
+            >
+              <FontAwesome name="times-circle" size={16} color={iconMuted} />
+            </Pressable>
+          ) : null}
         </View>
       </LiquidGlassMaterial>
     </View>

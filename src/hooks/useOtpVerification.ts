@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Keyboard } from 'react-native';
 
 import { useAuth } from '@/context/AuthContext';
@@ -28,12 +28,7 @@ export function useOtpVerification(
 ) {
   const { login } = useAuth();
   const otpService = options.otpService ?? mockOtpService;
-  const authService = useMemo(() => {
-    if (options.authService !== undefined) {
-      return options.authService;
-    }
-    return createSessionAuthService(login);
-  }, [login, options.authService]);
+  const authService = options.authService ?? createSessionAuthService(login);
 
   const {
     value: otp,
