@@ -39,6 +39,12 @@
       "greeting": "नमस्ते, {{name}}.",
       "greetingFallbackName": "Friend",
       "supportingLine": "Calm guidance for meaningful moments.",
+      "nazarProtectionHero": {
+        "headlineQuestion": "Nazar lagi?",
+        "headlineAction": "Clear karo.",
+        "body": "Vedic protection from the evil eye. A verified pandit performs the ritual on your behalf in 30 minutes.",
+        "illustrationA11y": "Golden Sri Yantra sacred geometry symbolizing Vedic protection from the evil eye."
+      },
       "profileActionA11y": "Profile and settings",
       "locationA11y": "Your service area, {{location}}",
       "locationOpenHint": "Opens service area picker",

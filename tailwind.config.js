@@ -95,6 +95,9 @@ module.exports = {
         'login-legal': ['11px', { lineHeight: '17px' }],
         /** Tappable legal links on login — one step above `login-legal`. */
         'login-legal-link': ['12px', { lineHeight: '18px' }],
+        /** Home nazar hero — punchy editorial headline stack. */
+        'home-hero-question': ['34px', { lineHeight: '38px', letterSpacing: '-0.03em' }],
+        'home-hero-action': ['42px', { lineHeight: '44px', letterSpacing: '-0.035em' }],
       },
     },
   },

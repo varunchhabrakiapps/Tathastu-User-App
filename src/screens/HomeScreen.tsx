@@ -6,6 +6,7 @@ import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native';
 import { GreetingBlock } from '@/components/molecules/GreetingBlock';
 import { HomeHeader } from '@/components/molecules/HomeHeader';
 import { HomeSearchBar } from '@/components/molecules/HomeSearchBar';
+import { NazarProtectionHero } from '@/components/molecules/NazarProtectionHero';
 import { BrowseByMomentSection } from '@/components/organisms/BrowseByMomentSection';
 import { BuildCustomRitualSection } from '@/components/organisms/BuildCustomRitualSection';
 import { TestimonialsSection } from '@/components/organisms/TestimonialsSection';
@@ -23,6 +24,7 @@ type HomeTabsNavigation = NativeBottomTabNavigationProp<RootTabParamList>;
 
 type HomeFeedRow =
   | { id: 'greeting' }
+  | { id: 'nazarHero' }
   | { id: 'trending' }
   | { id: 'upcoming' }
   | { id: 'search' }
@@ -32,6 +34,7 @@ type HomeFeedRow =
 
 const HOME_FEED_ROWS: HomeFeedRow[] = [
   { id: 'greeting' },
+  { id: 'nazarHero' },
   { id: 'upcoming' },
   { id: 'search' },
   { id: 'trending' },
@@ -66,6 +69,9 @@ export function HomeScreen() {
     ({ item }) => {
       if (item.id === 'greeting') {
         return <GreetingBlock greetingName={greetingName} />;
+      }
+      if (item.id === 'nazarHero') {
+        return <NazarProtectionHero />;
       }
       if (item.id === 'upcoming') {
         return (
