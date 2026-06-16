@@ -5,7 +5,7 @@ import { ManualLocationScrollBody } from '@/components/organisms/ManualLocationS
 import { AuthScreen } from '@/components/templates/AuthScreen';
 import { useManualLocationScreen } from '@/hooks/useManualLocationScreen';
 
-/** Service-area picker — search, GPS refresh, or choose a supported neighbourhood. */
+/** Service-area picker — search, GPS refresh, or choose a supported city. */
 export function ManualLocationScreen() {
   const { t } = useTranslation();
   const vm = useManualLocationScreen();
@@ -21,8 +21,6 @@ export function ManualLocationScreen() {
           filteredAreas={vm.filteredAreas}
           popularCities={vm.popularCities}
           currentAreaId={vm.currentAreaId}
-          currentLabel={vm.currentLabel}
-          selectedMetroLabel={vm.selectedMetroLabel}
           searchQuery={vm.searchQuery}
           isSearching={vm.isSearching}
           isBusy={vm.isBusy}

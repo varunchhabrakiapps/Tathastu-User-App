@@ -3,11 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { RitualText } from '@/components/atoms/RitualText';
-import { SectionEyebrow } from '@/components/atoms/SectionEyebrow';
+import { LocationAreasPanel } from '@/components/molecules/LocationAreasPanel';
 import { LocationSearchBar } from '@/components/molecules/LocationSearchBar';
-import { PopularCityChip } from '@/components/molecules/PopularCityChip';
-import { ProfileSectionCard } from '@/components/molecules/ProfileSectionCard';
-import { SelectedLocationCard } from '@/components/molecules/SelectedLocationCard';
 import { ServiceAreaOptionRow } from '@/components/molecules/ServiceAreaOptionRow';
 import { UseCurrentLocationButton } from '@/components/molecules/UseCurrentLocationButton';
 import type {
@@ -20,8 +17,6 @@ type Props = {
   filteredAreas: ManualLocationAreaOption[];
   popularCities: PopularCityOption[];
   currentAreaId: string | null;
-  currentLabel: string | null;
-  selectedMetroLabel: string | null;
   searchQuery: string;
   isSearching: boolean;
   isBusy: boolean;
@@ -36,8 +31,6 @@ export const ManualLocationScrollBody = memo(function ManualLocationScrollBody({
   filteredAreas,
   popularCities,
   currentAreaId,
-  currentLabel,
-  selectedMetroLabel,
   searchQuery,
   isSearching,
   isBusy,
@@ -48,7 +41,7 @@ export const ManualLocationScrollBody = memo(function ManualLocationScrollBody({
   onSelectArea,
 }: Props) {
   const { t } = useTranslation();
-  const { inkMuted, warmAccent } = useRitualSemanticColors();
+  const { inkMuted } = useRitualSemanticColors();
 
   const errorText =
     error === 'permissionDenied'
@@ -60,17 +53,17 @@ export const ManualLocationScrollBody = memo(function ManualLocationScrollBody({
           : null;
 
   return (
-    <View className="gap-7 pb-10">
-      <View className="gap-1.5">
+    <View className="gap-5 pb-10">
+      <View className="gap-1">
         <RitualText accessibilityRole="header" className="text-login-display font-medium">
           {t('screens.manualLocation.title')}
         </RitualText>
-        <RitualText variant="inkMuted" className="text-login-body leading-relaxed">
+        <RitualText variant="inkMuted" className="text-login-body leading-snug">
           {t('screens.manualLocation.subtitle')}
         </RitualText>
       </View>
 
-      <View className="gap-3">
+      <View className="gap-2">
         <LocationSearchBar value={searchQuery} onChangeText={onSearchChange} />
 
         <UseCurrentLocationButton
@@ -98,10 +91,6 @@ export const ManualLocationScrollBody = memo(function ManualLocationScrollBody({
           </RitualText>
         ) : null}
       </View>
-
-      {currentLabel && !isSearching ? (
-        <SelectedLocationCard label={currentLabel} metroLabel={selectedMetroLabel} />
-      ) : null}
 
       {isSearching ? (
         <SearchResultsSection
@@ -143,7 +132,7 @@ const SearchResultsSection = memo(function SearchResultsSection({
 
   if (filteredAreas.length === 0) {
     return (
-      <View className="items-center gap-2 px-2 py-6">
+      <View className="items-center px-2 py-5">
         <RitualText variant="inkMuted" className="text-center text-login-body">
           {t('screens.manualLocation.noResults')}
         </RitualText>
@@ -152,7 +141,7 @@ const SearchResultsSection = memo(function SearchResultsSection({
   }
 
   return (
-    <ProfileSectionCard title={t('screens.manualLocation.searchResultsTitle')}>
+    <LocationAreasPanel>
       {filteredAreas.map((row, index) => (
         <ServiceAreaOptionRow
           key={row.area.id}
@@ -167,7 +156,7 @@ const SearchResultsSection = memo(function SearchResultsSection({
           })}
         />
       ))}
-    </ProfileSectionCard>
+    </LocationAreasPanel>
   );
 });
 
@@ -187,25 +176,22 @@ const PopularCitiesSection = memo(function PopularCitiesSection({
   const { t } = useTranslation();
 
   return (
-    <View className="gap-2">
-      <SectionEyebrow label={t('screens.manualLocation.popularCitiesTitle')} />
-      <View className="flex-row flex-wrap gap-2.5">
-        {popularCities.map((city) => (
-          <PopularCityChip
-            key={city.areaId}
-            label={city.label}
-            selected={city.areaId === currentAreaId}
-            disabled={isBusy}
-            onPress={() => onSelectArea(city.areaId, city.label)}
-            accessibilityLabel={t('screens.manualLocation.selectAreaA11y', {
-              area: city.label,
-            })}
-          />
-        ))}
-      </View>
-      <RitualText variant="inkMuted" className="px-0.5 text-login-label leading-snug">
-        {t('screens.manualLocation.popularCitiesCaption')}
-      </RitualText>
-    </View>
+    <LocationAreasPanel>
+      {popularCities.map((city, index) => (
+        <ServiceAreaOptionRow
+          key={city.areaId}
+          label={city.label}
+          metroLabel=""
+          compact
+          selected={city.areaId === currentAreaId}
+          disabled={isBusy}
+          isLast={index === popularCities.length - 1}
+          onPress={() => onSelectArea(city.areaId, city.label)}
+          accessibilityLabel={t('screens.manualLocation.selectAreaA11y', {
+            area: city.label,
+          })}
+        />
+      ))}
+    </LocationAreasPanel>
   );
 });

@@ -1,12 +1,13 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
 import { useColorScheme } from 'nativewind';
 
 import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import { hexToRgba } from '@/theme/colorUtils';
+import { useGhostCardShadow } from '@/theme/ghostCardShadow';
 import { paletteHex } from '@/theme/palette';
 import { cn } from '@/utils/cn';
 
@@ -30,8 +31,7 @@ export const CustomRitualBuilderCallout = memo(function CustomRitualBuilderCallo
   const chevronColor = isDark ? hexToRgba(paletteHex.ritual.inkMuted[k], 0.72) : hexToRgba(paletteHex.ritual.inkMuted[k], 0.52);
 
   const combinedA11y = `${t('screens.home.buildCustomRitual.cardTitle')}. ${t('screens.home.buildCustomRitual.cardSubtitle')}`;
-
-  const iosShadowStyle = isDark ? styles.tileShadowIosDark : styles.tileShadowIosLight;
+  const ghostShadow = useGhostCardShadow();
 
   return (
     <Pressable
@@ -40,10 +40,7 @@ export const CustomRitualBuilderCallout = memo(function CustomRitualBuilderCallo
       accessibilityLabel={combinedA11y}
       onPress={onPress}
       className="self-stretch active:opacity-[0.97]"
-      style={[
-        styles.shadowBase,
-        Platform.OS === 'ios' ? iosShadowStyle : styles.tileShadowAndroid,
-      ]}
+      style={[styles.shadowBase, ghostShadow]}
     >
       {({ pressed }) => (
         <LiquidGlassMaterial
@@ -86,22 +83,5 @@ export const CustomRitualBuilderCallout = memo(function CustomRitualBuilderCallo
 const styles = StyleSheet.create({
   shadowBase: {
     borderRadius: RITUAL_CORNER_RADIUS,
-  },
-  tileShadowIosLight: {
-    shadowColor: paletteHex.ritual.primary.light,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
-    elevation: 0,
-  },
-  tileShadowIosDark: {
-    shadowColor: paletteHex.ritual.primary.dark,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.28,
-    shadowRadius: 18,
-    elevation: 0,
-  },
-  tileShadowAndroid: {
-    elevation: 4,
   },
 });

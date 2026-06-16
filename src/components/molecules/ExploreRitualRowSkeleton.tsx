@@ -1,19 +1,21 @@
 import { memo } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
 import { ShimmerSkeleton } from '@/components/atoms/ShimmerSkeleton';
 import { EXPLORE_RITUAL_THUMB_SIZE } from '@/constants/exploreLayout';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
-import { paletteHex } from '@/theme/palette';
+import { useGhostCardShadow } from '@/theme/ghostCardShadow';
 
 /** First-paint placeholder — mirrors {@link ExploreRitualListRow} so the swap is seamless. */
 export const ExploreRitualRowSkeleton = memo(function ExploreRitualRowSkeleton() {
+  const ghostShadow = useGhostCardShadow();
+
   return (
     <View
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
-      style={[styles.shadowBase, Platform.OS === 'ios' ? styles.shadowIos : styles.shadowAndroid]}
+      style={[styles.shadowBase, ghostShadow]}
     >
       <LiquidGlassMaterial preset="ghost" borderRadius={RITUAL_CORNER_RADIUS} className="rounded-[18px]">
         <View className="flex-row items-start gap-3.5 px-4 py-3.5">
@@ -48,15 +50,5 @@ export const ExploreRitualRowSkeleton = memo(function ExploreRitualRowSkeleton()
 const styles = StyleSheet.create({
   shadowBase: {
     borderRadius: RITUAL_CORNER_RADIUS,
-  },
-  shadowIos: {
-    shadowColor: paletteHex.ritual.primary.light,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.08,
-    shadowRadius: 14,
-    elevation: 0,
-  },
-  shadowAndroid: {
-    elevation: 3,
   },
 });

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { FontAwesome } from '@react-native-vector-icons/fontawesome/static';
 import { useColorScheme } from 'nativewind';
 
@@ -8,6 +8,7 @@ import { LiquidGlassMaterial } from '@/components/atoms/LiquidGlassMaterial';
 import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import type { TestimonialPreviewId } from '@/domain/testimonialPreview';
 import { hexToRgba } from '@/theme/colorUtils';
+import { useGhostCardShadow } from '@/theme/ghostCardShadow';
 import { paletteHex } from '@/theme/palette';
 
 const STAR_COUNT = 5;
@@ -50,12 +51,11 @@ export const TestimonialCard = memo(function TestimonialCard({ testimonialId, wi
     schemeKey === 'dark' ? paletteHex.warm.gold : hexToRgba(paletteHex.warm.saffron, 0.92);
 
   const a11y = t('screens.home.testimonials.cardA11y', { quote, name, context });
-
-  const iosShadowStyle = schemeKey === 'dark' ? styles.tileShadowIosDark : styles.tileShadowIosLight;
+  const ghostShadow = useGhostCardShadow();
 
   return (
     <View
-      style={[{ width }, Platform.OS === 'ios' ? iosShadowStyle : styles.tileShadowAndroid, styles.shadowBase]}
+      style={[{ width }, ghostShadow, styles.shadowBase]}
       accessible
       accessibilityRole="text"
       accessibilityLabel={a11y}
@@ -103,22 +103,5 @@ export const TestimonialCard = memo(function TestimonialCard({ testimonialId, wi
 const styles = StyleSheet.create({
   shadowBase: {
     borderRadius: RITUAL_CORNER_RADIUS,
-  },
-  tileShadowIosLight: {
-    shadowColor: paletteHex.ritual.primary.light,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.09,
-    shadowRadius: 18,
-    elevation: 0,
-  },
-  tileShadowIosDark: {
-    shadowColor: paletteHex.ritual.primary.dark,
-    shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.28,
-    shadowRadius: 20,
-    elevation: 0,
-  },
-  tileShadowAndroid: {
-    elevation: 3,
   },
 });

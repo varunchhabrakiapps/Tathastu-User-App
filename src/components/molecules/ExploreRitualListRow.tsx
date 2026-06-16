@@ -2,7 +2,6 @@ import { memo, useCallback, useMemo, type ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Image,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -20,6 +19,7 @@ import { RITUAL_CORNER_RADIUS } from '@/constants/ritualLayout';
 import { trendingRitualCoverSource } from '@/constants/trendingRitualCovers';
 import type { ExploreRitualCatalogItem } from '@/hooks/useExploreRitualCatalog';
 import { hexToRgba } from '@/theme/colorUtils';
+import { useGhostCardShadow } from '@/theme/ghostCardShadow';
 import { paletteHex } from '@/theme/palette';
 import { getTrendingReelOverlayGradient } from '@/theme/trendingRitualArtwork';
 import { cn } from '@/utils/cn';
@@ -128,7 +128,7 @@ export const ExploreRitualListRow = memo(function ExploreRitualListRow({
   );
 
   const combinedA11y = `${copy.title}. ${copy.cardSubtitle}. ${copy.socialProof}. ${copy.priceGlance}`;
-  const iosShadow = isDark ? styles.shadowIosDark : styles.shadowIosLight;
+  const ghostShadow = useGhostCardShadow();
 
   return (
     <Pressable
@@ -141,7 +141,7 @@ export const ExploreRitualListRow = memo(function ExploreRitualListRow({
       onLongPress={onLongPress}
       delayLongPress={LONG_PRESS_DELAY_MS}
       className="self-stretch active:opacity-[0.98]"
-      style={[styles.shadowBase, Platform.OS === 'ios' ? iosShadow : styles.shadowAndroid]}
+      style={[styles.shadowBase, ghostShadow]}
     >
       {({ pressed }) => (
         <LiquidGlassMaterial
@@ -233,22 +233,5 @@ export const ExploreRitualListRow = memo(function ExploreRitualListRow({
 const styles = StyleSheet.create({
   shadowBase: {
     borderRadius: RITUAL_CORNER_RADIUS,
-  },
-  shadowIosLight: {
-    shadowColor: paletteHex.ritual.primary.light,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
-    elevation: 0,
-  },
-  shadowIosDark: {
-    shadowColor: paletteHex.ritual.primary.dark,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.28,
-    shadowRadius: 18,
-    elevation: 0,
-  },
-  shadowAndroid: {
-    elevation: 4,
   },
 });

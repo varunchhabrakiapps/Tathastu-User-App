@@ -45,6 +45,39 @@
         "body": "Vedic protection from the evil eye. A verified pandit performs the ritual on your behalf in 30 minutes.",
         "illustrationA11y": "Golden Sri Yantra sacred geometry symbolizing Vedic protection from the evil eye."
       },
+      "nazarClearMoments": {
+        "sectionTitle": "When do people clear their nazar?",
+        "sectionDescription": "Good things attract jealous eyes. These are the moments people protect.",
+        "popularBadge": "Popular",
+        "rowOpenHint": "Opens nazar utaro ritual details",
+        "cardA11y": "{{title}}. {{stat}}",
+        "items": {
+          "interviewTomorrow": {
+            "title": "Interview tomorrow",
+            "iconA11y": "Briefcase for career moment",
+            "statValue": "4.2K",
+            "statLabel": "people this month"
+          },
+          "startedGlowing": {
+            "title": "Started glowing lately",
+            "iconA11y": "Star for personal glow-up",
+            "statValue": "3.8K",
+            "statLabel": "people this month"
+          },
+          "feelsOff": {
+            "title": "Just feels… off",
+            "iconA11y": "Lightning for uneasy energy",
+            "statValue": "4.1K",
+            "statLabel": "people this month"
+          },
+          "maaNotHere": {
+            "title": "Maa isn't here to do it",
+            "iconA11y": "Home for family ritual",
+            "statValue": "2.9K",
+            "statLabel": "people this month"
+          }
+        }
+      },
       "profileActionA11y": "Profile and settings",
       "locationA11y": "Your service area, {{location}}",
       "locationOpenHint": "Opens service area picker",
@@ -713,7 +746,7 @@
     "manualLocation": {
       "backA11y": "Go back",
       "title": "Choose location",
-      "subtitle": "Search for your city or pick one we serve nearby.",
+      "subtitle": "Search or pick a city we serve.",
       "search": {
         "placeholder": "Search city or neighbourhood",
         "accessibilityLabel": "Search for a location",

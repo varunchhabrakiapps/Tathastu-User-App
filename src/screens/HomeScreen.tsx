@@ -9,10 +9,12 @@ import { HomeSearchBar } from '@/components/molecules/HomeSearchBar';
 import { NazarProtectionHero } from '@/components/molecules/NazarProtectionHero';
 import { BrowseByMomentSection } from '@/components/organisms/BrowseByMomentSection';
 import { BuildCustomRitualSection } from '@/components/organisms/BuildCustomRitualSection';
+import { NazarClearMomentsSection } from '@/components/organisms/NazarClearMomentsSection';
 import { TestimonialsSection } from '@/components/organisms/TestimonialsSection';
 import { TrendingRitualsSection } from '@/components/organisms/TrendingRitualsSection';
 import { UpcomingBookingSection } from '@/components/organisms/UpcomingBookingSection';
 import { HomeContainer } from '@/components/templates/HomeContainer';
+import type { NazarClearMomentId } from '@/domain/nazarClearMoment';
 import { useHomeBookingRoutes } from '@/hooks/useHomeBookingRoutes';
 import { useHomeRitualRoutes } from '@/hooks/useHomeRitualRoutes';
 import { useHomeGreetingName } from '@/hooks/useHomeGreetingName';
@@ -25,6 +27,7 @@ type HomeTabsNavigation = NativeBottomTabNavigationProp<RootTabParamList>;
 type HomeFeedRow =
   | { id: 'greeting' }
   | { id: 'nazarHero' }
+  | { id: 'nazarClearMoments' }
   | { id: 'trending' }
   | { id: 'upcoming' }
   | { id: 'search' }
@@ -35,6 +38,7 @@ type HomeFeedRow =
 const HOME_FEED_ROWS: HomeFeedRow[] = [
   { id: 'greeting' },
   { id: 'nazarHero' },
+  { id: 'nazarClearMoments' },
   { id: 'upcoming' },
   { id: 'search' },
   { id: 'trending' },
@@ -60,6 +64,13 @@ export function HomeScreen() {
     navigation.navigate('Profile', { screen: 'ProfileHub' });
   }, [navigation]);
 
+  const onNazarMomentPress = useCallback(
+    (_momentId: NazarClearMomentId) => {
+      openRitualDetail('nazarUttaro');
+    },
+    [openRitualDetail],
+  );
+
   const listExtraData = useMemo(
     () => ({ greetingName, bookingId: previewBooking?.id ?? null }),
     [greetingName, previewBooking?.id],
@@ -72,6 +83,9 @@ export function HomeScreen() {
       }
       if (item.id === 'nazarHero') {
         return <NazarProtectionHero />;
+      }
+      if (item.id === 'nazarClearMoments') {
+        return <NazarClearMomentsSection onSelectMoment={onNazarMomentPress} />;
       }
       if (item.id === 'upcoming') {
         return (
@@ -108,6 +122,7 @@ export function HomeScreen() {
     [
       greetingName,
       previewBooking,
+      onNazarMomentPress,
       openBookingsList,
       openBookingDetail,
       openRitualDetail,
