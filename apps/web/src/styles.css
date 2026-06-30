@@ -44,56 +44,16 @@ button {
 
 .page {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
+  width: 100%;
   padding: 0;
 }
 
-.phone-shell {
+.mweb-shell {
   width: 100%;
-  max-width: 430px;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, #fffaf1 0%, #f1eadd 44%, #e6ddcf 100%);
-  box-shadow: 0 36px 100px rgba(40, 27, 18, 0.18);
-}
-
-@media (min-width: 520px) {
-  .page {
-    padding: 24px 14px;
-  }
-
-  .phone-shell {
-    min-height: calc(100vh - 48px);
-    max-height: 920px;
-    border: 1px solid var(--line);
-    border-radius: 34px;
-  }
-}
-
-.status-bar {
-  height: 34px;
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  padding: 0 22px 5px;
-  font-size: 12px;
-  font-weight: 800;
-  opacity: 0.82;
-}
-
-.status-dots {
-  display: inline-flex;
-  gap: 5px;
-}
-
-.status-dots i {
-  width: 5px;
-  height: 5px;
-  border-radius: 99px;
-  background: currentColor;
 }
 
 .nav,
@@ -130,8 +90,7 @@ button {
 }
 
 .scroll-area {
-  height: calc(100vh - 34px);
-  max-height: calc(920px - 34px);
+  height: 100vh;
   overflow-y: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -146,15 +105,13 @@ button {
 }
 
 .with-bar {
-  height: calc(100vh - 34px - 54px);
-  max-height: calc(920px - 34px - 54px);
+  height: 100vh;
   padding-bottom: 112px;
 }
 
 .nav + .with-bar,
 .nav + .scroll-area {
-  height: calc(100vh - 34px - 54px);
-  max-height: calc(920px - 34px - 54px);
+  height: calc(100vh - 54px);
 }
 
 .location-pill {

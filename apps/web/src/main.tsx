@@ -344,8 +344,7 @@ function App() {
 
   return (
     <main className="page">
-      <section className="phone-shell">
-        <StatusBar />
+      <section className="mweb-shell">
         {step !== 'home' && (
           <Nav
             title={navTitle(step)}
@@ -496,24 +495,6 @@ function previousStep(step: Step): Step {
     status: 'confirm',
   };
   return previous[step];
-}
-
-function StatusBar() {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(new Date()), 30000);
-    return () => window.clearInterval(timer);
-  }, []);
-  return (
-    <div className="status-bar">
-      <span>{now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
-      <span className="status-dots">
-        <i />
-        <i />
-        <i />
-      </span>
-    </div>
-  );
 }
 
 function Nav({ title, onBack, muted = false }: { title: string; onBack: () => void; muted?: boolean }) {
